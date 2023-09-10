@@ -1,3 +1,4 @@
+from src.models.records.base_record import BaseRecord
 from src import db, ma
 from datetime import datetime
 '''
@@ -9,15 +10,10 @@ created_at
 updated_at
 '''
 
-class ProgrammingProject(db.Model):
+class ProgrammingProject(BaseRecord):
     
     __tablename__ = "programming_project"
     
-    id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('record_category.id'), nullable=False)
-    name = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     importance = db.Column(db.Integer)
     deadline = db.Column(db.DateTime)
     used_technologies  = db.Column(db.Text)
