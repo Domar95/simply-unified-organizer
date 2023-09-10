@@ -10,8 +10,7 @@ class RecordCategory(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.Text)
-    programming_projects = db.relationship('programming_project', backref='record_category', lazy=True)
-    
+
     def __str__(self):
         """
         User-friendly representation of category
