@@ -18,13 +18,22 @@ ma = Marshmallow(app)
 
 db.init_app(app)
 
-#to solve the error related to the Cross-Origin Resource Sharing (CORS) policy implemented by web browsers to ensure security when making requests from one domain (origin) to another
+# to solve the error related to the Cross-Origin Resource Sharing (CORS) policy implemented by web browsers to ensure security when making requests from one domain (origin) to another
 CORS(app)
 
 # run with 'flask run' from backend folder
 
-from src.models.records.record_category import RecordCategory
-from src.models.records.record_types.programming_project import ProgrammingProject
+from src.models.records.record_category import RecordCategoryModel
+from src.models.records.record_types.programming_project import ProgrammingProjectModel
+from src.resources.records.record_category import RecordCategoryResource
+from src.resources.records.programming_project import ProgrammingProjectResource
+
 
 with app.app_context():
     db.create_all()
+
+
+api.add_resource(RecordCategoryResource, "/category/<int:category_id>")
+api.add_resource(
+    ProgrammingProjectResource, "/category/programming_project/records/<int:record_id>"
+)
