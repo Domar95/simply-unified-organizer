@@ -17,7 +17,7 @@ export class ViewRecordComponent {
   ngOnInit() {
     this.apiService.getRecords().subscribe(
       data => {
-        this.records = data[0];
+        this.records = data;
         console.log(this.records)
       },
       error => {

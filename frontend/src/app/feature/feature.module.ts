@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecordsModule } from './records/records.module';
 
+import { ViewRecordComponent, RecordsComponent } from './components';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RecordsModule,
+    ViewRecordComponent,
+    RecordsComponent
   ]
 })
 export class FeatureModule { }
