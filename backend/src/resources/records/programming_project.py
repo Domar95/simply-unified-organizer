@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal_with
 from datetime import datetime
 from src.models.records.record_types.programming_project import ProgrammingProjectModel
 from src import db
@@ -60,18 +60,12 @@ record_update_args.add_argument("extra", type=str, help="Optional extra")
 
 class ProgrammingProjectResource(Resource):
     @marshal_with(resource_fields)
-    def post(self, record_id: str):
+    def post(self):
         args = record_post_args.parse_args()
-        result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
-            id=record_id
-        ).first()
-        if result:
-            abort(409, message="Record with that ID already exists...")
 
         abort_if_category_id_is_invalid(args["category_id"])
 
         record: ProgrammingProjectModel = ProgrammingProjectModel(
-            id=record_id,
             name=args["name"],
             created_at=datetime.utcnow(),
             updated_at=datetime.utcnow(),
@@ -87,14 +81,14 @@ class ProgrammingProjectResource(Resource):
         return record, 201
 
     @marshal_with(resource_fields)
-    def get(self, record_id: str):
+    def get(self, record_id: int):
         result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
             id=record_id
         ).first_or_404(description="Could not find record with that ID...")
         return result
 
     @marshal_with(resource_fields)
-    def patch(self, record_id: str):
+    def patch(self, record_id: int):
         args = record_update_args.parse_args()
         result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
             id=record_id
@@ -121,7 +115,7 @@ class ProgrammingProjectResource(Resource):
         db.session.commit()
         return result
 
-    def delete(self, record_id: str):
+    def delete(self, record_id: int):
         result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
             id=record_id
         ).first_or_404(description="Could not find record with that ID...")

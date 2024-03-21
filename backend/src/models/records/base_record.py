@@ -1,20 +1,12 @@
-"""
-# ABC
-id 
-category_id
-name
-created_at
-updated_at
-"""
 from src import db
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from datetime import datetime
 
 
 class BaseRecord(db.Model):
     __abstract__ = True
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category_id = db.Column(
         db.Integer, db.ForeignKey("record_category.id"), nullable=False
     )

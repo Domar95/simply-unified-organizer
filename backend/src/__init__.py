@@ -35,5 +35,7 @@ with app.app_context():
 
 api.add_resource(RecordCategoryResource, "/category/<int:category_id>")
 api.add_resource(
-    ProgrammingProjectResource, "/category/programming_project/records/<int:record_id>"
+    ProgrammingProjectResource,
+    "/category/programming_project/records",
+    "/category/programming_project/records/<int:record_id>",
 )

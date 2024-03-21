@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask_restful import Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal_with
 from src.models.records.record_category import RecordCategoryModel
 from src import db
 
@@ -28,16 +28,10 @@ category_update_args.add_argument(
 
 class RecordCategoryResource(Resource):
     @marshal_with(resource_fields)
-    def post(self, category_id: str):
+    def post(self):
         args = category_post_args.parse_args()
-        result: RecordCategoryModel = RecordCategoryModel.query.filter_by(
-            id=category_id
-        ).first()
-        if result:
-            abort(409, message="Category with that ID already exists...")
 
         category: RecordCategoryModel = RecordCategoryModel(
-            id=category_id,
             name=args["name"],
             created_at=datetime.utcnow(),
             updated_at=datetime.utcnow(),
@@ -55,7 +49,7 @@ class RecordCategoryResource(Resource):
         return result
 
     @marshal_with(resource_fields)
-    def patch(self, category_id: str):
+    def patch(self, category_id: int):
         args = category_update_args.parse_args()
         result: RecordCategoryModel = RecordCategoryModel.query.filter_by(
             id=category_id
@@ -70,7 +64,7 @@ class RecordCategoryResource(Resource):
         db.session.commit()
         return result
 
-    def delete(self, category_id: str):
+    def delete(self, category_id: int):
         result: RecordCategoryModel = RecordCategoryModel.query.filter_by(
             id=category_id
         ).first_or_404(description="Could not find category with that ID...")
