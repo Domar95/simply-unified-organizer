@@ -3,7 +3,7 @@ import { ApiService } from '@core/services/api.service';
 import { Observable, lastValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-view-record',
+  selector: 'suo-view-record',
   templateUrl: './view-record.component.html',
   styleUrls: ['./view-record.component.scss']
 })

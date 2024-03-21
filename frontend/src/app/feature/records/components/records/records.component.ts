@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-records',
+  selector: 'suo-records',
   templateUrl: './records.component.html',
   styleUrls: ['./records.component.scss']
 })
