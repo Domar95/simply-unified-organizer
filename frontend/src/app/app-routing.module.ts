@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ViewRecordComponent } from '@feature/components/view-record/view-record.component';
 
 const routes: Routes = [
-   { path: "records", component: ViewRecordComponent },
-  // {
-  //   path: 'records',
-  //   loadComponent: () => import('@feature/records/components/view-record/view-record.component').then(m => m.ViewRecordComponent)
-  // }
-
+  {
+    path: 'records',
+    loadChildren: () =>
+      import('@feature/records/records.module').then((m) => m.RecordsModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
