@@ -1,15 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { ViewRecordComponent, RecordsComponent } from './components';
-
 
 @NgModule({
+  imports: [],
   declarations: [],
-  imports: [
-    CommonModule,
-    ViewRecordComponent,
-    RecordsComponent
-  ]
+  providers: [],
 })
-export class FeatureModule { }
+export class FeatureModule {}
