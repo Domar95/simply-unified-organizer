@@ -38,26 +38,6 @@ record_post_args.add_argument(
 )
 record_post_args.add_argument("extra", type=str, help="Optional extra")
 
-record_update_args = reqparse.RequestParser()
-record_update_args.add_argument("name", type=str, help="Name of the record is required")
-record_update_args.add_argument(
-    "description", type=str, help="Optional description of the record"
-)
-
-record_update_args.add_argument(
-    "category_id", type=int, help="ID of associated category is required"
-)
-
-record_update_args.add_argument("importance", type=int, help="Optional importance")
-record_update_args.add_argument(
-    "deadline", type=datetime.utcnow, help="Optional deadline"
-)
-record_update_args.add_argument(
-    "used_technologies", type=str, help="Optional technologies used"
-)
-record_update_args.add_argument("extra", type=str, help="Optional extra")
-
-
 class ProgrammingProjectResource(Resource):
     @marshal_with(resource_fields)
     def post(self):
