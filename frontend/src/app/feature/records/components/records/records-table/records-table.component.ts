@@ -11,11 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Observable, Subscription } from 'rxjs';
 
-import {
-  ProgrammingProjectGetResponse,
-  ProgrammingProjectPostRequest,
-} from '@feature/records/models';
+import { ProgrammingProjectGetResponse } from '@feature/records/models';
 import { RecordsApiService } from '@feature/records/services';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'suo-records-table',
@@ -40,7 +38,11 @@ export class RecordsTableComponent {
   dataSource: MatTableDataSource<ProgrammingProjectGetResponse> =
     new MatTableDataSource<ProgrammingProjectGetResponse>();
 
-  constructor(private recordsApiService: RecordsApiService) {}
+  constructor(
+    private recordsApiService: RecordsApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -76,18 +78,9 @@ export class RecordsTableComponent {
   }
 
   async addRecord() {
-    // mocked for now, use form to add record
-    const programmingProject: ProgrammingProjectPostRequest = {
-      category_id: 8,
-      name: 'name',
-      importance: 1,
-      used_technologies: 'used_technologies',
-      description: 'description',
-      extra: 'extra',
-    };
-
-    await this.recordsApiService.addProgrammingProject(programmingProject);
-    this.refreshed.emit();
+    this.router.navigate(['new/programming-project'], {
+      relativeTo: this.route,
+    });
   }
   async deleteRecord(id: number) {
     await this.recordsApiService.deleteProgrammingProject(id);

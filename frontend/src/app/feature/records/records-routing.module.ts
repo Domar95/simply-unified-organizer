@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RecordsComponent } from './components';
+import { RecordsComponent, RecordsFormComponent } from './components';
 
-const routes: Routes = [{ path: '', component: RecordsComponent }];
+const routes: Routes = [
+  { path: '', component: RecordsComponent },
+
+  // TODO update route apth
+  { path: 'new/programming-project', component: RecordsFormComponent },
+];
 
 @NgModule({
   declarations: [],
