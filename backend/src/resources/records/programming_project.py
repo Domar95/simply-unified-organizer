@@ -39,6 +39,24 @@ record_post_args.add_argument(
 )
 record_post_args.add_argument("extra", type=str, help="Optional extra")
 
+record_patch_args = reqparse.RequestParser()
+record_patch_args.add_argument("name", type=str, help="Optional name of record")
+record_patch_args.add_argument(
+    "description", type=str, help="Optional description of the record"
+)
+record_patch_args.add_argument(
+    "category_id", type=int, help="ID of associated category is required"
+)
+record_patch_args.add_argument("importance", type=int, help="Optional importance")
+record_patch_args.add_argument(
+    "deadline", type=datetime.utcnow, help="Optional deadline"
+)
+record_patch_args.add_argument(
+    "used_technologies", type=str, help="Optional technologies used"
+)
+record_patch_args.add_argument("extra", type=str, help="Optional extra")
+
+
 class ProgrammingProjectResource(Resource):
     @marshal_with(resource_fields)
     def post(self) -> ProgrammingProjectModel:
@@ -71,7 +89,7 @@ class ProgrammingProjectResource(Resource):
     @marshal_with(resource_fields)
     def patch(self, record_id: int) -> ProgrammingProjectModel:
         # TODO add record_update_args
-        args = record_update_args.parse_args()
+        args = record_patch_args.parse_args()
         result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
             id=record_id
         ).first_or_404(description="Could not find record with that ID...")
@@ -104,7 +122,8 @@ class ProgrammingProjectResource(Resource):
         db.session.delete(result)
         db.session.commit()
         return "", 204
-    
+
+
 class ProgrammingProjectListResource(Resource):
     @marshal_with(resource_fields)
     def get(self) -> List[ProgrammingProjectModel]:
