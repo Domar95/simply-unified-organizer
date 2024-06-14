@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ViewRecordComponent } from './components/view-record/view-record.component';
-import { RecordsComponent } from './components/records/records.component';
 
-
+import { RecordsRoutingModule } from './records-routing.module';
 
 @NgModule({
-  declarations: [
-    ViewRecordComponent,
-    RecordsComponent
-  ],
-  imports: [
-    CommonModule
-  ]
+  declarations: [],
+  imports: [RecordsRoutingModule],
+  providers: [],
 })
-export class RecordsModule { }
+export class RecordsModule {}

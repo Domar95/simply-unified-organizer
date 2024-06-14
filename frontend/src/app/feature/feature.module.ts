@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RecordsModule } from './records/records.module';
-
-
 
 @NgModule({
+  imports: [],
   declarations: [],
-  imports: [
-    CommonModule,
-    RecordsModule,
-  ]
+  providers: [],
 })
-export class FeatureModule { }
+export class FeatureModule {}
