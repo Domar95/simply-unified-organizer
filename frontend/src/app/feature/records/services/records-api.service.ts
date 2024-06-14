@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 
 import {
   ProgrammingProjectGetResponse,
+  ProgrammingProjectPatchRequest,
   ProgrammingProjectPostRequest,
 } from '@feature/records/models';
 
@@ -32,10 +33,22 @@ export class RecordsApiService {
 
   addProgrammingProject(
     programmingProject: ProgrammingProjectPostRequest
-  ): Promise<ProgrammingProjectPostRequest> {
+  ): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
-      this.http.post<ProgrammingProjectPostRequest>(
+      this.http.post<ProgrammingProjectGetResponse>(
         `${this.APIURL}/category/programming-project/records`,
+        programmingProject
+      )
+    );
+  }
+
+  updateProgrammingProject(
+    id: number,
+    programmingProject: ProgrammingProjectPatchRequest
+  ): Promise<ProgrammingProjectGetResponse> {
+    return lastValueFrom(
+      this.http.patch<ProgrammingProjectGetResponse>(
+        `${this.APIURL}/category/programming-project/records/${id}`,
         programmingProject
       )
     );

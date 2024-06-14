@@ -20,3 +20,13 @@ export interface ProgrammingProjectPostRequest {
   name: string;
   used_technologies?: string;
 }
+
+export interface ProgrammingProjectPatchRequest {
+  category_id?: number;
+  deadline?: Date; // TODO: check if this is correct
+  description?: string;
+  extra?: string;
+  importance?: number;
+  name?: string;
+  used_technologies?: string;
+}
