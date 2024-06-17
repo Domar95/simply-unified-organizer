@@ -2,10 +2,10 @@
 <button
   mat-raised-button
   (click)="refreshRecords()">
-  Refresh
+  <mat-icon>refresh</mat-icon> Refresh
 </button>
 <button mat-raised-button (click)="addRecord()">
-  Add data
+  <mat-icon>add</mat-icon> Add
 </button>
 
 <table mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="asc" class="mat-elevation-z8">
@@ -21,7 +21,7 @@
         mat-raised-button
         [disabled]="!dataSource.data.length"
         (click)="deleteRecord(record.id)">
-        Delete
+        <mat-icon>delete</mat-icon> Delete
       </button> </td>
   </ng-container>
 

@@ -14,11 +14,18 @@ import { Observable, Subscription } from 'rxjs';
 import { ProgrammingProjectGetResponse } from '@feature/records/models';
 import { RecordsApiService } from '@feature/records/services';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'suo-records-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSortModule,
+    MatIconModule,
+  ],
   providers: [RecordsApiService],
   templateUrl: './records-table.component.html',
   styleUrl: './records-table.component.scss',
@@ -57,7 +64,7 @@ export class RecordsTableComponent {
   }
 
   private getColumnKeys(): string[] {
-    let columnKeys = this.columns.map((column) => column.key);
+    const columnKeys = this.columns.map((column) => column.key);
     columnKeys.push('actions');
     return columnKeys;
   }
