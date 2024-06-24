@@ -26,14 +26,17 @@ CORS(app)
 from src.models.records.record_category import RecordCategoryModel
 from src.models.records.record_types.programming_project import ProgrammingProjectModel
 from src.resources.records.record_category import RecordCategoryResource
-from src.resources.records.programming_project import ProgrammingProjectResource, ProgrammingProjectListResource
-
+from src.resources.records.programming_project import (
+    ProgrammingProjectResource,
+    ProgrammingProjectListResource,
+)
 
 with app.app_context():
     db.create_all()
 
 
-api.add_resource(RecordCategoryResource, "/category","/category/<int:category_id>")
+api.add_resource(RecordCategoryResource, "/category", "/category/<int:category_id>")
+
 api.add_resource(
     ProgrammingProjectListResource,
     "/category/programming-project/records",
