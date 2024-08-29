@@ -1,11 +1,12 @@
+import logging
+import os
+
+from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-import os
-from dotenv import load_dotenv
 from flask_marshmallow import Marshmallow
 from flask_restful import Resource, Api
-import logging
+from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 
