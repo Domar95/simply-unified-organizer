@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from flask_marshmallow import Marshmallow
 from flask_restful import Resource, Api
+import logging
 
 load_dotenv()
 
@@ -16,7 +17,18 @@ api = Api(app)
 db = SQLAlchemy()
 ma = Marshmallow(app)
 
-db.init_app(app)
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+try:
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+    logger.info("Database connected and tables created successfully.")
+except Exception as e:
+    logger.error(f"Failed to connect to the database: {e}")
 
 # to solve the error related to the Cross-Origin Resource Sharing (CORS) policy implemented by web browsers to ensure security when making requests from one domain (origin) to another
 CORS(app)
@@ -30,9 +42,6 @@ from src.resources.records.programming_project import (
     ProgrammingProjectResource,
     ProgrammingProjectListResource,
 )
-
-with app.app_context():
-    db.create_all()
 
 
 api.add_resource(RecordCategoryResource, "/category", "/category/<int:category_id>")
