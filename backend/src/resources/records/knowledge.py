@@ -98,9 +98,5 @@ class KnowledgeResource(Resource):
 
 class KnowledgeListResource(Resource):
     def get(self):
-        results = list(collection.find())
-        records = []
-        for result in results:
-            result["_id"] = str(result["_id"])
-            records.append(result)
-        return records
+        records = collection.find()
+        return {"records": [Knowledge(**record).to_json() for record in records]}
