@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { ProgrammingProjectComponent } from './records/programming-project/programming-project.component';
+import { ProgrammingProjectComponent } from '@feature/records/components';
 
 @Component({
   selector: 'suo-records',

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { RecordsTableComponent } from '../records-table/records-table.component';
-import { RecordsApiService } from '@feature/records/services';
 import { ProgrammingProjectGetResponse } from '@feature/records/models';
+import { RecordsApiService } from '@feature/records/services';
+import { RecordsTableComponent } from '@feature/records/components';
 
 @Component({
   selector: 'suo-programming-project',
