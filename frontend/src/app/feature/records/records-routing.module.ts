@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RecordsComponent } from './components/records.component';
-import { KnowledgeComponent, ProgrammingProjectComponent } from './components';
+import {
+  KnowledgeComponent,
+  ProgrammingProjectComponent,
+  RecordsFormComponent,
+} from './components';
 
 const routes: Routes = [
   {
@@ -12,11 +16,17 @@ const routes: Routes = [
       { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
       {
         path: 'programming-project',
-        component: ProgrammingProjectComponent,
+        children: [
+          { path: '', component: ProgrammingProjectComponent },
+          { path: 'new', component: RecordsFormComponent },
+        ],
       },
       {
         path: 'knowledge',
-        component: KnowledgeComponent,
+        children: [
+          { path: '', component: KnowledgeComponent },
+          { path: 'new', component: RecordsFormComponent },
+        ],
       },
     ],
   },

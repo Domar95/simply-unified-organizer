@@ -9,11 +9,9 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Observable, Subscription } from 'rxjs';
-
-import { RecordsApiService } from '@feature/records/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'suo-records-table',
@@ -78,10 +76,11 @@ export class RecordsTableComponent {
   }
 
   async addRecord() {
-    this.router.navigate(['new/programming-project'], {
+    this.router.navigate(['new'], {
       relativeTo: this.route,
     });
   }
+
   async deleteRecord(id: string | number) {
     // TODO: update to string once all records are migrated to MongoDB
     this.onDelete.emit(id as any);
