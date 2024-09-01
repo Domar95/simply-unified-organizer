@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { RecordsTableComponent } from '../records-table/records-table.component';
-import { RecordsApiService } from '@feature/records/services';
 import { ProgrammingProjectGetResponse } from '@feature/records/models';
+import { RecordsApiService } from '@feature/records/services';
+import { RecordsTableComponent } from '@feature/records/components';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'suo-programming-project',
@@ -19,7 +20,10 @@ export class ProgrammingProjectComponent {
     ProgrammingProjectGetResponse[] | 'loading'
   >();
 
-  constructor(private recordsApiService: RecordsApiService) {}
+  constructor(
+    private recordsApiService: RecordsApiService,
+    private notificationService: NotificationService
+  ) {}
 
   columns: { key: string; label: string }[] = [
     { key: 'id', label: 'Id' },
@@ -43,5 +47,21 @@ export class ProgrammingProjectComponent {
     const records: ProgrammingProjectGetResponse[] =
       await this.recordsApiService.getProgrammingProjects();
     this.records$.next(records);
+  }
+
+  async handleRefresh() {
+    await this.loadRecords();
+  }
+
+  async handleDelete(id: number) {
+    try {
+      await this.recordsApiService.deleteProgrammingProject(id);
+      this.notificationService.openSnackBar('Record deleted successfully!');
+    } catch (error) {
+      this.notificationService.openSnackBar(
+        'Failed to delete record. Try again later.'
+      );
+    }
+    await this.loadRecords();
   }
 }

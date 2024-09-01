@@ -1,2 +1,3 @@
 export * from './records.component';
-export * from './records/records-form/records-form.component';
+export * from './ui-elements';
+export * from './record-types';

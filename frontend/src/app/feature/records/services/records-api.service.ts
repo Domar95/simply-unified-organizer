@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, map } from 'rxjs';
 
 import {
+  KnowledgeListApiResponse,
+  KnowledgeApiResponse,
   ProgrammingProjectGetResponse,
   ProgrammingProjectPatchRequest,
   ProgrammingProjectPostRequest,
@@ -58,6 +60,55 @@ export class RecordsApiService {
     return lastValueFrom(
       this.http.delete<ProgrammingProjectGetResponse>(
         `${this.APIURL}/category/programming-project/records/${id}`
+      )
+    );
+  }
+
+  getKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
+    return lastValueFrom(
+      this.http.get<KnowledgeApiResponse>(
+        `${this.APIURL}/category/knowledge/records/${id}`
+      )
+    );
+  }
+
+  getKnowledgeRecords(): Promise<KnowledgeApiResponse[]> {
+    return lastValueFrom(
+      this.http
+        .get<KnowledgeListApiResponse>(
+          `${this.APIURL}/category/knowledge/records`
+        )
+        .pipe(map((response) => response.records))
+    );
+  }
+
+  addKnowledgeRecord(
+    programmingProject: KnowledgeApiResponse
+  ): Promise<KnowledgeApiResponse> {
+    return lastValueFrom(
+      this.http.post<KnowledgeApiResponse>(
+        `${this.APIURL}/category/knowledge/records`,
+        programmingProject
+      )
+    );
+  }
+
+  updateKnowledgeRecord(
+    id: string,
+    programmingProject: KnowledgeApiResponse
+  ): Promise<KnowledgeApiResponse> {
+    return lastValueFrom(
+      this.http.patch<KnowledgeApiResponse>(
+        `${this.APIURL}/category/knowledge/records/${id}`,
+        programmingProject
+      )
+    );
+  }
+
+  deleteKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
+    return lastValueFrom(
+      this.http.delete<KnowledgeApiResponse>(
+        `${this.APIURL}/category/knowledge/records/${id}`
       )
     );
   }

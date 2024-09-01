@@ -9,12 +9,9 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Observable, Subscription } from 'rxjs';
-
-import { ProgrammingProjectGetResponse } from '@feature/records/models';
-import { RecordsApiService } from '@feature/records/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'suo-records-table',
@@ -26,36 +23,30 @@ import { MatIconModule } from '@angular/material/icon';
     MatSortModule,
     MatIconModule,
   ],
-  providers: [RecordsApiService],
   templateUrl: './records-table.component.html',
   styleUrl: './records-table.component.scss',
 })
 export class RecordsTableComponent {
-  @Input({ required: true }) records$!: Observable<
-    ProgrammingProjectGetResponse[] | 'loading'
-  >;
+  @Input({ required: true }) records$!: Observable<unknown[] | 'loading'>;
   @Input() columns!: { key: string; label: string }[];
 
-  @Output() refreshed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
+  // TODO: update to string once all records are migrated to MongoDB
+  @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   columnKeys: string[] = [];
   loading: boolean = true;
   private recordsSubscription!: Subscription;
 
-  dataSource: MatTableDataSource<ProgrammingProjectGetResponse> =
-    new MatTableDataSource<ProgrammingProjectGetResponse>();
+  dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
 
-  constructor(
-    private recordsApiService: RecordsApiService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   ngOnInit(): void {
     this.recordsSubscription = this.records$.subscribe(
-      (records: ProgrammingProjectGetResponse[] | 'loading') => {
+      (records: unknown[] | 'loading') => {
         this.loading = records === 'loading';
         this.updateTable(records);
       }
@@ -77,7 +68,7 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  updateTable(records: ProgrammingProjectGetResponse[] | 'loading') {
+  updateTable(records: unknown[] | 'loading') {
     if (records === 'loading') {
       return;
     }
@@ -85,16 +76,17 @@ export class RecordsTableComponent {
   }
 
   async addRecord() {
-    this.router.navigate(['new/programming-project'], {
+    this.router.navigate(['new'], {
       relativeTo: this.route,
     });
   }
-  async deleteRecord(id: number) {
-    await this.recordsApiService.deleteProgrammingProject(id);
-    this.refreshed.emit();
+
+  async deleteRecord(id: string | number) {
+    // TODO: update to string once all records are migrated to MongoDB
+    this.onDelete.emit(id as any);
   }
 
   async refreshRecords() {
-    this.refreshed.emit();
+    this.onRefresh.emit();
   }
 }

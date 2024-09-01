@@ -30,3 +30,19 @@ export interface ProgrammingProjectPatchRequest {
   name?: string;
   used_technologies?: string;
 }
+
+export interface KnowledgeApiResponse {
+  id: string;
+  category_id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  importance: number;
+  domain: string;
+  link: string;
+  image: string;
+}
+
+export interface KnowledgeListApiResponse {
+  records: KnowledgeApiResponse[];
+}
