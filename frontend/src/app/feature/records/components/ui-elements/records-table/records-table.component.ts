@@ -25,7 +25,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatSortModule,
     MatIconModule,
   ],
-  providers: [RecordsApiService],
   templateUrl: './records-table.component.html',
   styleUrl: './records-table.component.scss',
 })
@@ -33,7 +32,9 @@ export class RecordsTableComponent {
   @Input({ required: true }) records$!: Observable<unknown[] | 'loading'>;
   @Input() columns!: { key: string; label: string }[];
 
-  @Output() refreshed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
+  // TODO: update to string once all records are migrated to MongoDB
+  @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   columnKeys: string[] = [];
   loading: boolean = true;
@@ -41,11 +42,7 @@ export class RecordsTableComponent {
 
   dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
 
-  constructor(
-    private recordsApiService: RecordsApiService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -85,12 +82,12 @@ export class RecordsTableComponent {
       relativeTo: this.route,
     });
   }
-  async deleteRecord(id: number) {
-    await this.recordsApiService.deleteProgrammingProject(id);
-    this.refreshed.emit();
+  async deleteRecord(id: string | number) {
+    // TODO: update to string once all records are migrated to MongoDB
+    this.onDelete.emit(id as any);
   }
 
   async refreshRecords() {
-    this.refreshed.emit();
+    this.onRefresh.emit();
   }
 }

@@ -44,4 +44,13 @@ export class ProgrammingProjectComponent {
       await this.recordsApiService.getProgrammingProjects();
     this.records$.next(records);
   }
+
+  async handleRefresh() {
+    await this.loadRecords();
+  }
+
+  async handleDelete(id: number) {
+    await this.recordsApiService.deleteProgrammingProject(id);
+    await this.loadRecords();
+  }
 }

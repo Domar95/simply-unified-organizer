@@ -43,4 +43,13 @@ export class KnowledgeComponent {
       await this.recordsApiService.getKnowledgeRecords();
     this.records$.next(records);
   }
+
+  async handleRefresh() {
+    await this.loadRecords();
+  }
+
+  async handleDelete(id: string) {
+    await this.recordsApiService.deleteKnowledgeRecord(id);
+    await this.loadRecords();
+  }
 }

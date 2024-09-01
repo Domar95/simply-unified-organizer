@@ -1,1 +1,6 @@
-<suo-records-table [records$]="records$" [columns]="columns" (refreshed)="loadRecords()"></suo-records-table>
+<suo-records-table
+  [records$]="records$"
+  [columns]="columns"
+  (onRefresh)="handleRefresh()"
+  (onDelete)="handleDelete($event)"
+></suo-records-table>
