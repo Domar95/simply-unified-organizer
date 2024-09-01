@@ -8,20 +8,23 @@ import {
 import { MatButton } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { ProgrammingProjectPostRequest } from '@feature/records/models';
-import { RecordsApiService } from '@feature/records/services';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
+
+import { NotificationService } from '@shared/services/notification.service';
+import { ProgrammingProjectPostRequest } from '@feature/records/models';
+import { RecordsApiService } from '@feature/records/services';
 
 @Component({
   selector: 'suo-records-form',
   standalone: true,
-  providers: [provideNativeDateAdapter(), RecordsApiService],
+  providers: [
+    provideNativeDateAdapter(),
+    RecordsApiService,
+    NotificationService,
+  ],
 
   imports: [
     MatFormFieldModule,
@@ -47,15 +50,9 @@ export class RecordsFormComponent {
 
   constructor(
     private recordsApiService: RecordsApiService,
-    private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 3000,
-    });
-  }
 
   async onSubmit() {
     if (this.recordsForm.valid) {
@@ -65,7 +62,7 @@ export class RecordsFormComponent {
 
       console.log(programmingProject);
       await this.recordsApiService.addProgrammingProject(programmingProject);
-      this.openSnackBar('Record added successfully!', 'Close');
+      this.notificationService.openSnackBar('Record added successfully!');
       this.recordsForm.reset();
     }
   }
