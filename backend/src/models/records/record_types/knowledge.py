@@ -7,7 +7,7 @@ from typing import Optional
 class Knowledge(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    id: ObjectId = Field(default_factory=ObjectId)
+    id: Optional[ObjectId] = Field(None, alias="_id")
     category_id: int
     name: str
     created_at: Optional[datetime] = None
