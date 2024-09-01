@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Observable, Subscription } from 'rxjs';
 
-import { ProgrammingProjectGetResponse } from '@feature/records/models';
 import { RecordsApiService } from '@feature/records/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,9 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './records-table.component.scss',
 })
 export class RecordsTableComponent {
-  @Input({ required: true }) records$!: Observable<
-    ProgrammingProjectGetResponse[] | 'loading'
-  >;
+  @Input({ required: true }) records$!: Observable<unknown[] | 'loading'>;
   @Input() columns!: { key: string; label: string }[];
 
   @Output() refreshed: EventEmitter<void> = new EventEmitter<void>();
@@ -42,8 +39,7 @@ export class RecordsTableComponent {
   loading: boolean = true;
   private recordsSubscription!: Subscription;
 
-  dataSource: MatTableDataSource<ProgrammingProjectGetResponse> =
-    new MatTableDataSource<ProgrammingProjectGetResponse>();
+  dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
 
   constructor(
     private recordsApiService: RecordsApiService,
@@ -55,7 +51,7 @@ export class RecordsTableComponent {
 
   ngOnInit(): void {
     this.recordsSubscription = this.records$.subscribe(
-      (records: ProgrammingProjectGetResponse[] | 'loading') => {
+      (records: unknown[] | 'loading') => {
         this.loading = records === 'loading';
         this.updateTable(records);
       }
@@ -77,7 +73,7 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  updateTable(records: ProgrammingProjectGetResponse[] | 'loading') {
+  updateTable(records: unknown[] | 'loading') {
     if (records === 'loading') {
       return;
     }
