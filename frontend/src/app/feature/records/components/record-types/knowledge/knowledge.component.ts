@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { KnowledgeApiResponse } from '@feature/records/models';
 import { RecordsApiService } from '@feature/records/services';
 import { RecordsTableComponent } from '@feature/records/components';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'suo-knowledge',
@@ -19,7 +20,10 @@ export class KnowledgeComponent {
     KnowledgeApiResponse[] | 'loading'
   >();
 
-  constructor(private recordsApiService: RecordsApiService) {}
+  constructor(
+    private recordsApiService: RecordsApiService,
+    private notificationService: NotificationService
+  ) {}
 
   columns: { key: string; label: string }[] = [
     { key: 'id', label: 'Id' },
@@ -49,7 +53,14 @@ export class KnowledgeComponent {
   }
 
   async handleDelete(id: string) {
-    await this.recordsApiService.deleteKnowledgeRecord(id);
+    try {
+      await this.recordsApiService.deleteKnowledgeRecord(id);
+      this.notificationService.openSnackBar('Record deleted successfully!');
+    } catch (error) {
+      this.notificationService.openSnackBar(
+        'Failed to delete record. Try again later.'
+      );
+    }
     await this.loadRecords();
   }
 }
