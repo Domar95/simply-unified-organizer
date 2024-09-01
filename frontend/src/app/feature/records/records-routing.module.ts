@@ -1,13 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RecordsComponent, RecordsFormComponent } from './components';
+import { RecordsComponent } from './components/records.component';
+import { KnowledgeComponent, ProgrammingProjectComponent } from './components';
 
 const routes: Routes = [
-  { path: '', component: RecordsComponent },
-
-  // TODO update route apth
-  { path: 'new/programming-project', component: RecordsFormComponent },
+  {
+    path: '',
+    component: RecordsComponent,
+    children: [
+      { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
+      {
+        path: 'programming-project',
+        component: ProgrammingProjectComponent,
+      },
+      {
+        path: 'knowledge',
+        component: KnowledgeComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
