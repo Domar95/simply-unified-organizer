@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 import { QuestionBase } from '@feature/records/models';
 import { QuestionControlService } from '@feature/records/services/question-control.service';
@@ -9,7 +10,7 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-fo
   selector: 'suo-dynamic-form',
   standalone: true,
   providers: [QuestionControlService],
-  imports: [ReactiveFormsModule, DynamicFormQuestionComponent],
+  imports: [ReactiveFormsModule, DynamicFormQuestionComponent, MatButtonModule],
   templateUrl: './dynamic-form.component.html',
   styleUrl: './dynamic-form.component.scss',
 })
@@ -29,5 +30,9 @@ export class DynamicFormComponent implements OnInit {
 
   onSubmit() {
     this.payLoad = JSON.stringify(this.form.getRawValue());
+  }
+
+  onCancel() {
+    console.log('cancelled');
   }
 }
