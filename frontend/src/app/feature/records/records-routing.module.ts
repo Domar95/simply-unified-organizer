@@ -7,6 +7,7 @@ import {
   ProgrammingProjectComponent,
   RecordsFormComponent,
 } from './components';
+import { AddRecordComponent } from './pages/add-record/add-record.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
         path: 'knowledge',
         children: [
           { path: '', component: KnowledgeComponent },
-          { path: 'new', component: RecordsFormComponent },
+          { path: 'new', component: AddRecordComponent },
         ],
       },
     ],
