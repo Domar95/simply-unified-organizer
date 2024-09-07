@@ -1,0 +1,20 @@
+<div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    @for (question of questions; track question) {
+    <div class="form-row">
+      <suo-dynamic-form-question
+        [question]="question"
+        [form]="form"
+      ></suo-dynamic-form-question>
+    </div>
+    }
+    <div class="form-row">
+      <button type="submit" [disabled]="!form.valid">Submit</button>
+    </div>
+  </form>
+  @if (payLoad) {
+  <div class="form-row">
+    <strong>Submitted the following values</strong><br />{{ payLoad }}
+  </div>
+  }
+</div>
