@@ -27,5 +27,9 @@
 
   <tr mat-header-row *matHeaderRowDef="columnKeys"></tr>
   <tr mat-row *matRowDef="let row; columns: columnKeys"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell no-data-message" [attr.colspan]="columns.length + 1">{{noDataMessage}}.</td>
+  </tr>
 </table>
   

@@ -16,8 +16,8 @@ import { NotificationService } from '@shared/services/notification.service';
 })
 export class KnowledgeComponent {
   data: KnowledgeApiResponse[] = [];
-  records$: Subject<KnowledgeApiResponse[] | 'loading'> = new Subject<
-    KnowledgeApiResponse[] | 'loading'
+  records$: Subject<KnowledgeApiResponse[] | 'loading' | 'error'> = new Subject<
+    KnowledgeApiResponse[] | 'loading' | 'error'
   >();
 
   constructor(
@@ -43,9 +43,14 @@ export class KnowledgeComponent {
 
   async loadRecords() {
     this.records$.next('loading');
-    const records: KnowledgeApiResponse[] =
-      await this.recordsApiService.getKnowledgeRecords();
-    this.records$.next(records);
+    try {
+      const records: KnowledgeApiResponse[] =
+        await this.recordsApiService.getKnowledgeRecords();
+      this.records$.next(records);
+    } catch (error) {
+      console.error('Error loading records:', error);
+      this.records$.next('error');
+    }
   }
 
   async handleRefresh() {
