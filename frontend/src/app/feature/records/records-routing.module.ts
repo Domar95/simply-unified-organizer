@@ -8,6 +8,7 @@ import {
   RecordsFormComponent,
 } from './components';
 
+// TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
 const routes: Routes = [
   {
     path: '',

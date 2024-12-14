@@ -16,9 +16,8 @@ import { NotificationService } from '@shared/services/notification.service';
 })
 export class ProgrammingProjectComponent {
   data: ProgrammingProjectGetResponse[] = [];
-  records$: Subject<ProgrammingProjectGetResponse[] | 'loading'> = new Subject<
-    ProgrammingProjectGetResponse[] | 'loading'
-  >();
+  records$: Subject<ProgrammingProjectGetResponse[] | 'loading' | 'error'> =
+    new Subject<ProgrammingProjectGetResponse[] | 'loading' | 'error'>();
 
   constructor(
     private recordsApiService: RecordsApiService,
@@ -44,9 +43,14 @@ export class ProgrammingProjectComponent {
 
   async loadRecords() {
     this.records$.next('loading');
-    const records: ProgrammingProjectGetResponse[] =
-      await this.recordsApiService.getProgrammingProjects();
-    this.records$.next(records);
+    try {
+      const records: ProgrammingProjectGetResponse[] =
+        await this.recordsApiService.getProgrammingProjects();
+      this.records$.next(records);
+    } catch (error) {
+      console.error('Error loading records:', error);
+      this.records$.next('error');
+    }
   }
 
   async handleRefresh() {

@@ -27,7 +27,9 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './records-table.component.scss',
 })
 export class RecordsTableComponent {
-  @Input({ required: true }) records$!: Observable<unknown[] | 'loading'>;
+  @Input({ required: true }) records$!: Observable<
+    unknown[] | 'loading' | 'error'
+  >;
   @Input() columns!: { key: string; label: string }[];
 
   @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
@@ -46,7 +48,7 @@ export class RecordsTableComponent {
 
   ngOnInit(): void {
     this.recordsSubscription = this.records$.subscribe(
-      (records: unknown[] | 'loading') => {
+      (records: unknown[] | 'loading' | 'error') => {
         this.loading = records === 'loading';
         this.updateTable(records);
       }
@@ -68,8 +70,8 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  updateTable(records: unknown[] | 'loading') {
-    if (records === 'loading') {
+  updateTable(records: unknown[] | 'loading' | 'error') {
+    if (records === 'loading' || records === 'error') {
       return;
     }
     this.dataSource.data = records;
@@ -88,5 +90,9 @@ export class RecordsTableComponent {
 
   async refreshRecords() {
     this.onRefresh.emit();
+  }
+
+  get noDataMessage(): string {
+    return this.loading ? 'Loading...' : 'No records found';
   }
 }
