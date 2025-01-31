@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RecordsComponent } from './components/records.component';
-import {
-  KnowledgeComponent,
-  ProgrammingProjectComponent,
-  RecordsFormComponent,
-} from './components';
-import { AddRecordComponent } from './pages/add-record/add-record.component';
+import { KnowledgeComponent, ProgrammingProjectComponent } from './components';
+import { AddRecordComponent } from './pages';
 
 // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
 const routes: Routes = [
@@ -16,20 +12,12 @@ const routes: Routes = [
     component: RecordsComponent,
     children: [
       { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
-      {
-        path: 'programming-project',
-        children: [
-          { path: '', component: ProgrammingProjectComponent },
-          { path: 'new', component: RecordsFormComponent },
-        ],
-      },
+      { path: 'programming-project', component: ProgrammingProjectComponent },
       {
         path: 'knowledge',
-        children: [
-          { path: '', component: KnowledgeComponent },
-          { path: 'new', component: AddRecordComponent },
-        ],
+        component: KnowledgeComponent,
       },
+      { path: ':category/new', component: AddRecordComponent },
     ],
   },
 ];
