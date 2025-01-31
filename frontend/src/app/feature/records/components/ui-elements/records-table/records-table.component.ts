@@ -37,7 +37,7 @@ export class RecordsTableComponent {
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   columnKeys: string[] = [];
-  loading: boolean = true;
+  state: 'loading' | 'error' = 'loading';
   private recordsSubscription!: Subscription;
 
   dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
@@ -47,13 +47,17 @@ export class RecordsTableComponent {
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   ngOnInit(): void {
+    this.columnKeys = this.getColumnKeys();
+
     this.recordsSubscription = this.records$.subscribe(
       (records: RecordsTableData) => {
-        this.loading = records === 'loading';
-        this.updateTable(records);
+        if (records === 'loading' || records === 'error') {
+          this.state = records;
+          return;
+        }
+        this.dataSource.data = records;
       }
     );
-    this.columnKeys = this.getColumnKeys();
   }
 
   private getColumnKeys(): string[] {
@@ -68,13 +72,6 @@ export class RecordsTableComponent {
 
   ngOnDestroy(): void {
     this.recordsSubscription.unsubscribe();
-  }
-
-  updateTable(records: RecordsTableData) {
-    if (records === 'loading' || records === 'error') {
-      return;
-    }
-    this.dataSource.data = records;
   }
 
   async addRecord() {
@@ -93,6 +90,13 @@ export class RecordsTableComponent {
   }
 
   get noDataMessage(): string {
-    return this.loading ? 'Loading...' : 'No records found';
+    switch (this.state) {
+      case 'loading':
+        return 'Loading...';
+      case 'error':
+        return 'Failed to load records';
+      default:
+        return 'No records found';
+    }
   }
 }
