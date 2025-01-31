@@ -2,7 +2,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { Observable, of } from 'rxjs';
 
 import { DynamicFormComponent } from '@feature/records/components/ui-elements/dynamic-form/dynamic-form.component';
 import { QuestionBase } from '@feature/records/models';
@@ -17,7 +16,7 @@ import { QuestionService } from '@feature/records/services/question-service.serv
   styleUrl: './add-record.component.scss',
 })
 export class AddRecordComponent {
-  questions$!: Observable<QuestionBase<any>[]>;
+  questions!: QuestionBase<any>[];
   category!: string;
   title!: string;
 
@@ -28,18 +27,18 @@ export class AddRecordComponent {
 
   ngOnInit(): void {
     this.category = this.route.snapshot.paramMap.get('category') || '';
-    this.questions$ = this.getQuestions();
+    this.questions = this.getQuestions();
     this.title = this.getTitle();
   }
 
-  private getQuestions(): Observable<QuestionBase<unknown>[]> {
+  private getQuestions(): QuestionBase<unknown>[] {
     switch (this.category) {
       case 'knowledge':
         return this.questionService.getKnowledgeRecordQuestions();
       case 'programming-project':
         return this.questionService.getProgrammingProjectQuestions();
       default:
-        return of([]);
+        return [];
     }
   }
 
