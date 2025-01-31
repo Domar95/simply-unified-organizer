@@ -7,6 +7,7 @@ import {
   ProgrammingProjectComponent,
   RecordsFormComponent,
 } from './components';
+import { AddRecordComponent } from './pages/add-record/add-record.component';
 
 // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
 const routes: Routes = [
@@ -26,7 +27,7 @@ const routes: Routes = [
         path: 'knowledge',
         children: [
           { path: '', component: KnowledgeComponent },
-          { path: 'new', component: RecordsFormComponent },
+          { path: 'new', component: AddRecordComponent },
         ],
       },
     ],
