@@ -8,6 +8,6 @@ export class TextareaQuestion extends QuestionBase<string> {
   override controlType = 'textarea';
 }
 
-export class NumberQuestion extends QuestionBase<string> {
+export class NumberQuestion extends QuestionBase<number> {
   override controlType = 'number';
 }
