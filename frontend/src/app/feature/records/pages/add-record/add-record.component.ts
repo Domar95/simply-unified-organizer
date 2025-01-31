@@ -19,6 +19,7 @@ export class AddRecordComponent {
   questions$: Observable<QuestionBase<any>[]>;
 
   constructor(questionService: QuestionService) {
+    // TODO: fetch questions dynamically
     this.questions$ = questionService.getKnowledgeRecordQuestions();
   }
 }
