@@ -1,7 +1,6 @@
 <div [formGroup]="form">
   <mat-form-field>
     <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-
     @switch (question.controlType) { @case ('text') {
     <input matInput [formControlName]="question.key" [id]="question.key" />
     } @case ('textarea') {
@@ -10,7 +9,6 @@
       [formControlName]="question.key"
       [id]="question.key"
     ></textarea>
-
     } @case ('number') {
     <input
       matInput
