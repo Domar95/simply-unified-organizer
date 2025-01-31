@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, Subscription } from 'rxjs';
 
+import { RecordsTableData } from '@feature/records/models/records-table.model';
+
 @Component({
   selector: 'suo-records-table',
   standalone: true,
@@ -27,7 +29,7 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './records-table.component.scss',
 })
 export class RecordsTableComponent {
-  @Input({ required: true }) records$!: Observable<unknown[] | 'loading'>;
+  @Input({ required: true }) records$!: Observable<RecordsTableData>;
   @Input() columns!: { key: string; label: string }[];
 
   @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
@@ -46,7 +48,7 @@ export class RecordsTableComponent {
 
   ngOnInit(): void {
     this.recordsSubscription = this.records$.subscribe(
-      (records: unknown[] | 'loading') => {
+      (records: RecordsTableData) => {
         this.loading = records === 'loading';
         this.updateTable(records);
       }
@@ -68,8 +70,8 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  updateTable(records: unknown[] | 'loading') {
-    if (records === 'loading') {
+  updateTable(records: RecordsTableData) {
+    if (records === 'loading' || records === 'error') {
       return;
     }
     this.dataSource.data = records;
