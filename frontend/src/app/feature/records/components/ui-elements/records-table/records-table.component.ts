@@ -91,4 +91,8 @@ export class RecordsTableComponent {
   async refreshRecords() {
     this.onRefresh.emit();
   }
+
+  get noDataMessage(): string {
+    return this.loading ? 'Loading...' : 'No records found';
+  }
 }

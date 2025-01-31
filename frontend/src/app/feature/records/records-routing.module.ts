@@ -9,6 +9,7 @@ import {
 } from './components';
 import { AddRecordComponent } from './pages/add-record/add-record.component';
 
+// TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
 const routes: Routes = [
   {
     path: '',
