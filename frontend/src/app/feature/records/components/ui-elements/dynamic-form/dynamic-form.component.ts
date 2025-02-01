@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -17,6 +17,8 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-fo
 export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<string>[] | null = [];
 
+  @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
+
   form!: FormGroup;
   payLoad = '';
 
@@ -30,6 +32,7 @@ export class DynamicFormComponent implements OnInit {
 
   onSubmit() {
     this.payLoad = JSON.stringify(this.form.getRawValue());
+    this.formSubmitted.emit(this.form.getRawValue());
   }
 
   onCancel() {

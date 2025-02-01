@@ -1,17 +1,17 @@
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { DynamicFormComponent } from '@feature/records/components/ui-elements/dynamic-form/dynamic-form.component';
 import { QuestionBase } from '@feature/records/models';
 import { QuestionService } from '@feature/records/services/question-service.service';
+import { RecordsApiService } from '@feature/records/services';
 
 @Component({
   selector: 'suo-add-record',
   standalone: true,
-  providers: [QuestionService],
-  imports: [AsyncPipe, DynamicFormComponent, MatCardModule],
+  providers: [QuestionService, RecordsApiService],
+  imports: [DynamicFormComponent, MatCardModule],
   templateUrl: './add-record.component.html',
   styleUrl: './add-record.component.scss',
 })
@@ -22,7 +22,8 @@ export class AddRecordComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private recordsApiService: RecordsApiService
   ) {}
 
   ngOnInit(): void {
@@ -49,5 +50,22 @@ export class AddRecordComponent {
     };
 
     return categoryTitles[this.category] || 'Title';
+  }
+
+  async onFormSubmitted(data: any): Promise<void> {
+    switch (this.category) {
+      case 'knowledge':
+        const category = 2;
+        const response = await this.recordsApiService.addKnowledgeRecord({
+          ...data,
+          category_id: category,
+        });
+        console.log('Knowledge record added:', response);
+        return;
+      case 'programming-project':
+        return;
+      default:
+        return;
+    }
   }
 }
