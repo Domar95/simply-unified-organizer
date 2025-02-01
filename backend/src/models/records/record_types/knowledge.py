@@ -13,10 +13,10 @@ class Knowledge(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    importance: int
-    domain: str
-    link: str
-    image: str
+    importance: Optional[int]
+    domain: Optional[str]
+    link: Optional[str]
+    image: Optional[str]
 
     def to_json(self):
         data = self.model_dump()
