@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 
 import { QuestionBase } from '@feature/records/models/question-base.model';
 import {
@@ -12,7 +11,7 @@ import {
 export class QuestionService {
   constructor() {}
 
-  getKnowledgeRecordQuestions() {
+  getKnowledgeRecordQuestions(): QuestionBase<string | number>[] {
     const questions: QuestionBase<string | number>[] = [
       new TextQuestion({
         key: 'name',
@@ -50,6 +49,11 @@ export class QuestionService {
       }),
     ];
 
-    return of(questions.sort((a, b) => a.order - b.order));
+    return questions.sort((a, b) => a.order - b.order);
+  }
+
+  getProgrammingProjectQuestions(): QuestionBase<unknown>[] {
+    // TODO: implement
+    return [];
   }
 }
