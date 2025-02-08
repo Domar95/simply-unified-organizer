@@ -39,7 +39,6 @@ import { RecordsApiService } from '@feature/records/services';
 })
 export class RecordsFormComponent {
   recordsForm = new FormGroup({
-    category_id: new FormControl<number | null>(8, Validators.required),
     deadline: new FormControl<Date | null>(null),
     description: new FormControl<string | null>(null),
     extra: new FormControl<string | null>(null),
@@ -52,7 +51,7 @@ export class RecordsFormComponent {
     private recordsApiService: RecordsApiService,
     private router: Router,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   async onSubmit() {
     if (this.recordsForm.valid) {

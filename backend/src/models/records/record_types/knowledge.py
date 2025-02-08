@@ -8,7 +8,6 @@ class Knowledge(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     id: Optional[ObjectId] = Field(None, alias="_id")
-    category_id: int
     name: str
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None

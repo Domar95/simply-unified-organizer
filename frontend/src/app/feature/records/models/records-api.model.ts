@@ -1,5 +1,4 @@
 export interface ProgrammingProjectGetResponse {
-  category_id: number;
   created_at: string;
   deadline: Date | null;
   description: string | null;
@@ -12,7 +11,6 @@ export interface ProgrammingProjectGetResponse {
 }
 
 export interface ProgrammingProjectPostRequest {
-  category_id: number;
   deadline?: Date; // TODO: check if this is correct
   description?: string;
   extra?: string;
@@ -22,7 +20,6 @@ export interface ProgrammingProjectPostRequest {
 }
 
 export interface ProgrammingProjectPatchRequest {
-  category_id?: number;
   deadline?: Date; // TODO: check if this is correct
   description?: string;
   extra?: string;
@@ -33,7 +30,6 @@ export interface ProgrammingProjectPatchRequest {
 
 export interface KnowledgeApiResponse {
   id: string;
-  category_id: number;
   name: string;
   created_at: string;
   updated_at: string;

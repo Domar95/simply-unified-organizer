@@ -24,7 +24,7 @@ export class AddRecordComponent {
     private route: ActivatedRoute,
     private questionService: QuestionService,
     private recordsApiService: RecordsApiService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.category = this.route.snapshot.paramMap.get('category') || '';
@@ -55,11 +55,7 @@ export class AddRecordComponent {
   async onFormSubmitted(data: any): Promise<void> {
     switch (this.category) {
       case 'knowledge':
-        const category = 2;
-        const response = await this.recordsApiService.addKnowledgeRecord({
-          ...data,
-          category_id: category,
-        });
+        const response = await this.recordsApiService.addKnowledgeRecord(data);
         console.log('Knowledge record added:', response);
         return;
       case 'programming-project':

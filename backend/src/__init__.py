@@ -42,20 +42,16 @@ def create_app() -> Flask:
 
 
 def add_resources(api: Api) -> None:
-    from src.models.records.record_category import RecordCategoryModel
     from src.models.records.record_types.programming_project import (
         ProgrammingProjectModel,
     )
     from src.models.records.record_types.knowledge import Knowledge
 
-    from src.resources.records.record_category import RecordCategoryResource
     from src.resources.records.programming_project import (
         ProgrammingProjectResource,
         ProgrammingProjectListResource,
     )
     from src.resources.records.knowledge import KnowledgeResource, KnowledgeListResource
-
-    api.add_resource(RecordCategoryResource, "/category", "/category/<int:category_id>")
 
     api.add_resource(
         ProgrammingProjectListResource,
