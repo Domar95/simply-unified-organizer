@@ -1,6 +1,6 @@
 import flask
 
-from typing import List, Optional
+from typing import List
 from flask import request
 from flask.views import MethodView
 from datetime import datetime, timezone
@@ -44,19 +44,19 @@ class ProgrammingProjectView(MethodView):
         validated_record = ProgrammingProjectSchema.model_validate(record)
         return validated_record.model_dump(), 201
 
-    def get(self, id: Optional[int] = None) -> ProgrammingProject:
+    def get(self, uuid: str) -> ProgrammingProject:
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            id=id
+            uuid=uuid
         ).first_or_404(description="Could not find record with that ID...")
 
         validated_record = ProgrammingProjectSchema.model_validate(record)
         return validated_record.model_dump()
 
-    def patch(self, id: int) -> ProgrammingProject:
+    def patch(self, uuid: str) -> ProgrammingProject:
         data = request.get_json()
 
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            id=id
+            uuid=uuid
         ).first_or_404(description="Could not find record with that ID...")
 
         updatable_fields = [
@@ -86,9 +86,9 @@ class ProgrammingProjectView(MethodView):
 
         return validated_record.model_dump()
 
-    def delete(self, id: int) -> str:
+    def delete(self, uuid: str) -> str:
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            id=id
+            uuid=uuid
         ).first_or_404(description="Could not find record with that ID...")
         db.session.delete(record)
         db.session.commit()

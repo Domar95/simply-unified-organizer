@@ -42,7 +42,7 @@ def add_resources(app: Flask) -> None:
     )
 
     app.add_url_rule(
-        "/records/programming-project/<int:id>",
+        "/records/programming-project/<string:uuid>",
         view_func=programming_project_view,
         methods=["GET", "PATCH", "DELETE"],
     )
@@ -59,6 +59,7 @@ def add_resources(app: Flask) -> None:
 
     from src.resources.records.knowledge import knowledge_view, knowledge_list_view
 
+    # TODO: update to use uuid once migrated to postgres
     app.add_url_rule(
         "/records/knowledge/<string:id>",
         view_func=knowledge_view,
