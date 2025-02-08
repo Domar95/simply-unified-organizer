@@ -4,14 +4,12 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
-from flask_marshmallow import Marshmallow
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 
 db = SQLAlchemy()
-ma = Marshmallow()
 
 
 def create_app() -> Flask:
