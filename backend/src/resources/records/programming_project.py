@@ -27,6 +27,7 @@ class ProgrammingProjectView(MethodView):
             flask.abort(400, f"Validation error on field '{field}': {error_message}")
 
         record = ProgrammingProject(
+            uuid=validated_data.uuid,
             name=validated_data.name,
             created_at=validated_data.created_at,
             updated_at=validated_data.updated_at,
