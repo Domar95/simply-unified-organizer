@@ -55,20 +55,20 @@ def add_resources(api: Api) -> None:
 
     api.add_resource(
         ProgrammingProjectListResource,
-        "/category/programming-project/records",
+        "/records/programming-project",
     )
     api.add_resource(
         ProgrammingProjectResource,
-        "/category/programming-project/records",
-        "/category/programming-project/records/<int:record_id>",
+        "/records/programming-project",
+        "/records/programming-project/<int:record_id>",
     )
 
     api.add_resource(
         KnowledgeListResource,
-        "/category/knowledge/records",
+        "/records/knowledge",
     )
     api.add_resource(
         KnowledgeResource,
-        "/category/knowledge/records",
-        "/category/knowledge/records/<id>",
+        "/records/knowledge",
+        "/records/knowledge/<id>",
     )

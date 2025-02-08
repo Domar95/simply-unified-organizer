@@ -15,12 +15,12 @@ export class RecordsApiService {
   // need to update different envs in config later on
   readonly APIURL = 'http://127.0.0.1:5000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.get<ProgrammingProjectGetResponse>(
-        `${this.APIURL}/category/programming-project/records/${id}`
+        `${this.APIURL}/records/programming-project/${id}`
       )
     );
   }
@@ -28,7 +28,7 @@ export class RecordsApiService {
   getProgrammingProjects(): Promise<ProgrammingProjectGetResponse[]> {
     return lastValueFrom(
       this.http.get<ProgrammingProjectGetResponse[]>(
-        `${this.APIURL}/category/programming-project/records`
+        `${this.APIURL}/records/programming-project`
       )
     );
   }
@@ -38,7 +38,7 @@ export class RecordsApiService {
   ): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.post<ProgrammingProjectGetResponse>(
-        `${this.APIURL}/category/programming-project/records`,
+        `${this.APIURL}/records/programming-project`,
         programmingProject
       )
     );
@@ -50,7 +50,7 @@ export class RecordsApiService {
   ): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.patch<ProgrammingProjectGetResponse>(
-        `${this.APIURL}/category/programming-project/records/${id}`,
+        `${this.APIURL}/records/programming-project/${id}`,
         programmingProject
       )
     );
@@ -59,7 +59,7 @@ export class RecordsApiService {
   deleteProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.delete<ProgrammingProjectGetResponse>(
-        `${this.APIURL}/category/programming-project/records/${id}`
+        `${this.APIURL}/records/programming-project/${id}`
       )
     );
   }
@@ -67,7 +67,7 @@ export class RecordsApiService {
   getKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.get<KnowledgeApiResponse>(
-        `${this.APIURL}/category/knowledge/records/${id}`
+        `${this.APIURL}/records/knowledge/${id}`
       )
     );
   }
@@ -76,7 +76,7 @@ export class RecordsApiService {
     return lastValueFrom(
       this.http
         .get<KnowledgeListApiResponse>(
-          `${this.APIURL}/category/knowledge/records`
+          `${this.APIURL}/records/knowledge`
         )
         .pipe(map((response) => response.records))
     );
@@ -87,7 +87,7 @@ export class RecordsApiService {
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.post<KnowledgeApiResponse>(
-        `${this.APIURL}/category/knowledge/records`,
+        `${this.APIURL}/records/knowledge`,
         programmingProject
       )
     );
@@ -99,7 +99,7 @@ export class RecordsApiService {
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.patch<KnowledgeApiResponse>(
-        `${this.APIURL}/category/knowledge/records/${id}`,
+        `${this.APIURL}/records/knowledge/${id}`,
         programmingProject
       )
     );
@@ -108,7 +108,7 @@ export class RecordsApiService {
   deleteKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.delete<KnowledgeApiResponse>(
-        `${this.APIURL}/category/knowledge/records/${id}`
+        `${this.APIURL}/records/knowledge/${id}`
       )
     );
   }
