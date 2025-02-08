@@ -58,23 +58,31 @@ class ProgrammingProjectView(MethodView):
             id=id
         ).first_or_404(description="Could not find record with that ID...")
 
-        if data["name"]:
-            record.name = data["name"]
-        if data["description"]:
-            record.description = data["description"]
-        if data["importance"]:
-            record.importance = data["importance"]
-        if data["deadline"]:
-            record.deadline = data["deadline"]
-        if data["used_technologies"]:
-            record.used_technologies = data["used_technologies"]
-        if data["extra"]:
-            record.extra = data["extra"]
+        updatable_fields = [
+            "name",
+            "description",
+            "importance",
+            "deadline",
+            "used_technologies",
+            "extra",
+        ]
+
+        for field in updatable_fields:
+            if field in data:
+                setattr(record, field, data[field])
 
         record.updated_at = datetime.now(timezone.utc)
+
+        try:
+            validated_record = ProgrammingProjectSchema.model_validate(record)
+        except ValidationError as e:
+            error_details = e.errors()[0]
+            field = error_details["loc"][0]
+            error_message = error_details["msg"]
+            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+
         db.session.commit()
 
-        validated_record = ProgrammingProjectSchema.model_validate(record)
         return validated_record.model_dump()
 
     def delete(self, id: int) -> str:
