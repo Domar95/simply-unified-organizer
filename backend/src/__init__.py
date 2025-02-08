@@ -19,7 +19,7 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
 
     api = Api(app)
-    add_resources(api)
+    add_resources(api, app)
 
     # Initialize logging
     logging.basicConfig(level=logging.INFO)
@@ -41,7 +41,7 @@ def create_app() -> Flask:
     return app
 
 
-def add_resources(api: Api) -> None:
+def add_resources(api: Api, app: Flask) -> None:
     from src.models.records.record_types.programming_project import (
         ProgrammingProjectModel,
     )
@@ -51,7 +51,6 @@ def add_resources(api: Api) -> None:
         ProgrammingProjectResource,
         ProgrammingProjectListResource,
     )
-    from src.resources.records.knowledge import KnowledgeResource, KnowledgeListResource
 
     api.add_resource(
         ProgrammingProjectListResource,
@@ -63,12 +62,22 @@ def add_resources(api: Api) -> None:
         "/records/programming-project/<int:record_id>",
     )
 
-    api.add_resource(
-        KnowledgeListResource,
-        "/records/knowledge",
+    from src.resources.records.knowledge import knowledge_view, knowledge_list_view
+
+    app.add_url_rule(
+        "/records/knowledge/<string:id>",
+        view_func=knowledge_view,
+        methods=["GET", "PUT", "DELETE"],
     )
-    api.add_resource(
-        KnowledgeResource,
+
+    app.add_url_rule(
         "/records/knowledge",
-        "/records/knowledge/<id>",
+        view_func=knowledge_view,
+        methods=["POST"],
+    )
+
+    app.add_url_rule(
+        "/records/knowledge",
+        view_func=knowledge_list_view,
+        methods=["GET"],
     )

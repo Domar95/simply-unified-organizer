@@ -3,7 +3,7 @@ import flask
 from bson import ObjectId, errors
 from datetime import datetime, timezone
 from flask import request
-from flask_restful import Resource
+from flask.views import MethodView
 from pydantic import ValidationError
 from pymongo import ReturnDocument
 
@@ -14,7 +14,7 @@ db = get_database()
 collection = db["knowledge"]
 
 
-class KnowledgeResource(Resource):
+class KnowledgeView(MethodView):
     def post(self):
         raw_record = request.get_json()
         raw_record["created_at"] = raw_record["updated_at"] = datetime.now(timezone.utc)
@@ -96,7 +96,11 @@ class KnowledgeResource(Resource):
             flask.abort(404, f"Record not found: {object_id}")
 
 
-class KnowledgeListResource(Resource):
+class KnowledgeListView(MethodView):
     def get(self):
         records = collection.find()
         return {"records": [Knowledge(**record).to_json() for record in records]}
+
+
+knowledge_view = KnowledgeView.as_view("knowledge_view")
+knowledge_list_view = KnowledgeListView.as_view("knowledge_list_view")
