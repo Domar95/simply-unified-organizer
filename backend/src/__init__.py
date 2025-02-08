@@ -42,24 +42,27 @@ def create_app() -> Flask:
 
 
 def add_resources(api: Api, app: Flask) -> None:
-    from src.models.records.record_types.programming_project import (
-        ProgrammingProjectModel,
-    )
-    from src.models.records.record_types.knowledge import Knowledge
-
     from src.resources.records.programming_project import (
-        ProgrammingProjectResource,
-        ProgrammingProjectListResource,
+        programming_project_view,
+        programming_project_list_view,
     )
 
-    api.add_resource(
-        ProgrammingProjectListResource,
-        "/records/programming-project",
+    app.add_url_rule(
+        "/records/programming-project/<int:id>",
+        view_func=programming_project_view,
+        methods=["GET", "PATCH", "DELETE"],
     )
-    api.add_resource(
-        ProgrammingProjectResource,
+
+    app.add_url_rule(
         "/records/programming-project",
-        "/records/programming-project/<int:record_id>",
+        view_func=programming_project_view,
+        methods=["POST"],
+    )
+
+    app.add_url_rule(
+        "/records/programming-project",
+        view_func=programming_project_list_view,
+        methods=["GET"],
     )
 
     from src.resources.records.knowledge import knowledge_view, knowledge_list_view

@@ -1,115 +1,103 @@
+import flask
+
 from typing import List, Optional
-from flask_restful import Resource, reqparse, fields, marshal_with
-from datetime import datetime
-from src.models.records.record_types.programming_project import ProgrammingProjectModel
+from flask import request
+from flask.views import MethodView
+from datetime import datetime, timezone
+from pydantic import ValidationError
+
+from src.models.records.record_types.programming_project import (
+    ProgrammingProject,
+    ProgrammingProjectSchema,
+)
 from src import db
 
-resource_fields = {
-    "id": fields.Integer,
-    "name": fields.String,
-    "created_at": fields.DateTime,
-    "updated_at": fields.DateTime,
-    "importance": fields.Integer,
-    "deadline": fields.DateTime,
-    "used_technologies": fields.String,
-    "description": fields.String,
-    "extra": fields.String,
-}
 
-record_post_args = reqparse.RequestParser()
-record_post_args.add_argument(
-    "name", type=str, help="Name of the record is required", required=True
-)
-record_post_args.add_argument(
-    "description", type=str, help="Optional description of the record"
-)
+class ProgrammingProjectView(MethodView):
+    def post(self) -> ProgrammingProject:
+        data = request.get_json()
+        data["created_at"] = data["updated_at"] = datetime.now(timezone.utc)
 
-record_post_args.add_argument("importance", type=int, help="Optional importance")
-record_post_args.add_argument(
-    "deadline", type=datetime.utcnow, help="Optional deadline"
-)
-record_post_args.add_argument(
-    "used_technologies", type=str, help="Optional technologies used"
-)
-record_post_args.add_argument("extra", type=str, help="Optional extra")
+        try:
+            validated_data = ProgrammingProjectSchema(**data)
+        except ValidationError as e:
+            error_details = e.errors()[0]
+            field = error_details["loc"][0]
+            error_message = error_details["msg"]
+            flask.abort(400, f"Validation error on field '{field}': {error_message}")
 
-record_patch_args = reqparse.RequestParser()
-record_patch_args.add_argument("name", type=str, help="Optional name of record")
-record_patch_args.add_argument(
-    "description", type=str, help="Optional description of the record"
-)
-record_patch_args.add_argument("importance", type=int, help="Optional importance")
-record_patch_args.add_argument(
-    "deadline", type=datetime.utcnow, help="Optional deadline"
-)
-record_patch_args.add_argument(
-    "used_technologies", type=str, help="Optional technologies used"
-)
-record_patch_args.add_argument("extra", type=str, help="Optional extra")
-
-
-class ProgrammingProjectResource(Resource):
-    @marshal_with(resource_fields)
-    def post(self) -> ProgrammingProjectModel:
-        args = record_post_args.parse_args()
-
-        record: ProgrammingProjectModel = ProgrammingProjectModel(
-            name=args["name"],
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-            description=args["description"],
-            importance=args["importance"],
-            deadline=args["deadline"],
-            used_technologies=args["used_technologies"],
-            extra=args["extra"],
+        record = ProgrammingProject(
+            name=validated_data.name,
+            created_at=validated_data.created_at,
+            updated_at=validated_data.updated_at,
+            description=validated_data.description,
+            importance=validated_data.importance,
+            deadline=validated_data.deadline,
+            used_technologies=validated_data.used_technologies,
+            extra=validated_data.extra,
         )
+
         db.session.add(record)
         db.session.commit()
-        return record, 201
 
-    @marshal_with(resource_fields)
-    def get(self, record_id: Optional[int] = None) -> ProgrammingProjectModel:
-        result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
-            id=record_id
-        ).first_or_404(description="Could not find record with that ID...")
-        return result
+        validated_record = ProgrammingProjectSchema.model_validate(record)
+        return validated_record.model_dump(), 201
 
-    @marshal_with(resource_fields)
-    def patch(self, record_id: int) -> ProgrammingProjectModel:
-        # TODO add record_update_args
-        args = record_patch_args.parse_args()
-        result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
-            id=record_id
+    def get(self, id: Optional[int] = None) -> ProgrammingProject:
+        record: ProgrammingProject = ProgrammingProject.query.filter_by(
+            id=id
         ).first_or_404(description="Could not find record with that ID...")
 
-        if args["name"]:
-            result.name = args["name"]
-        if args["description"]:
-            result.description = args["description"]
-        if args["importance"]:
-            result.importance = args["importance"]
-        if args["deadline"]:
-            result.deadline = args["deadline"]
-        if args["used_technologies"]:
-            result.used_technologies = args["used_technologies"]
-        if args["extra"]:
-            result.extra = args["extra"]
+        validated_record = ProgrammingProjectSchema.model_validate(record)
+        return validated_record.model_dump()
 
-        result.updated_at = datetime.utcnow()
+    def patch(self, id: int) -> ProgrammingProject:
+        data = request.get_json()
+
+        record: ProgrammingProject = ProgrammingProject.query.filter_by(
+            id=id
+        ).first_or_404(description="Could not find record with that ID...")
+
+        if data["name"]:
+            record.name = data["name"]
+        if data["description"]:
+            record.description = data["description"]
+        if data["importance"]:
+            record.importance = data["importance"]
+        if data["deadline"]:
+            record.deadline = data["deadline"]
+        if data["used_technologies"]:
+            record.used_technologies = data["used_technologies"]
+        if data["extra"]:
+            record.extra = data["extra"]
+
+        record.updated_at = datetime.now(timezone.utc)
         db.session.commit()
-        return result
 
-    def delete(self, record_id: int) -> str:
-        result: ProgrammingProjectModel = ProgrammingProjectModel.query.filter_by(
-            id=record_id
+        validated_record = ProgrammingProjectSchema.model_validate(record)
+        return validated_record.model_dump()
+
+    def delete(self, id: int) -> str:
+        record: ProgrammingProject = ProgrammingProject.query.filter_by(
+            id=id
         ).first_or_404(description="Could not find record with that ID...")
-        db.session.delete(result)
+        db.session.delete(record)
         db.session.commit()
         return "", 204
 
 
-class ProgrammingProjectListResource(Resource):
-    @marshal_with(resource_fields)
-    def get(self) -> List[ProgrammingProjectModel]:
-        result: List[ProgrammingProjectModel] = ProgrammingProjectModel.query.all()
-        return result
+class ProgrammingProjectListView(MethodView):
+    def get(self) -> List[ProgrammingProject]:
+        records: List[ProgrammingProject] = ProgrammingProject.query.all()
+
+        serialized_records = [
+            ProgrammingProjectSchema.model_validate(record).model_dump()
+            for record in records
+        ]
+        return serialized_records
+
+
+programming_project_view = ProgrammingProjectView.as_view("programming_project_view")
+programming_project_list_view = ProgrammingProjectListView.as_view(
+    "programming_project_list_view"
+)
