@@ -5,7 +5,6 @@ from datetime import datetime
 """
 # ABC
 id 
-category_id
 name
 created_at
 updated_at
@@ -26,7 +25,6 @@ class ProgrammingProjectSchema(ma.Schema):
     class Meta:
         fields = (
             "id",
-            "category_id",
             "name",
             "created_at",
             "updated_at",

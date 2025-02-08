@@ -3,14 +3,12 @@ from flask_restful import Resource, reqparse, fields, marshal_with
 from datetime import datetime
 from src.models.records.record_types.programming_project import ProgrammingProjectModel
 from src import db
-from src.resources.utils import abort_if_category_id_is_invalid
 
 resource_fields = {
     "id": fields.Integer,
     "name": fields.String,
     "created_at": fields.DateTime,
     "updated_at": fields.DateTime,
-    "category_id": fields.Integer,
     "importance": fields.Integer,
     "deadline": fields.DateTime,
     "used_technologies": fields.String,
@@ -24,10 +22,6 @@ record_post_args.add_argument(
 )
 record_post_args.add_argument(
     "description", type=str, help="Optional description of the record"
-)
-
-record_post_args.add_argument(
-    "category_id", type=int, help="ID of associated category is required", required=True
 )
 
 record_post_args.add_argument("importance", type=int, help="Optional importance")
@@ -44,9 +38,6 @@ record_patch_args.add_argument("name", type=str, help="Optional name of record")
 record_patch_args.add_argument(
     "description", type=str, help="Optional description of the record"
 )
-record_patch_args.add_argument(
-    "category_id", type=int, help="ID of associated category is required"
-)
 record_patch_args.add_argument("importance", type=int, help="Optional importance")
 record_patch_args.add_argument(
     "deadline", type=datetime.utcnow, help="Optional deadline"
@@ -62,14 +53,11 @@ class ProgrammingProjectResource(Resource):
     def post(self) -> ProgrammingProjectModel:
         args = record_post_args.parse_args()
 
-        abort_if_category_id_is_invalid(args["category_id"])
-
         record: ProgrammingProjectModel = ProgrammingProjectModel(
             name=args["name"],
             created_at=datetime.utcnow(),
             updated_at=datetime.utcnow(),
             description=args["description"],
-            category_id=args["category_id"],
             importance=args["importance"],
             deadline=args["deadline"],
             used_technologies=args["used_technologies"],
@@ -94,14 +82,10 @@ class ProgrammingProjectResource(Resource):
             id=record_id
         ).first_or_404(description="Could not find record with that ID...")
 
-        abort_if_category_id_is_invalid(args["category_id"])
-
         if args["name"]:
             result.name = args["name"]
         if args["description"]:
             result.description = args["description"]
-        if args["category_id"]:
-            result.category_id = args["category_id"]
         if args["importance"]:
             result.importance = args["importance"]
         if args["deadline"]:
