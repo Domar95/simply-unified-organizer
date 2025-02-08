@@ -22,11 +22,10 @@ export class ProgrammingProjectComponent {
   constructor(
     private recordsApiService: RecordsApiService,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   columns: { key: string; label: string }[] = [
     { key: 'id', label: 'Id' },
-    { key: 'category_id', label: 'Category Id' },
     { key: 'name', label: 'Name' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },

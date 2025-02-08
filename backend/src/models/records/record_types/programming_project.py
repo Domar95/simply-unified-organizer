@@ -1,17 +1,11 @@
 from src.models.records.base_record import BaseRecord
-from src import db, ma
+from src import db
 from datetime import datetime
-
-"""
-# ABC
-id 
-name
-created_at
-updated_at
-"""
+from pydantic import BaseModel
+from typing import Optional
 
 
-class ProgrammingProjectModel(BaseRecord):
+class ProgrammingProject(BaseRecord):
     __tablename__ = "programming_project"
 
     importance = db.Column(db.Integer)
@@ -21,20 +15,17 @@ class ProgrammingProjectModel(BaseRecord):
     extra = db.Column(db.Text)
 
 
-class ProgrammingProjectSchema(ma.Schema):
-    class Meta:
-        fields = (
-            "id",
-            "name",
-            "created_at",
-            "updated_at",
-            "importance",
-            "deadline",
-            "used_technologies",
-            "description",
-            "extra",
-        )
+class ProgrammingProjectSchema(BaseModel):
+    id: Optional[int] = None
+    name: str
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
+    importance: Optional[int] = None
+    deadline: Optional[datetime] = None
+    used_technologies: Optional[str] = None
+    description: Optional[str] = None
+    extra: Optional[str] = None
 
-if __name__ == "__main__":
-    pass
+    class Config:
+        from_attributes = True
