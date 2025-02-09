@@ -41,6 +41,8 @@ export class AddRecordComponent {
         return this.questionService.getKnowledgeRecordQuestions();
       case 'programming-project':
         return this.questionService.getProgrammingProjectQuestions();
+      case 'note':
+        return this.questionService.getNoteQuestions();
       default:
         return [];
     }
@@ -50,6 +52,7 @@ export class AddRecordComponent {
     const categoryTitles: { [key: string]: string } = {
       'programming-project': 'Programming Project',
       knowledge: 'Knowledge',
+      note: 'Note',
     };
 
     return `Add new ${categoryTitles[this.category]} record` || 'Title';
@@ -65,6 +68,11 @@ export class AddRecordComponent {
         return;
       case 'programming-project':
         response = await this.recordsApiService.addProgrammingProject(data);
+        this.notificationService.openSnackBar('Record added successfully!');
+        console.log('Programming project record added:', response);
+        return;
+      case 'note':
+        response = await this.recordsApiService.addNoteRecord(data);
         this.notificationService.openSnackBar('Record added successfully!');
         console.log('Programming project record added:', response);
         return;
