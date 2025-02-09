@@ -105,7 +105,7 @@ class ProgrammingProjectListView(MethodView):
             ProgrammingProjectSchema.model_validate(record).model_dump()
             for record in records
         ]
-        return serialized_records
+        return {"records": serialized_records}
 
 
 programming_project_view = ProgrammingProjectView.as_view("programming_project_view")

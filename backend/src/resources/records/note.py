@@ -102,7 +102,7 @@ class NoteListView(MethodView):
         serialized_records = [
             NoteSchema.model_validate(record).model_dump() for record in records
         ]
-        return serialized_records
+        return {"records": serialized_records}
 
 
 note_view = NoteView.as_view("note_view")
