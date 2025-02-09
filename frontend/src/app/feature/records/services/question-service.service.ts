@@ -9,7 +9,7 @@ import {
 
 @Injectable()
 export class QuestionService {
-  constructor() {}
+  constructor() { }
 
   getKnowledgeRecordQuestions(): QuestionBase<string | number>[] {
     const questions: QuestionBase<string | number>[] = [
@@ -20,32 +20,39 @@ export class QuestionService {
         order: 1,
       }),
 
+      new TextQuestion({
+        key: 'text',
+        label: 'Text',
+        required: true,
+        order: 2,
+      }),
+
       new NumberQuestion({
         key: 'importance',
         label: 'Importance',
         required: false,
-        order: 2,
+        order: 3,
       }),
 
       new TextareaQuestion({
         key: 'domain',
         label: 'Domain',
         required: false,
-        order: 3,
+        order: 4,
       }),
 
       new TextQuestion({
         key: 'link',
         label: 'Link',
         required: false,
-        order: 4,
+        order: 5,
       }),
 
       new TextQuestion({
         key: 'image',
         label: 'Image',
         required: false,
-        order: 5,
+        order: 6,
       }),
     ];
 

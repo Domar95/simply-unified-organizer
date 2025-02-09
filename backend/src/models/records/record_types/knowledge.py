@@ -11,6 +11,7 @@ class Knowledge(BaseModel):
     id: Optional[ObjectId] = Field(None, alias="_id")
     uuid: UUID = Field(default_factory=uuid4)
     name: str
+    text: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 

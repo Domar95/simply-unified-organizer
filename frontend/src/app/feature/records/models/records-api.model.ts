@@ -6,6 +6,7 @@ export interface ProgrammingProjectGetResponse {
   id: number;
   importance: number | null;
   name: string;
+  text: string;
   updated_at: string;
   used_technologies: string | null;
 }
@@ -16,6 +17,7 @@ export interface ProgrammingProjectPostRequest {
   extra?: string;
   importance?: number;
   name: string;
+  text: string;
   used_technologies?: string;
 }
 
@@ -25,12 +27,14 @@ export interface ProgrammingProjectPatchRequest {
   extra?: string;
   importance?: number;
   name?: string;
+  text?: string;
   used_technologies?: string;
 }
 
 export interface KnowledgeApiResponse {
   id: string;
   name: string;
+  text: string;
   created_at: string;
   updated_at: string;
   importance: number;

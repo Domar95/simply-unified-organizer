@@ -27,6 +27,7 @@ export class ProgrammingProjectComponent {
   columns: { key: string; label: string }[] = [
     { key: 'id', label: 'Id' },
     { key: 'name', label: 'Name' },
+    { key: 'text', label: 'Text' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
     { key: 'importance', label: 'Importance' },

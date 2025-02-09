@@ -11,6 +11,7 @@ class BaseRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uuid = db.Column(UUID(as_uuid=True), unique=True, nullable=False, default=uuid4)
     name = db.Column(db.Text, nullable=False)
+    text = db.Column(db.Text)
     created_at = db.Column(
         db.DateTime, nullable=False, default=datetime.now(timezone.utc)
     )

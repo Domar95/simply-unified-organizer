@@ -29,6 +29,7 @@ class ProgrammingProjectView(MethodView):
         record = ProgrammingProject(
             uuid=validated_data.uuid,
             name=validated_data.name,
+            text=validated_data.text,
             created_at=validated_data.created_at,
             updated_at=validated_data.updated_at,
             description=validated_data.description,
@@ -61,6 +62,7 @@ class ProgrammingProjectView(MethodView):
 
         updatable_fields = [
             "name",
+            "text",
             "description",
             "importance",
             "deadline",
