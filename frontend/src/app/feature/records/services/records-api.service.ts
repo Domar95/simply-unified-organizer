@@ -17,7 +17,7 @@ export class RecordsApiService {
 
   constructor(private http: HttpClient) { }
 
-  getProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
+  getProgrammingProject(id: string): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.get<ProgrammingProjectGetResponse>(
         `${this.APIURL}/records/programming-project/${id}`
@@ -45,7 +45,7 @@ export class RecordsApiService {
   }
 
   updateProgrammingProject(
-    id: number,
+    id: string,
     programmingProject: ProgrammingProjectPatchRequest
   ): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
@@ -56,7 +56,7 @@ export class RecordsApiService {
     );
   }
 
-  deleteProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
+  deleteProgrammingProject(id: string): Promise<ProgrammingProjectGetResponse> {
     return lastValueFrom(
       this.http.delete<ProgrammingProjectGetResponse>(
         `${this.APIURL}/records/programming-project/${id}`

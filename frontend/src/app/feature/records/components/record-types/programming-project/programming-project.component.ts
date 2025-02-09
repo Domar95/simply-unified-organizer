@@ -56,7 +56,7 @@ export class ProgrammingProjectComponent {
     await this.loadRecords();
   }
 
-  async handleDelete(id: number) {
+  async handleDelete(id: string) {
     try {
       await this.recordsApiService.deleteProgrammingProject(id);
       this.notificationService.openSnackBar('Record deleted successfully!');
