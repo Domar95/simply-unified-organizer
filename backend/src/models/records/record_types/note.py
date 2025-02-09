@@ -7,17 +7,16 @@ from src.models.records.base_record import BaseRecord
 from src import db
 
 
-class ProgrammingProject(BaseRecord):
-    __tablename__ = "programming_project"
+class Note(BaseRecord):
+    __tablename__ = "note"
 
-    importance = db.Column(db.Integer)
-    deadline = db.Column(db.DateTime)
-    used_technologies = db.Column(db.Text)
     description = db.Column(db.Text)
-    extra = db.Column(db.Text)
+    importance = db.Column(db.Integer)
+    type = db.Column(db.Text)
+    link = db.Column(db.Text)
 
 
-class ProgrammingProjectSchema(BaseModel):
+class NoteSchema(BaseModel):
     id: Optional[int] = None
     uuid: UUID = Field(default_factory=uuid4)
     name: str
@@ -25,11 +24,10 @@ class ProgrammingProjectSchema(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    importance: Optional[int] = None
-    deadline: Optional[datetime] = None
-    used_technologies: Optional[str] = None
     description: Optional[str] = None
-    extra: Optional[str] = None
+    importance: Optional[int] = None
+    type: Optional[str] = None
+    link: Optional[str] = None
 
     class Config:
         from_attributes = True
