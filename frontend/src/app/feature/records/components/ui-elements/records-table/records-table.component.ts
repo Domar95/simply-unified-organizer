@@ -33,8 +33,7 @@ export class RecordsTableComponent {
   @Input() columns!: { key: string; label: string }[];
 
   @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
-  // TODO: update to string once all records are migrated to MongoDB
-  @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   columnKeys: string[] = [];
   state: 'loading' | 'error' = 'loading';
@@ -42,7 +41,7 @@ export class RecordsTableComponent {
 
   dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -80,9 +79,8 @@ export class RecordsTableComponent {
     });
   }
 
-  async deleteRecord(id: string | number) {
-    // TODO: update to string once all records are migrated to MongoDB
-    this.onDelete.emit(id as any);
+  async deleteRecord(uuid: string) {
+    this.onDelete.emit(uuid);
   }
 
   async refreshRecords() {
