@@ -1,44 +1,62 @@
-export interface ProgrammingProjectGetResponse {
+/* Base Records API model */
+interface BaseRecordsApi {
+  id: number;
+  uuid: string;
+  name: string;
+  text: string | null;
   created_at: string;
-  deadline: Date | null;
+  updated_at: string
+}
+
+
+/* Programming Project API models */
+export interface ProgrammingProjectApiResponse extends BaseRecordsApi {
+  deadline: string | null;
   description: string | null;
   extra: string | null;
-  id: number;
   importance: number | null;
-  name: string;
-  updated_at: string;
   used_technologies: string | null;
 }
 
-export interface ProgrammingProjectPostRequest {
-  deadline?: Date; // TODO: check if this is correct
-  description?: string;
-  extra?: string;
-  importance?: number;
-  name: string;
-  used_technologies?: string;
+export type ProgrammingProjectPostRequest = Omit<ProgrammingProjectApiResponse, 'id' | 'uuid' | 'created_at' | 'updated_at'>;
+
+export type ProgrammingProjectPatchRequest = Partial<ProgrammingProjectPostRequest>;
+
+export interface ProgrammingProjectListApiResponse {
+  records: ProgrammingProjectApiResponse[];
 }
 
-export interface ProgrammingProjectPatchRequest {
-  deadline?: Date; // TODO: check if this is correct
-  description?: string;
-  extra?: string;
-  importance?: number;
-  name?: string;
-  used_technologies?: string;
+
+/* Knowledge API models */
+export interface KnowledgeApiResponse extends BaseRecordsApi {
+  // false id type - its string until migrated to postgresql
+  importance: number | null;
+  domain: string | null;
+  link: string | null;
+  image: string | null;
 }
 
-export interface KnowledgeApiResponse {
-  id: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  importance: number;
-  domain: string;
-  link: string;
-  image: string;
-}
+export type KnowledgePostRequest = Omit<KnowledgeApiResponse, 'id' | 'uuid' | 'created_at' | 'updated_at'>;
+
+export type KnowledgePatchRequest = Partial<KnowledgePostRequest>;
 
 export interface KnowledgeListApiResponse {
   records: KnowledgeApiResponse[];
+}
+
+
+/* Note API models */
+export interface NoteApiResponse extends BaseRecordsApi {
+  description: string | null;
+  importance: number | null;
+  type: string | null;
+  link: string | null;
+}
+
+export type NotePostRequest = Omit<NoteApiResponse, 'id' | 'uuid' | 'created_at' | 'updated_at'>;
+
+export type NotePatchRequest = Partial<NotePostRequest>;
+
+export interface NoteListApiResponse {
+  records: NoteApiResponse[];
 }

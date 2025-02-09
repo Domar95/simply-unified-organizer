@@ -3,11 +3,18 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom, map } from 'rxjs';
 
 import {
-  KnowledgeListApiResponse,
   KnowledgeApiResponse,
-  ProgrammingProjectGetResponse,
   ProgrammingProjectPatchRequest,
   ProgrammingProjectPostRequest,
+  ProgrammingProjectApiResponse,
+  KnowledgePostRequest,
+  KnowledgePatchRequest,
+  ProgrammingProjectListApiResponse,
+  KnowledgeListApiResponse,
+  NoteApiResponse,
+  NoteListApiResponse,
+  NotePostRequest,
+  NotePatchRequest,
 } from '@feature/records/models';
 
 @Injectable()
@@ -17,27 +24,28 @@ export class RecordsApiService {
 
   constructor(private http: HttpClient) { }
 
-  getProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
+  /* Programming Project API*/
+  getProgrammingProject(id: string): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
-      this.http.get<ProgrammingProjectGetResponse>(
+      this.http.get<ProgrammingProjectApiResponse>(
         `${this.APIURL}/records/programming-project/${id}`
       )
     );
   }
 
-  getProgrammingProjects(): Promise<ProgrammingProjectGetResponse[]> {
+  getProgrammingProjects(): Promise<ProgrammingProjectApiResponse[]> {
     return lastValueFrom(
-      this.http.get<ProgrammingProjectGetResponse[]>(
+      this.http.get<ProgrammingProjectListApiResponse>(
         `${this.APIURL}/records/programming-project`
-      )
+      ).pipe(map((response) => response.records))
     );
   }
 
   addProgrammingProject(
     programmingProject: ProgrammingProjectPostRequest
-  ): Promise<ProgrammingProjectGetResponse> {
+  ): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
-      this.http.post<ProgrammingProjectGetResponse>(
+      this.http.post<ProgrammingProjectApiResponse>(
         `${this.APIURL}/records/programming-project`,
         programmingProject
       )
@@ -45,25 +53,26 @@ export class RecordsApiService {
   }
 
   updateProgrammingProject(
-    id: number,
+    id: string,
     programmingProject: ProgrammingProjectPatchRequest
-  ): Promise<ProgrammingProjectGetResponse> {
+  ): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
-      this.http.patch<ProgrammingProjectGetResponse>(
+      this.http.patch<ProgrammingProjectApiResponse>(
         `${this.APIURL}/records/programming-project/${id}`,
         programmingProject
       )
     );
   }
 
-  deleteProgrammingProject(id: number): Promise<ProgrammingProjectGetResponse> {
+  deleteProgrammingProject(id: string): Promise<void> {
     return lastValueFrom(
-      this.http.delete<ProgrammingProjectGetResponse>(
+      this.http.delete<void>(
         `${this.APIURL}/records/programming-project/${id}`
       )
     );
   }
 
+  /* Knowledge API*/
   getKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.get<KnowledgeApiResponse>(
@@ -83,7 +92,7 @@ export class RecordsApiService {
   }
 
   addKnowledgeRecord(
-    programmingProject: KnowledgeApiResponse
+    programmingProject: KnowledgePostRequest
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.post<KnowledgeApiResponse>(
@@ -95,7 +104,7 @@ export class RecordsApiService {
 
   updateKnowledgeRecord(
     id: string,
-    programmingProject: KnowledgeApiResponse
+    programmingProject: KnowledgePatchRequest
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.patch<KnowledgeApiResponse>(
@@ -105,10 +114,61 @@ export class RecordsApiService {
     );
   }
 
-  deleteKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
+  deleteKnowledgeRecord(id: string): Promise<void> {
     return lastValueFrom(
-      this.http.delete<KnowledgeApiResponse>(
+      this.http.delete<void>(
         `${this.APIURL}/records/knowledge/${id}`
+      )
+    );
+  }
+
+
+  /* Note API*/
+  getNoteRecord(id: string): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.get<NoteApiResponse>(
+        `${this.APIURL}/records/note/${id}`
+      )
+    );
+  }
+
+  getNoteRecords(): Promise<NoteApiResponse[]> {
+    return lastValueFrom(
+      this.http
+        .get<NoteListApiResponse>(
+          `${this.APIURL}/records/note`
+        )
+        .pipe(map((response) => response.records))
+    );
+  }
+
+  addNoteRecord(
+    note: NotePostRequest
+  ): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.post<NoteApiResponse>(
+        `${this.APIURL}/records/note`,
+        note
+      )
+    );
+  }
+
+  updateNoteRecord(
+    id: string,
+    note: NotePatchRequest
+  ): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.patch<NoteApiResponse>(
+        `${this.APIURL}/records/note/${id}`,
+        note
+      )
+    );
+  }
+
+  deleteNoteRecord(id: string): Promise<void> {
+    return lastValueFrom(
+      this.http.delete<void>(
+        `${this.APIURL}/records/note/${id}`
       )
     );
   }

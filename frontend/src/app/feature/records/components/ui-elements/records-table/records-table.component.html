@@ -1,7 +1,4 @@
-
-<button
-  mat-raised-button
-  (click)="refreshRecords()">
+<button mat-raised-button (click)="refreshRecords()">
   <mat-icon>refresh</mat-icon> Refresh
 </button>
 <button mat-raised-button (click)="addRecord()">
@@ -17,12 +14,10 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let record">
-      <button
-        mat-raised-button
-        [disabled]="!dataSource.data.length"
-        (click)="deleteRecord(record.id)">
+      <button mat-raised-button [disabled]="!dataSource.data.length" (click)="deleteRecord(record.uuid)">
         <mat-icon>delete</mat-icon> Delete
-      </button> </td>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnKeys"></tr>
@@ -32,4 +27,3 @@
     <td class="mat-cell no-data-message" [attr.colspan]="columns.length + 1">{{noDataMessage}}.</td>
   </tr>
 </table>
-  

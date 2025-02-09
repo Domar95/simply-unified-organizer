@@ -1,23 +1,24 @@
 import { Component } from '@angular/core';
+
+import { RecordsTableComponent } from '@feature/records/components';
+import { NoteApiResponse } from '@feature/records/models';
+import { RecordsApiService } from '@feature/records/services';
+import { NotificationService } from '@shared/services/notification.service';
 import { Subject } from 'rxjs';
 
-import { ProgrammingProjectApiResponse } from '@feature/records/models';
-import { RecordsApiService } from '@feature/records/services';
-import { RecordsTableComponent } from '@feature/records/components';
-import { NotificationService } from '@shared/services/notification.service';
-
 @Component({
-  selector: 'suo-programming-project',
+  selector: 'suo-note',
   standalone: true,
   imports: [RecordsTableComponent],
   providers: [RecordsApiService],
-  templateUrl: './programming-project.component.html',
-  styleUrl: './programming-project.component.scss',
+  templateUrl: './note.component.html',
+  styleUrl: './note.component.scss'
 })
-export class ProgrammingProjectComponent {
-  data: ProgrammingProjectApiResponse[] = [];
-  records$: Subject<ProgrammingProjectApiResponse[] | 'loading' | 'error'> =
-    new Subject<ProgrammingProjectApiResponse[] | 'loading' | 'error'>();
+export class NoteComponent {
+  data: NoteApiResponse[] = [];
+  records$: Subject<NoteApiResponse[] | 'loading' | 'error'> = new Subject<
+    NoteApiResponse[] | 'loading' | 'error'
+  >();
 
   constructor(
     private recordsApiService: RecordsApiService,
@@ -30,22 +31,21 @@ export class ProgrammingProjectComponent {
     { key: 'text', label: 'Text' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
-    { key: 'importance', label: 'Importance' },
-    { key: 'deadline', label: 'Deadline' },
-    { key: 'used_technologies', label: 'Used Technologies' },
     { key: 'description', label: 'Description' },
-    { key: 'extra', label: 'Extra' },
+    { key: 'importance', label: 'Importance' },
+    { key: 'type', label: 'Type' },
+    { key: 'link', label: 'Link' },
   ];
 
   async ngOnInit(): Promise<void> {
     await this.loadRecords();
   }
 
-  async loadRecords() {
+  async loadRecords(): Promise<void> {
     this.records$.next('loading');
     try {
-      const records: ProgrammingProjectApiResponse[] =
-        await this.recordsApiService.getProgrammingProjects();
+      const records: NoteApiResponse[] =
+        await this.recordsApiService.getNoteRecords();
       this.records$.next(records);
     } catch (error) {
       console.error('Error loading records:', error);
@@ -53,13 +53,13 @@ export class ProgrammingProjectComponent {
     }
   }
 
-  async handleRefresh() {
+  async handleRefresh(): Promise<void> {
     await this.loadRecords();
   }
 
   async handleDelete(id: string) {
     try {
-      await this.recordsApiService.deleteProgrammingProject(id);
+      await this.recordsApiService.deleteNoteRecord(id);
       this.notificationService.openSnackBar('Record deleted successfully!');
     } catch (error) {
       this.notificationService.openSnackBar(

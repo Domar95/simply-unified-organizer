@@ -19,6 +19,10 @@ export class RecordsComponent {
       label: 'Knowledge',
       route: 'knowledge',
     },
+    {
+      label: 'Note',
+      route: 'note',
+    },
   ];
   activeLink = this.tabs[0];
 }

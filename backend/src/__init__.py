@@ -75,3 +75,21 @@ def add_resources(app: Flask) -> None:
         view_func=knowledge_list_view,
         methods=["GET"],
     )
+
+    from src.resources.records.note import note_view, note_list_view
+
+    app.add_url_rule(
+        "/records/note/<string:uuid>",
+        view_func=note_view,
+        methods=["GET", "PUT", "DELETE"],
+    )
+    app.add_url_rule(
+        "/records/note",
+        view_func=note_view,
+        methods=["POST"],
+    )
+    app.add_url_rule(
+        "/records/note",
+        view_func=note_list_view,
+        methods=["GET"],
+    )

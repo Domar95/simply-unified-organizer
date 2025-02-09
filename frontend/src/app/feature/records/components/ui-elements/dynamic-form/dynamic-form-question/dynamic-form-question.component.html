@@ -4,20 +4,17 @@
     @switch (question.controlType) { @case ('text') {
     <input matInput [formControlName]="question.key" [id]="question.key" />
     } @case ('textarea') {
-    <textarea
-      matInput
-      [formControlName]="question.key"
-      [id]="question.key"
-    ></textarea>
+    <textarea matInput [formControlName]="question.key" [id]="question.key"></textarea>
     } @case ('number') {
-    <input
-      matInput
-      [formControlName]="question.key"
-      [id]="question.key"
-      type="number"
-      min="0"
-      max="10"
-    />
-    } }
+    <input matInput [formControlName]="question.key" [id]="question.key" type="number" min="0" max="10" />
+    }
+    @case ('date') {
+    <ng-container>
+      <input matInput [matDatepicker]="picker" [formControlName]="question.key">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </ng-container>
+    }
+    }
   </mat-form-field>
 </div>
