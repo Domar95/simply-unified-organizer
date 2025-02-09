@@ -36,7 +36,7 @@ export class RecordsTableComponent {
   @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   columnKeys: string[] = [];
-  state: 'loading' | 'error' = 'loading';
+  state: 'loading' | 'error' | 'loaded' = 'loading';
   private recordsSubscription!: Subscription;
 
   dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
@@ -55,6 +55,7 @@ export class RecordsTableComponent {
           return;
         }
         this.dataSource.data = records;
+        this.state = 'loaded'
       }
     );
   }
