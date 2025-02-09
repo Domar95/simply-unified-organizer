@@ -52,7 +52,7 @@ export class AddRecordComponent {
       knowledge: 'Knowledge',
     };
 
-    return categoryTitles[this.category] || 'Title';
+    return `Add new ${categoryTitles[this.category]} record` || 'Title';
   }
 
   async onFormSubmitted(data: any): Promise<void> {
