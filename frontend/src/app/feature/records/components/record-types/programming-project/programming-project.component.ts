@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { ProgrammingProjectGetResponse } from '@feature/records/models';
+import { ProgrammingProjectApiResponse } from '@feature/records/models';
 import { RecordsApiService } from '@feature/records/services';
 import { RecordsTableComponent } from '@feature/records/components';
 import { NotificationService } from '@shared/services/notification.service';
@@ -15,9 +15,9 @@ import { NotificationService } from '@shared/services/notification.service';
   styleUrl: './programming-project.component.scss',
 })
 export class ProgrammingProjectComponent {
-  data: ProgrammingProjectGetResponse[] = [];
-  records$: Subject<ProgrammingProjectGetResponse[] | 'loading' | 'error'> =
-    new Subject<ProgrammingProjectGetResponse[] | 'loading' | 'error'>();
+  data: ProgrammingProjectApiResponse[] = [];
+  records$: Subject<ProgrammingProjectApiResponse[] | 'loading' | 'error'> =
+    new Subject<ProgrammingProjectApiResponse[] | 'loading' | 'error'>();
 
   constructor(
     private recordsApiService: RecordsApiService,
@@ -44,7 +44,7 @@ export class ProgrammingProjectComponent {
   async loadRecords() {
     this.records$.next('loading');
     try {
-      const records: ProgrammingProjectGetResponse[] =
+      const records: ProgrammingProjectApiResponse[] =
         await this.recordsApiService.getProgrammingProjects();
       this.records$.next(records);
     } catch (error) {
