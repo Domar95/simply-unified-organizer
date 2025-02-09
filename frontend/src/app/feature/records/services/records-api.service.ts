@@ -11,6 +11,10 @@ import {
   KnowledgePatchRequest,
   ProgrammingProjectListApiResponse,
   KnowledgeListApiResponse,
+  NoteApiResponse,
+  NoteListApiResponse,
+  NotePostRequest,
+  NotePatchRequest,
 } from '@feature/records/models';
 
 @Injectable()
@@ -20,6 +24,7 @@ export class RecordsApiService {
 
   constructor(private http: HttpClient) { }
 
+  /* Programming Project API*/
   getProgrammingProject(id: string): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
       this.http.get<ProgrammingProjectApiResponse>(
@@ -67,6 +72,7 @@ export class RecordsApiService {
     );
   }
 
+  /* Knowledge API*/
   getKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.get<KnowledgeApiResponse>(
@@ -112,6 +118,57 @@ export class RecordsApiService {
     return lastValueFrom(
       this.http.delete<void>(
         `${this.APIURL}/records/knowledge/${id}`
+      )
+    );
+  }
+
+
+  /* Note API*/
+  getNoteRecord(id: string): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.get<NoteApiResponse>(
+        `${this.APIURL}/records/note/${id}`
+      )
+    );
+  }
+
+  getNoteRecords(): Promise<NoteApiResponse[]> {
+    return lastValueFrom(
+      this.http
+        .get<NoteListApiResponse>(
+          `${this.APIURL}/records/note`
+        )
+        .pipe(map((response) => response.records))
+    );
+  }
+
+  addNoteRecord(
+    note: NotePostRequest
+  ): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.post<NoteApiResponse>(
+        `${this.APIURL}/records/note`,
+        note
+      )
+    );
+  }
+
+  updateNoteRecord(
+    id: string,
+    note: NotePatchRequest
+  ): Promise<NoteApiResponse> {
+    return lastValueFrom(
+      this.http.patch<NoteApiResponse>(
+        `${this.APIURL}/records/note/${id}`,
+        note
+      )
+    );
+  }
+
+  deleteNoteRecord(id: string): Promise<void> {
+    return lastValueFrom(
+      this.http.delete<void>(
+        `${this.APIURL}/records/note/${id}`
       )
     );
   }

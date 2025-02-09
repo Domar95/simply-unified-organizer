@@ -8,6 +8,7 @@ interface BaseRecordsApi {
   updated_at: string
 }
 
+
 /* Programming Project API models */
 export interface ProgrammingProjectApiResponse extends BaseRecordsApi {
   deadline: string | null;
@@ -25,6 +26,7 @@ export interface ProgrammingProjectListApiResponse {
   records: ProgrammingProjectApiResponse[];
 }
 
+
 /* Knowledge API models */
 export interface KnowledgeApiResponse extends BaseRecordsApi {
   // false id type - its string until migrated to postgresql
@@ -40,4 +42,21 @@ export type KnowledgePatchRequest = Partial<KnowledgePostRequest>;
 
 export interface KnowledgeListApiResponse {
   records: KnowledgeApiResponse[];
+}
+
+
+/* Note API models */
+export interface NoteApiResponse extends BaseRecordsApi {
+  description: string | null;
+  importance: number | null;
+  type: string | null;
+  link: string | null;
+}
+
+export type NotePostRequest = Omit<NoteApiResponse, 'id' | 'uuid' | 'created_at' | 'updated_at'>;
+
+export type NotePatchRequest = Partial<NotePostRequest>;
+
+export interface NoteListApiResponse {
+  records: NoteApiResponse[];
 }
