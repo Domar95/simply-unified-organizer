@@ -6,6 +6,7 @@ import { DynamicFormComponent } from '@feature/records/components/ui-elements/dy
 import { QuestionBase } from '@feature/records/models';
 import { QuestionService } from '@feature/records/services/question-service.service';
 import { RecordsApiService } from '@feature/records/services';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'suo-add-record',
@@ -23,7 +24,9 @@ export class AddRecordComponent {
   constructor(
     private route: ActivatedRoute,
     private questionService: QuestionService,
-    private recordsApiService: RecordsApiService
+    private recordsApiService: RecordsApiService,
+    private notificationService: NotificationService
+
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +56,17 @@ export class AddRecordComponent {
   }
 
   async onFormSubmitted(data: any): Promise<void> {
+    let response: any;
     switch (this.category) {
       case 'knowledge':
-        const response = await this.recordsApiService.addKnowledgeRecord(data);
+        response = await this.recordsApiService.addKnowledgeRecord(data);
+        this.notificationService.openSnackBar('Record added successfully!');
         console.log('Knowledge record added:', response);
         return;
       case 'programming-project':
+        response = await this.recordsApiService.addProgrammingProject(data);
+        this.notificationService.openSnackBar('Record added successfully!');
+        console.log('Programming project record added:', response);
         return;
       default:
         return;

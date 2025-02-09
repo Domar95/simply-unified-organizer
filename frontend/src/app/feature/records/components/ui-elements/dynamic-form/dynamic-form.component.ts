@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 import { QuestionBase } from '@feature/records/models';
 import { QuestionControlService } from '@feature/records/services/question-control.service';
@@ -22,7 +23,8 @@ export class DynamicFormComponent implements OnInit {
   form!: FormGroup;
   payLoad = '';
 
-  constructor(private questionControlService: QuestionControlService) {}
+  constructor(private questionControlService: QuestionControlService, private router: Router,
+  ) { }
 
   ngOnInit() {
     this.form = this.questionControlService.toFormGroup(
@@ -33,9 +35,12 @@ export class DynamicFormComponent implements OnInit {
   onSubmit() {
     this.payLoad = JSON.stringify(this.form.getRawValue());
     this.formSubmitted.emit(this.form.getRawValue());
+    this.form.reset();
   }
 
   onCancel() {
-    console.log('cancelled');
+    this.form.reset();
+    // TODO: extract logic to parent component
+    this.router.navigate(['/records']);
   }
 }

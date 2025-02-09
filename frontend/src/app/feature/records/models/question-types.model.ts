@@ -11,3 +11,7 @@ export class TextareaQuestion extends QuestionBase<string> {
 export class NumberQuestion extends QuestionBase<number> {
   override controlType = 'number';
 }
+
+export class DateQuestion extends QuestionBase<Date> {
+  override controlType = 'date';
+}

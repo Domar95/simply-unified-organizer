@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { QuestionBase } from '@feature/records/models/question-base.model';
 import {
+  DateQuestion,
   NumberQuestion,
   TextareaQuestion,
   TextQuestion,
@@ -23,7 +24,7 @@ export class QuestionService {
       new TextQuestion({
         key: 'text',
         label: 'Text',
-        required: true,
+        required: false,
         order: 2,
       }),
 
@@ -60,7 +61,58 @@ export class QuestionService {
   }
 
   getProgrammingProjectQuestions(): QuestionBase<unknown>[] {
-    // TODO: implement
-    return [];
+    const questions: QuestionBase<string | number | Date>[] = [
+      new TextQuestion({
+        key: 'name',
+        label: 'Name',
+        required: true,
+        order: 1,
+      }),
+
+      new TextQuestion({
+        key: 'text',
+        label: 'Text',
+        required: false,
+        order: 2,
+      }),
+
+      new NumberQuestion({
+        key: 'importance',
+        label: 'Importance',
+        required: false,
+        order: 3,
+      }),
+
+      new DateQuestion({
+        key: 'deadline',
+        label: 'Deadline',
+        required: false,
+        order: 4,
+      }),
+
+      new TextQuestion({
+        key: 'used_technologies',
+        label: 'Used Technologies',
+        required: false,
+        order: 5,
+      }),
+
+      new TextareaQuestion({
+        key: 'description',
+        label: 'Description',
+        required: false,
+        order: 6,
+      }),
+
+      new TextareaQuestion({
+        key: 'extra',
+        label: 'Extra',
+        required: false,
+        order: 7,
+      }),
+    ];
+
+    return questions.sort((a, b) => a.order - b.order);
   }
 }
+
