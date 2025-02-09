@@ -79,7 +79,7 @@ def add_resources(app: Flask) -> None:
     from src.resources.records.note import note_view, note_list_view
 
     app.add_url_rule(
-        "/records/note/<string:id>",
+        "/records/note/<string:uuid>",
         view_func=note_view,
         methods=["GET", "PUT", "DELETE"],
     )
