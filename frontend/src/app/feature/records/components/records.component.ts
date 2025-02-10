@@ -3,11 +3,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'suo-records',
-  standalone: true,
-  imports: [MatTabsModule, RouterModule],
-  templateUrl: './records.component.html',
-  styleUrls: ['./records.component.scss'],
+    selector: 'suo-records',
+    imports: [MatTabsModule, RouterModule],
+    templateUrl: './records.component.html',
+    styleUrls: ['./records.component.scss']
 })
 export class RecordsComponent {
   tabs = [

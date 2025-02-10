@@ -7,12 +7,11 @@ import { RecordsTableComponent } from '@feature/records/components';
 import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
-  selector: 'suo-knowledge',
-  standalone: true,
-  imports: [RecordsTableComponent],
-  providers: [RecordsApiService],
-  templateUrl: './knowledge.component.html',
-  styleUrl: './knowledge.component.scss',
+    selector: 'suo-knowledge',
+    imports: [RecordsTableComponent],
+    providers: [RecordsApiService],
+    templateUrl: './knowledge.component.html',
+    styleUrl: './knowledge.component.scss'
 })
 export class KnowledgeComponent {
   data: KnowledgeApiResponse[] = [];

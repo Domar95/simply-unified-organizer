@@ -9,12 +9,11 @@ import { RecordsApiService } from '@feature/records/services';
 import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
-  selector: 'suo-add-record',
-  standalone: true,
-  providers: [QuestionService, RecordsApiService],
-  imports: [DynamicFormComponent, MatCardModule],
-  templateUrl: './add-record.component.html',
-  styleUrl: './add-record.component.scss',
+    selector: 'suo-add-record',
+    providers: [QuestionService, RecordsApiService],
+    imports: [DynamicFormComponent, MatCardModule],
+    templateUrl: './add-record.component.html',
+    styleUrl: './add-record.component.scss'
 })
 export class AddRecordComponent {
   questions!: QuestionBase<any>[];

@@ -7,12 +7,11 @@ import { NotificationService } from '@shared/services/notification.service';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'suo-note',
-  standalone: true,
-  imports: [RecordsTableComponent],
-  providers: [RecordsApiService],
-  templateUrl: './note.component.html',
-  styleUrl: './note.component.scss'
+    selector: 'suo-note',
+    imports: [RecordsTableComponent],
+    providers: [RecordsApiService],
+    templateUrl: './note.component.html',
+    styleUrl: './note.component.scss'
 })
 export class NoteComponent {
   data: NoteApiResponse[] = [];
