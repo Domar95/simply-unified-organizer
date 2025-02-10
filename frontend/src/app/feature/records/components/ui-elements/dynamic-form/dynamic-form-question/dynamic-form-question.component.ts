@@ -8,19 +8,18 @@ import { MatInputModule } from '@angular/material/input';
 import { QuestionBase } from '@feature/records/models';
 
 @Component({
-  selector: 'suo-dynamic-form-question',
-  standalone: true,
-  providers: [
-    provideNativeDateAdapter(),
-  ],
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-  ],
-  templateUrl: './dynamic-form-question.component.html',
-  styleUrl: './dynamic-form-question.component.scss',
+    selector: 'suo-dynamic-form-question',
+    providers: [
+        provideNativeDateAdapter(),
+    ],
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+    ],
+    templateUrl: './dynamic-form-question.component.html',
+    styleUrl: './dynamic-form-question.component.scss'
 })
 export class DynamicFormQuestionComponent {
   @Input() question!: QuestionBase<string>;

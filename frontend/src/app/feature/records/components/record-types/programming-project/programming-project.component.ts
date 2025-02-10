@@ -7,12 +7,11 @@ import { RecordsTableComponent } from '@feature/records/components';
 import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
-  selector: 'suo-programming-project',
-  standalone: true,
-  imports: [RecordsTableComponent],
-  providers: [RecordsApiService],
-  templateUrl: './programming-project.component.html',
-  styleUrl: './programming-project.component.scss',
+    selector: 'suo-programming-project',
+    imports: [RecordsTableComponent],
+    providers: [RecordsApiService],
+    templateUrl: './programming-project.component.html',
+    styleUrl: './programming-project.component.scss'
 })
 export class ProgrammingProjectComponent {
   data: ProgrammingProjectApiResponse[] = [];
