@@ -16,16 +16,16 @@ import { Observable, Subscription } from 'rxjs';
 import { RecordsTableData } from '@feature/records/models/records-table.model';
 
 @Component({
-    selector: 'suo-records-table',
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatButtonModule,
-        MatSortModule,
-        MatIconModule,
-    ],
-    templateUrl: './records-table.component.html',
-    styleUrl: './records-table.component.scss'
+  selector: 'suo-records-table',
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSortModule,
+    MatIconModule,
+  ],
+  templateUrl: './records-table.component.html',
+  styleUrl: './records-table.component.scss'
 })
 export class RecordsTableComponent {
   @Input({ required: true }) records$!: Observable<RecordsTableData>;
@@ -85,6 +85,12 @@ export class RecordsTableComponent {
 
   async refreshRecords() {
     this.onRefresh.emit();
+  }
+
+  editRecord(uuid: string) {
+    this.router.navigate(['edit', uuid], {
+      relativeTo: this.route,
+    });
   }
 
   get noDataMessage(): string {

@@ -8,14 +8,14 @@ import { QuestionControlService } from '@feature/records/services/question-contr
 import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-form-question.component';
 
 @Component({
-    selector: 'suo-dynamic-form',
-    providers: [QuestionControlService],
-    imports: [ReactiveFormsModule, DynamicFormQuestionComponent, MatButtonModule],
-    templateUrl: './dynamic-form.component.html',
-    styleUrl: './dynamic-form.component.scss'
+  selector: 'suo-dynamic-form',
+  providers: [QuestionControlService],
+  imports: [ReactiveFormsModule, DynamicFormQuestionComponent, MatButtonModule],
+  templateUrl: './dynamic-form.component.html',
+  styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() questions: QuestionBase<string>[] | null = [];
+  @Input() questions: QuestionBase<string | number | Date>[] = [];
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,7 +27,7 @@ export class DynamicFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.questionControlService.toFormGroup(
-      this.questions as QuestionBase<string>[]
+      this.questions
     );
   }
 
