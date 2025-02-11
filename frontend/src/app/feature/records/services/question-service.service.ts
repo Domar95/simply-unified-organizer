@@ -8,7 +8,9 @@ import {
   TextQuestion,
 } from '../models/question-types.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class QuestionService {
   constructor() { }
 
