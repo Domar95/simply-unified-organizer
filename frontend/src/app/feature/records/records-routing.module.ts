@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RecordsComponent } from './components/records.component';
 import { KnowledgeComponent, NoteComponent, ProgrammingProjectComponent } from './components';
-import { AddRecordComponent } from './pages';
+import { AddRecordComponent, EditRecordPageComponent } from './pages';
 
 // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
 const routes: Routes = [
@@ -22,6 +22,8 @@ const routes: Routes = [
         component: NoteComponent,
       },
       { path: ':category/new', component: AddRecordComponent },
+      { path: ':category/edit/:id', component: EditRecordPageComponent },
+
     ],
   },
 ];
