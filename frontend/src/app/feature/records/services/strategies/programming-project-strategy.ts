@@ -1,28 +1,44 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { ProgrammingProjectApiResponse, ProgrammingProjectPostRequest, QuestionBase } from "@feature/records/models";
-import { RecordsApiService } from "../records-api.service";
-import { RecordStrategy } from "./record-strategy.interface";
-import { QuestionService } from "../question-service.service";
-
+import {
+  ProgrammingProjectApiResponse,
+  ProgrammingProjectPatchRequest,
+  ProgrammingProjectPostRequest,
+  QuestionBase,
+} from '@feature/records/models';
+import { RecordsApiService } from '../records-api.service';
+import { RecordStrategy } from './record-strategy.interface';
+import { QuestionService } from '../question-service.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProgrammingProjectStrategy implements RecordStrategy {
-  constructor(private recordsApiService: RecordsApiService, private questionService: QuestionService
-  ) { }
+  constructor(
+    private recordsApiService: RecordsApiService,
+    private questionService: QuestionService
+  ) {}
 
   getRecord(id: string): Promise<ProgrammingProjectApiResponse> {
     return this.recordsApiService.getProgrammingProject(id);
   }
 
-  addRecord(data: ProgrammingProjectPostRequest): Promise<ProgrammingProjectApiResponse> {
+  addRecord(
+    data: ProgrammingProjectPostRequest
+  ): Promise<ProgrammingProjectApiResponse> {
     return this.recordsApiService.addProgrammingProject(data);
   }
 
-  getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[] {
-    return this.questionService.getProgrammingProjectQuestions(initialValues)
+  updateRecord(
+    id: string,
+    data: ProgrammingProjectPatchRequest
+  ): Promise<ProgrammingProjectApiResponse> {
+    return this.recordsApiService.updateProgrammingProject(id, data);
   }
 
+  getQuestions(
+    initialValues?: Record<string, string | number>
+  ): QuestionBase<string | number | Date>[] {
+    return this.questionService.getProgrammingProjectQuestions(initialValues);
+  }
 }
