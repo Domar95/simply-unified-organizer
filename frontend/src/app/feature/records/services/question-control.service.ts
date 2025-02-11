@@ -5,7 +5,7 @@ import { QuestionBase } from '@feature/records/models/question-base.model';
 
 @Injectable()
 export class QuestionControlService {
-  toFormGroup(questions: QuestionBase<string>[]) {
+  toFormGroup(questions: QuestionBase<string | number | Date>[]) {
     const group: any = {};
     questions.forEach((question) => {
       group[question.key] = question.required

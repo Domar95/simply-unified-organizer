@@ -60,7 +60,7 @@ export class QuestionService {
     return questions.sort((a, b) => a.order - b.order);
   }
 
-  getProgrammingProjectQuestions(): QuestionBase<unknown>[] {
+  getProgrammingProjectQuestions(): QuestionBase<string | number | Date>[] {
     const questions: QuestionBase<string | number | Date>[] = [
       new TextQuestion({
         key: 'name',
@@ -115,7 +115,7 @@ export class QuestionService {
     return questions.sort((a, b) => a.order - b.order);
   }
 
-  getNoteQuestions(): QuestionBase<unknown>[] {
+  getNoteQuestions(): QuestionBase<string | number>[] {
     const questions: QuestionBase<string | number>[] = [
       new TextQuestion({
         key: 'name',
