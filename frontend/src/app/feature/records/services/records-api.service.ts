@@ -17,7 +17,9 @@ import {
   NotePatchRequest,
 } from '@feature/records/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RecordsApiService {
   // need to update different envs in config later on
   readonly APIURL = 'http://127.0.0.1:5000';
