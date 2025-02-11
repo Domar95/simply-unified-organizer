@@ -18,7 +18,7 @@ export class NoteStrategy implements RecordStrategy {
     return this.recordsApiService.getNoteRecord(id);
   }
 
-  getQuestions(): QuestionBase<string | number | Date>[] {
-    return this.questionService.getNoteQuestions()
+  getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[] {
+    return this.questionService.getNoteQuestions(initialValues)
   }
 }

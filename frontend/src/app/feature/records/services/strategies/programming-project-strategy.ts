@@ -17,8 +17,8 @@ export class ProgrammingProjectStrategy implements RecordStrategy {
     return this.recordsApiService.getProgrammingProject(id);
   }
 
-  getQuestions(): QuestionBase<string | number | Date>[] {
-    return this.questionService.getProgrammingProjectQuestions()
+  getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[] {
+    return this.questionService.getProgrammingProjectQuestions(initialValues)
   }
 
 }

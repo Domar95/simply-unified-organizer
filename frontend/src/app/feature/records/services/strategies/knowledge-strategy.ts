@@ -18,7 +18,7 @@ export class KnowledgeStrategy implements RecordStrategy {
     return this.recordsApiService.getKnowledgeRecord(id);
   }
 
-  getQuestions(): QuestionBase<string | number>[] {
-    return this.questionService.getKnowledgeRecordQuestions()
+  getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number>[] {
+    return this.questionService.getKnowledgeRecordQuestions(initialValues)
   }
 }

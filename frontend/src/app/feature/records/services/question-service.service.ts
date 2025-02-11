@@ -14,13 +14,14 @@ import {
 export class QuestionService {
   constructor() { }
 
-  getKnowledgeRecordQuestions(): QuestionBase<string | number>[] {
+  getKnowledgeRecordQuestions(initialValues: Record<string, string | number> = {}): QuestionBase<string | number>[] {
     const questions: QuestionBase<string | number>[] = [
       new TextQuestion({
         key: 'name',
         label: 'Name',
         required: true,
         order: 1,
+        value: initialValues['name'] as string
       }),
 
       new TextQuestion({
@@ -28,6 +29,7 @@ export class QuestionService {
         label: 'Text',
         required: false,
         order: 2,
+        value: initialValues['text'] as string
       }),
 
       new NumberQuestion({
@@ -35,6 +37,7 @@ export class QuestionService {
         label: 'Importance',
         required: false,
         order: 3,
+        value: initialValues['importance'] as number
       }),
 
       new TextareaQuestion({
@@ -42,6 +45,7 @@ export class QuestionService {
         label: 'Domain',
         required: false,
         order: 4,
+        value: initialValues['domain'] as string
       }),
 
       new TextQuestion({
@@ -49,6 +53,7 @@ export class QuestionService {
         label: 'Link',
         required: false,
         order: 5,
+        value: initialValues['link'] as string
       }),
 
       new TextQuestion({
@@ -56,19 +61,21 @@ export class QuestionService {
         label: 'Image',
         required: false,
         order: 6,
+        value: initialValues['image'] as string
       }),
     ];
 
     return questions.sort((a, b) => a.order - b.order);
   }
 
-  getProgrammingProjectQuestions(): QuestionBase<string | number | Date>[] {
+  getProgrammingProjectQuestions(initialValues: Record<string, string | number> = {}): QuestionBase<string | number | Date>[] {
     const questions: QuestionBase<string | number | Date>[] = [
       new TextQuestion({
         key: 'name',
         label: 'Name',
         required: true,
         order: 1,
+        value: initialValues['name'] as string
       }),
 
       new TextQuestion({
@@ -76,6 +83,7 @@ export class QuestionService {
         label: 'Text',
         required: false,
         order: 2,
+        value: initialValues['text'] as string
       }),
 
       new NumberQuestion({
@@ -83,6 +91,7 @@ export class QuestionService {
         label: 'Importance',
         required: false,
         order: 3,
+        value: initialValues['importance'] as number
       }),
 
       new DateQuestion({
@@ -90,6 +99,7 @@ export class QuestionService {
         label: 'Deadline',
         required: false,
         order: 4,
+        value: initialValues['deadline'] ? new Date(initialValues['deadline']) : undefined
       }),
 
       new TextQuestion({
@@ -97,6 +107,7 @@ export class QuestionService {
         label: 'Used Technologies',
         required: false,
         order: 5,
+        value: initialValues['used_technologies'] as string
       }),
 
       new TextareaQuestion({
@@ -104,6 +115,7 @@ export class QuestionService {
         label: 'Description',
         required: false,
         order: 6,
+        value: initialValues['description'] as string
       }),
 
       new TextareaQuestion({
@@ -111,19 +123,21 @@ export class QuestionService {
         label: 'Extra',
         required: false,
         order: 7,
+        value: initialValues['extra'] as string
       }),
     ];
 
     return questions.sort((a, b) => a.order - b.order);
   }
 
-  getNoteQuestions(): QuestionBase<string | number>[] {
+  getNoteQuestions(initialValues: Record<string, string | number> = {}): QuestionBase<string | number>[] {
     const questions: QuestionBase<string | number>[] = [
       new TextQuestion({
         key: 'name',
         label: 'Name',
         required: true,
         order: 1,
+        value: initialValues['name'] as string
       }),
 
       new TextQuestion({
@@ -131,6 +145,7 @@ export class QuestionService {
         label: 'Text',
         required: false,
         order: 2,
+        value: initialValues['text'] as string
       }),
 
       new TextareaQuestion({
@@ -138,6 +153,7 @@ export class QuestionService {
         label: 'Description',
         required: false,
         order: 3,
+        value: initialValues['description'] as string
       }),
 
       new NumberQuestion({
@@ -145,6 +161,7 @@ export class QuestionService {
         label: 'Importance',
         required: false,
         order: 4,
+        value: initialValues['importance'] as number
       }),
 
       new TextQuestion({
@@ -152,6 +169,7 @@ export class QuestionService {
         label: 'Type',
         required: false,
         order: 5,
+        value: initialValues['type'] as string
       }),
 
       new TextQuestion({
@@ -159,6 +177,7 @@ export class QuestionService {
         label: 'Link',
         required: false,
         order: 6,
+        value: initialValues['link'] as string
       }),
     ];
 

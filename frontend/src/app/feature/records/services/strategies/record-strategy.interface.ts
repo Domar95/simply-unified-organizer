@@ -1,9 +1,9 @@
-import { QuestionBase } from "@feature/records/models";
+import { KnowledgeApiResponse, NoteApiResponse, ProgrammingProjectApiResponse, QuestionBase } from "@feature/records/models";
 
 export interface RecordStrategy {
   /* API */
-  getRecord(id: string): Promise<unknown>;
+  getRecord(id: string): Promise<KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse>;
 
-  getQuestions(): QuestionBase<string | number | Date>[];
+  getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[];
 }
 
