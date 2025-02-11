@@ -14,7 +14,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let record">
-      <button mat-raised-button [disabled]="!dataSource.data.length" (click)="deleteRecord(record.uuid)">
+      <button mat-raised-button (click)="deleteRecord(record.uuid)">
         <mat-icon>delete</mat-icon> Delete
       </button>
     </td>
