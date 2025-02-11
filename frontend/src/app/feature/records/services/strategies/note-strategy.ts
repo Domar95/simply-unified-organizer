@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { NoteApiResponse, QuestionBase } from "@feature/records/models";
+import { NoteApiResponse, NotePostRequest, QuestionBase } from "@feature/records/models";
 import { RecordsApiService } from "../records-api.service";
 import { RecordStrategy } from "./record-strategy.interface";
 import { QuestionService } from "../question-service.service";
@@ -16,6 +16,10 @@ export class NoteStrategy implements RecordStrategy {
 
   getRecord(id: string): Promise<NoteApiResponse> {
     return this.recordsApiService.getNoteRecord(id);
+  }
+
+  addRecord(data: NotePostRequest): Promise<NoteApiResponse> {
+    return this.recordsApiService.addNoteRecord(data);
   }
 
   getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[] {

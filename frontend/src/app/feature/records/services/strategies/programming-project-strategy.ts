@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { ProgrammingProjectApiResponse, QuestionBase } from "@feature/records/models";
+import { ProgrammingProjectApiResponse, ProgrammingProjectPostRequest, QuestionBase } from "@feature/records/models";
 import { RecordsApiService } from "../records-api.service";
 import { RecordStrategy } from "./record-strategy.interface";
 import { QuestionService } from "../question-service.service";
@@ -15,6 +15,10 @@ export class ProgrammingProjectStrategy implements RecordStrategy {
 
   getRecord(id: string): Promise<ProgrammingProjectApiResponse> {
     return this.recordsApiService.getProgrammingProject(id);
+  }
+
+  addRecord(data: ProgrammingProjectPostRequest): Promise<ProgrammingProjectApiResponse> {
+    return this.recordsApiService.addProgrammingProject(data);
   }
 
   getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number | Date>[] {

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { KnowledgeApiResponse, QuestionBase } from "@feature/records/models";
+import { KnowledgeApiResponse, KnowledgePostRequest, QuestionBase } from "@feature/records/models";
 import { RecordsApiService } from "../records-api.service";
 import { RecordStrategy } from "./record-strategy.interface";
 import { QuestionService } from "../question-service.service";
@@ -16,6 +16,10 @@ export class KnowledgeStrategy implements RecordStrategy {
 
   getRecord(id: string): Promise<KnowledgeApiResponse> {
     return this.recordsApiService.getKnowledgeRecord(id);
+  }
+
+  addRecord(data: KnowledgePostRequest): Promise<KnowledgeApiResponse> {
+    return this.recordsApiService.addKnowledgeRecord(data);
   }
 
   getQuestions(initialValues?: Record<string, string | number>): QuestionBase<string | number>[] {
