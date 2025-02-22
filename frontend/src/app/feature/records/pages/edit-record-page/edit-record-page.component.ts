@@ -16,7 +16,6 @@ import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'suo-edit-record-page',
-  standalone: true,
   imports: [DynamicFormComponent, MatCardModule],
   providers: [RecordStrategyFactoryService],
   templateUrl: './edit-record-page.component.html',
