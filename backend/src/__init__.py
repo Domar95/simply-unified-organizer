@@ -93,3 +93,24 @@ def add_resources(app: Flask) -> None:
         view_func=note_list_view,
         methods=["GET"],
     )
+
+    from src.resources.users.user import (
+        user_view,
+        user_list_view,
+    )
+
+    app.add_url_rule(
+        "/users/<string:uuid>",
+        view_func=user_view,
+        methods=["GET", "PATCH", "DELETE"],
+    )
+    app.add_url_rule(
+        "/users",
+        view_func=user_view,
+        methods=["POST"],
+    )
+    app.add_url_rule(
+        "/users",
+        view_func=user_list_view,
+        methods=["GET"],
+    )

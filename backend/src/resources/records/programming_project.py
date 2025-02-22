@@ -28,6 +28,7 @@ class ProgrammingProjectView(MethodView):
 
         record = ProgrammingProject(
             uuid=validated_data.uuid,
+            user_id=validated_data.user_id,
             name=validated_data.name,
             text=validated_data.text,
             created_at=validated_data.created_at,
