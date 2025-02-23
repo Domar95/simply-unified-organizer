@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@feature/auth/components/services/auth.service';
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
 
@@ -17,9 +17,11 @@ import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home
   ],
 })
 export class NavbarComponent {
-  authService = inject(AuthService);
+  constructor(readonly authService: AuthService, private router: Router) {}
 
   logout(): void {
-    console.log('logout');
+    localStorage.setItem('token', '');
+    this.authService.currentUserSignal.set(null);
+    this.router.navigate(['/']);
   }
 }
