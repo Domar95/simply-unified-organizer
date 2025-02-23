@@ -1,21 +1,18 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-
-import { IconRegistryService } from '@core/services/icon-registry.service';
+import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
 
 @Component({
   selector: 'suo-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [RouterModule, MatToolbarModule, MatIconModule, MatButtonModule],
+  imports: [
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    HomeButtonComponent,
+  ],
 })
-export class NavbarComponent {
-  constructor(private iconRegistry: IconRegistryService) {
-    this.iconRegistry.registerIcons([
-      { name: 'notebook_icon', url: './assets/icons/notebook_icon.svg' },
-    ]);
-  }
-}
+export class NavbarComponent {}
