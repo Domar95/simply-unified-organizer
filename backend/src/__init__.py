@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
@@ -13,7 +14,11 @@ db = SQLAlchemy()
 
 def create_app() -> Flask:
     app = Flask(__name__)
+    app.config["JWT_SECRET_KEY"] = os.getenv("jwt_secret_key")
+
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
+
+    jwt = JWTManager(app)
 
     add_resources(app)
 
@@ -42,7 +47,7 @@ def add_resources(app: Flask) -> None:
     )
 
     app.add_url_rule(
-        "/records/programming-project/<string:uuid>",
+        "/records/programming-project/<string:id>",
         view_func=programming_project_view,
         methods=["GET", "PATCH", "DELETE"],
     )
@@ -59,7 +64,6 @@ def add_resources(app: Flask) -> None:
 
     from src.resources.records.knowledge import knowledge_view, knowledge_list_view
 
-    # TODO: update to use uuid once migrated to postgres
     app.add_url_rule(
         "/records/knowledge/<string:id>",
         view_func=knowledge_view,
@@ -79,7 +83,7 @@ def add_resources(app: Flask) -> None:
     from src.resources.records.note import note_view, note_list_view
 
     app.add_url_rule(
-        "/records/note/<string:uuid>",
+        "/records/note/<string:id>",
         view_func=note_view,
         methods=["GET", "PATCH", "DELETE"],
     )
@@ -92,4 +96,24 @@ def add_resources(app: Flask) -> None:
         "/records/note",
         view_func=note_list_view,
         methods=["GET"],
+    )
+
+    from src.resources.users.user import (
+        user_view,
+    )
+
+    app.add_url_rule(
+        "/users",
+        view_func=user_view,
+        methods=["POST", "GET", "PATCH", "DELETE"],
+    )
+
+    from src.resources.auth.login import (
+        user_login_view,
+    )
+
+    app.add_url_rule(
+        "/login",
+        view_func=user_login_view,
+        methods=["POST"],
     )

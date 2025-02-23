@@ -4,6 +4,7 @@ from typing import List
 from flask import request
 from flask.views import MethodView
 from datetime import datetime, timezone
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from pydantic import ValidationError
 
 from src.models.records.record_types.programming_project import (
@@ -14,9 +15,11 @@ from src import db
 
 
 class ProgrammingProjectView(MethodView):
+    @jwt_required()
     def post(self) -> ProgrammingProject:
         data = request.get_json()
         data["created_at"] = data["updated_at"] = datetime.now(timezone.utc)
+        data["user_id"] = get_jwt_identity()
 
         try:
             validated_data = ProgrammingProjectSchema(**data)
@@ -27,7 +30,8 @@ class ProgrammingProjectView(MethodView):
             flask.abort(400, f"Validation error on field '{field}': {error_message}")
 
         record = ProgrammingProject(
-            uuid=validated_data.uuid,
+            id=validated_data.id,
+            user_id=validated_data.user_id,
             name=validated_data.name,
             text=validated_data.text,
             created_at=validated_data.created_at,
@@ -45,19 +49,23 @@ class ProgrammingProjectView(MethodView):
         validated_record = ProgrammingProjectSchema.model_validate(record)
         return validated_record.model_dump(), 201
 
-    def get(self, uuid: str) -> ProgrammingProject:
+    @jwt_required()
+    def get(self, id: str) -> ProgrammingProject:
+        current_user_id = get_jwt_identity()
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            uuid=uuid
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
 
         validated_record = ProgrammingProjectSchema.model_validate(record)
         return validated_record.model_dump()
 
-    def patch(self, uuid: str) -> ProgrammingProject:
+    @jwt_required()
+    def patch(self, id: str) -> ProgrammingProject:
+        current_user_id = get_jwt_identity()
         data = request.get_json()
 
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            uuid=uuid
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
 
         updatable_fields = [
@@ -88,9 +96,11 @@ class ProgrammingProjectView(MethodView):
 
         return validated_record.model_dump()
 
-    def delete(self, uuid: str) -> str:
+    @jwt_required()
+    def delete(self, id: str) -> str:
+        current_user_id = get_jwt_identity()
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
-            uuid=uuid
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
         db.session.delete(record)
         db.session.commit()
@@ -98,8 +108,12 @@ class ProgrammingProjectView(MethodView):
 
 
 class ProgrammingProjectListView(MethodView):
+    @jwt_required()
     def get(self) -> List[ProgrammingProject]:
-        records: List[ProgrammingProject] = ProgrammingProject.query.all()
+        current_user_id = get_jwt_identity()
+        records: List[ProgrammingProject] = ProgrammingProject.query.filter_by(
+            user_id=current_user_id
+        ).all()
 
         serialized_records = [
             ProgrammingProjectSchema.model_validate(record).model_dump()
