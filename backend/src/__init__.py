@@ -113,7 +113,7 @@ def add_resources(app: Flask) -> None:
     )
 
     app.add_url_rule(
-        "/login",
+        "/users/login",
         view_func=user_login_view,
         methods=["POST"],
     )
