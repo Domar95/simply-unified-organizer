@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
@@ -13,7 +14,10 @@ db = SQLAlchemy()
 
 def create_app() -> Flask:
     app = Flask(__name__)
+    app.config["JWT_SECRET_KEY"] = os.getenv("jwt_secret_key")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
+
+    jwt = JWTManager(app)
 
     add_resources(app)
 
@@ -100,17 +104,22 @@ def add_resources(app: Flask) -> None:
     )
 
     app.add_url_rule(
-        "/users/<string:uuid>",
-        view_func=user_view,
-        methods=["GET", "PATCH", "DELETE"],
-    )
-    app.add_url_rule(
         "/users",
         view_func=user_view,
-        methods=["POST"],
+        methods=["POST", "GET", "PATCH", "DELETE"],
     )
     app.add_url_rule(
-        "/users",
+        "/users-all",
         view_func=user_list_view,
         methods=["GET"],
+    )
+
+    from src.resources.auth.login import (
+        user_login_view,
+    )
+
+    app.add_url_rule(
+        "/login",
+        view_func=user_login_view,
+        methods=["POST"],
     )

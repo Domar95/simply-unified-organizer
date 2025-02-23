@@ -4,6 +4,7 @@ from typing import List
 from flask import request
 from flask.views import MethodView
 from datetime import datetime, timezone
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from pydantic import ValidationError
 
 from src.models.users.user import (
@@ -54,19 +55,23 @@ class UserView(MethodView):
         validated_user = UserSchema.model_validate(user)
         return validated_user.model_dump(), 201
 
-    def get(self, uuid: str):
-        user: User = User.query.filter_by(uuid=uuid).first_or_404(
-            description="Could not find user with that ID..."
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        user: User = User.query.filter_by(id=current_user_id).first_or_404(
+            description="User not found"
         )
 
         validated_user = UserSchema.model_validate(user)
         return validated_user.model_dump()
 
-    def patch(self, uuid: str):
+    @jwt_required()
+    def patch(self):
+        current_user_id = get_jwt_identity()
         data = request.get_json()
 
-        user: User = User.query.filter_by(uuid=uuid).first_or_404(
-            description="Could not find user with that ID..."
+        user: User = User.query.filter_by(id=current_user_id).first_or_404(
+            description="User not found"
         )
 
         updatable_fields = [
@@ -115,9 +120,11 @@ class UserView(MethodView):
         return validated_user.model_dump()
 
     # Admin only route
-    def delete(self, uuid: str):
-        user: User = User.query.filter_by(uuid=uuid).first_or_404(
-            description="Could not find user with that ID..."
+    @jwt_required()
+    def delete(self):
+        current_user_id = get_jwt_identity()
+        user: User = User.query.filter_by(id=current_user_id).first_or_404(
+            description="User not found"
         )
         db.session.delete(user)
         db.session.commit()
