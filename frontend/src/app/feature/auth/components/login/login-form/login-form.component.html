@@ -14,8 +14,21 @@
 
       <mat-form-field class="field">
         <mat-label>Password</mat-label>
-        <input matInput formControlName="password" /> @if
-        (loginForm.get('password')?.hasError('required')) {
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide() ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        @if (loginForm.get('password')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error
         >}
       </mat-form-field>
