@@ -10,9 +10,13 @@ from src import db
 
 class User(db.Model):
     __tablename__ = "users"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uuid = db.Column(pgUUID(as_uuid=True), unique=True, nullable=False, default=uuid4)
+    id = db.Column(
+        pgUUID(as_uuid=True),
+        primary_key=True,
+        unique=True,
+        nullable=False,
+        default=uuid4,
+    )
     created_at = db.Column(
         db.DateTime, nullable=False, default=datetime.now(timezone.utc)
     )
@@ -35,8 +39,7 @@ class User(db.Model):
 
 
 class UserSchema(BaseModel):
-    id: Optional[int] = None
-    uuid: UUID = Field(default_factory=uuid4)
+    id: UUID = Field(default_factory=uuid4)
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 

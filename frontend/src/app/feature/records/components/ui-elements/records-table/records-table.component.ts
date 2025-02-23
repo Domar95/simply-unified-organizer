@@ -25,7 +25,7 @@ import { RecordsTableData } from '@feature/records/models/records-table.model';
     MatIconModule,
   ],
   templateUrl: './records-table.component.html',
-  styleUrl: './records-table.component.scss'
+  styleUrl: './records-table.component.scss',
 })
 export class RecordsTableComponent {
   @Input({ required: true }) records$!: Observable<RecordsTableData>;
@@ -40,7 +40,7 @@ export class RecordsTableComponent {
 
   dataSource: MatTableDataSource<unknown> = new MatTableDataSource<unknown>();
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -54,7 +54,7 @@ export class RecordsTableComponent {
           return;
         }
         this.dataSource.data = records;
-        this.state = 'loaded'
+        this.state = 'loaded';
       }
     );
   }
@@ -79,16 +79,16 @@ export class RecordsTableComponent {
     });
   }
 
-  async deleteRecord(uuid: string) {
-    this.onDelete.emit(uuid);
+  async deleteRecord(id: string) {
+    this.onDelete.emit(id);
   }
 
   async refreshRecords() {
     this.onRefresh.emit();
   }
 
-  editRecord(uuid: string) {
-    this.router.navigate(['edit', uuid], {
+  editRecord(id: string) {
+    this.router.navigate(['edit', id], {
       relativeTo: this.route,
     });
   }

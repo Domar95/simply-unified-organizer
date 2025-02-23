@@ -15,9 +15,6 @@ db = SQLAlchemy()
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config["JWT_SECRET_KEY"] = os.getenv("jwt_secret_key")
-    app.config["JWT_VERIFY_SUB"] = (
-        False  # TODO: temporary solution; update sub claim to str and remove that setting
-    )
 
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
 
@@ -50,7 +47,7 @@ def add_resources(app: Flask) -> None:
     )
 
     app.add_url_rule(
-        "/records/programming-project/<string:uuid>",
+        "/records/programming-project/<string:id>",
         view_func=programming_project_view,
         methods=["GET", "PATCH", "DELETE"],
     )
@@ -67,7 +64,6 @@ def add_resources(app: Flask) -> None:
 
     from src.resources.records.knowledge import knowledge_view, knowledge_list_view
 
-    # TODO: update to use uuid once migrated to postgres
     app.add_url_rule(
         "/records/knowledge/<string:id>",
         view_func=knowledge_view,
@@ -87,7 +83,7 @@ def add_resources(app: Flask) -> None:
     from src.resources.records.note import note_view, note_list_view
 
     app.add_url_rule(
-        "/records/note/<string:uuid>",
+        "/records/note/<string:id>",
         view_func=note_view,
         methods=["GET", "PATCH", "DELETE"],
     )

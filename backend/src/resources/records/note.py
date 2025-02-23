@@ -19,6 +19,7 @@ class NoteView(MethodView):
     def post(self):
         data = request.get_json()
         data["created_at"] = data["updated_at"] = datetime.now(timezone.utc)
+        data["user_id"] = get_jwt_identity()
 
         try:
             validated_data = NoteSchema(**data)
@@ -28,10 +29,9 @@ class NoteView(MethodView):
             error_message = error_details["msg"]
             flask.abort(400, f"Validation error on field '{field}': {error_message}")
 
-        current_user_id = get_jwt_identity()
         record = Note(
-            uuid=validated_data.uuid,
-            user_id=current_user_id,
+            id=validated_data.id,
+            user_id=validated_data.user_id,
             name=validated_data.name,
             text=validated_data.text,
             created_at=validated_data.created_at,
@@ -49,22 +49,22 @@ class NoteView(MethodView):
         return validated_record.model_dump(), 201
 
     @jwt_required()
-    def get(self, uuid: str):
+    def get(self, id: str):
         current_user_id = get_jwt_identity()
         record: Note = Note.query.filter_by(
-            uuid=uuid, user_id=current_user_id
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
 
         validated_record = NoteSchema.model_validate(record)
         return validated_record.model_dump()
 
     @jwt_required()
-    def patch(self, uuid: str):
+    def patch(self, id: str):
         current_user_id = get_jwt_identity()
         data = request.get_json()
 
         record: Note = Note.query.filter_by(
-            uuid=uuid, user_id=current_user_id
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
 
         updatable_fields = [
@@ -95,10 +95,10 @@ class NoteView(MethodView):
         return validated_record.model_dump()
 
     @jwt_required()
-    def delete(self, uuid: str):
+    def delete(self, id: str):
         current_user_id = get_jwt_identity()
         record: Note = Note.query.filter_by(
-            uuid=uuid, user_id=current_user_id
+            id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
         db.session.delete(record)
         db.session.commit()

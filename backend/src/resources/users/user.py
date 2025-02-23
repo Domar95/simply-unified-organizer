@@ -40,7 +40,7 @@ class UserView(MethodView):
             flask.abort(400, f"Validation error on field '{field}': {error_message}")
 
         user = User(
-            uuid=validated_data.uuid,
+            id=validated_data.id,
             created_at=validated_data.created_at,
             updated_at=validated_data.updated_at,
             username=validated_data.username,
@@ -90,7 +90,7 @@ class UserView(MethodView):
                         existing_user: User = User.query.filter_by(
                             username=username
                         ).first()
-                        if existing_user and existing_user.uuid != user.uuid:
+                        if existing_user and existing_user.id != user.id:
                             flask.abort(
                                 400,
                                 f"User with username '{username}' already exists...",
@@ -98,7 +98,7 @@ class UserView(MethodView):
                     if field == "email":
                         email = data["email"]
                         existing_user: User = User.query.filter_by(email=email).first()
-                        if existing_user and existing_user.uuid != user.uuid:
+                        if existing_user and existing_user.id != user.id:
                             flask.abort(
                                 400,
                                 f"User with email '{email}' already exists...",

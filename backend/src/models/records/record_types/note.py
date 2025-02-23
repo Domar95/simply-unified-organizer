@@ -17,9 +17,8 @@ class Note(BaseRecord):
 
 
 class NoteSchema(BaseModel):
-    id: Optional[int] = None
-    uuid: UUID = Field(default_factory=uuid4)
-    user_id: int
+    id: UUID = Field(default_factory=uuid4)
+    user_id: UUID
     name: str
     text: Optional[str] = None
     created_at: Optional[datetime] = None
