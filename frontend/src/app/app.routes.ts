@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 
+import { LoginPageComponent } from '@feature/auth/components/pages/login-page/login-page.component';
+import { PasswordResetComponent } from '@feature/auth/components/pages/password-reset/password-reset.component';
+import { RegisterPageComponent } from '@feature/auth/components/pages/register-page/register-page.component';
 import { HomePageComponent } from '@feature/home/pages/home-page/home-page.component';
 import {
   KnowledgeComponent,
@@ -28,7 +31,11 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayoutComponent,
-    children: [],
+    children: [
+      { path: 'login', component: LoginPageComponent },
+      { path: 'register', component: RegisterPageComponent },
+      { path: 'password-reset', component: PasswordResetComponent },
+    ],
   },
 
   {

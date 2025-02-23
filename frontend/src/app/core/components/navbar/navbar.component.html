@@ -1,10 +1,32 @@
 <mat-toolbar>
-  <button mat-icon-button [routerLink]="['']" aria-label="Logo button that redirects to homepage" >
+  <button
+    mat-icon-button
+    [routerLink]="['']"
+    aria-label="Logo button that redirects to home page"
+  >
     <mat-icon svgIcon="notebook_icon"></mat-icon>
   </button>
   <span [routerLink]="['']">Organizer</span>
-  <button mat-button [routerLink]="['/records']" aria-label="Button that redirects to records" >
+  <button
+    mat-button
+    [routerLink]="['/records']"
+    aria-label="Button that redirects to records page"
+  >
     Records
   </button>
   <span class="spacer"></span>
+  <button
+    mat-button
+    [routerLink]="['/auth/login']"
+    aria-label="Button that redirects to login page"
+  >
+    Login
+  </button>
+  <button
+    mat-flat-button
+    [routerLink]="['/auth/register']"
+    aria-label="Button that redirects to register page"
+  >
+    Register
+  </button>
 </mat-toolbar>
