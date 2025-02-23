@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
+import { UserLoginRequest } from '../../models/users-api.model';
 
 @Component({
   selector: 'suo-login-form',
@@ -30,9 +31,18 @@ import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home
   styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent {
+  @Output() formSubmitted: EventEmitter<UserLoginRequest> =
+    new EventEmitter<UserLoginRequest>();
+
   loginForm = new FormGroup({
-    username: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', Validators.required),
+    username: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    password: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   hide = signal(true);
@@ -43,7 +53,12 @@ export class LoginFormComponent {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
+    if (this.loginForm.invalid) {
+      console.warn('Form is invalid, cannot submit.');
+      return;
+    }
+
+    this.formSubmitted.emit(this.loginForm.getRawValue());
   }
 
   get requiredErrorMessage() {
