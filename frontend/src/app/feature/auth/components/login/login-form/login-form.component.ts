@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 
+import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
+
 @Component({
   selector: 'suo-login-form',
   imports: [
@@ -22,6 +24,7 @@ import { RouterModule } from '@angular/router';
     MatCardModule,
     MatIconModule,
     RouterModule,
+    HomeButtonComponent,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
