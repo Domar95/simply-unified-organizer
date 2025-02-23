@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RegisterFormComponent } from '../../register/register-form/register-form.component';
+
+import { RegisterComponent } from '../../register/register.component';
 
 @Component({
   selector: 'suo-register-page',
-  imports: [RegisterFormComponent],
+  imports: [RegisterComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.scss',
 })

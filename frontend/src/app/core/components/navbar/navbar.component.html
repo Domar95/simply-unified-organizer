@@ -9,6 +9,8 @@
     Records
   </button>
   <span class="spacer"></span>
+
+  @if (authService.currentUserSignal() === null) {
   <button
     mat-button
     [routerLink]="['/auth/login']"
@@ -21,6 +23,10 @@
     [routerLink]="['/auth/register']"
     aria-label="Button that redirects to register page"
   >
-    Register
+    Register</button
+  >} @if (authService.currentUserSignal()) {
+  <button mat-flat-button (click)="logout()" aria-label="Button that logs out">
+    Logout
   </button>
+  }
 </mat-toolbar>
