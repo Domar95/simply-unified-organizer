@@ -100,18 +100,12 @@ def add_resources(app: Flask) -> None:
 
     from src.resources.users.user import (
         user_view,
-        user_list_view,
     )
 
     app.add_url_rule(
         "/users",
         view_func=user_view,
         methods=["POST", "GET", "PATCH", "DELETE"],
-    )
-    app.add_url_rule(
-        "/users-all",
-        view_func=user_list_view,
-        methods=["GET"],
     )
 
     from src.resources.auth.login import (

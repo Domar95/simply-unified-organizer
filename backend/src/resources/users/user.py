@@ -131,16 +131,4 @@ class UserView(MethodView):
         return "", 204
 
 
-# Delete later
-class UserListView(MethodView):
-    def get(self) -> List[User]:
-        users: List[User] = User.query.all()
-
-        serialized_users = [
-            UserSchema.model_validate(user).model_dump() for user in users
-        ]
-        return {"users": serialized_users}
-
-
 user_view = UserView.as_view("user_view")
-user_list_view = UserListView.as_view("user_list_view")
