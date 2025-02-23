@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { UserApiResponse, UserPostRequest } from './users-api.model';
+
+import { UserApiResponse, UserPostRequest } from '../models/users-api.model';
 
 @Injectable({
   providedIn: 'root',

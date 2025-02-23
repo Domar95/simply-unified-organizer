@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
-import { UserPostRequest } from '../../services/users-api.model';
+import { UserPostRequest } from '../../models/users-api.model';
 
 @Component({
   selector: 'suo-register-form',
