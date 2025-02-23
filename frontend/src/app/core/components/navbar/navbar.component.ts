@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '@feature/auth/components/services/auth.service';
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
 
 @Component({
@@ -15,4 +16,10 @@ import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home
     HomeButtonComponent,
   ],
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  authService = inject(AuthService);
+
+  logout(): void {
+    console.log('logout');
+  }
+}
