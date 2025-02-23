@@ -11,8 +11,11 @@ import {
   AddRecordComponent,
   EditRecordPageComponent,
 } from '@feature/records/pages';
-import { FeatureLayoutComponent } from '@shared/components/layouts/feature-layout/feature-layout.component';
-import { HomeLayoutComponent } from '@shared/components/layouts/home-layout/home-layout.component';
+import {
+  AuthLayoutComponent,
+  FeatureLayoutComponent,
+  HomeLayoutComponent,
+} from '@shared/components/layouts';
 import { PageNotFoundComponent } from '@shared/components/views/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
@@ -20,6 +23,12 @@ export const routes: Routes = [
     path: '',
     component: HomeLayoutComponent,
     children: [{ path: '', component: HomePageComponent }],
+  },
+
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [],
   },
 
   {
