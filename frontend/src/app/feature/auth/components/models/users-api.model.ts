@@ -19,6 +19,7 @@ export interface UserLoginRequest {
 }
 
 export interface UserLoginResponse {
-  access_token?: string;
+  user: UserApiResponse;
+  access_token: string;
   error?: string;
 }
