@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import {
@@ -16,6 +16,10 @@ export class UsersService {
   readonly APIURL = 'http://127.0.0.1:5000';
 
   constructor(private http: HttpClient) {}
+
+  getCurrentUser(): Observable<UserApiResponse> {
+    return this.http.get<UserApiResponse>(`${this.APIURL}/users`)
+  }
 
   registerUser(user: UserPostRequest): Promise<UserApiResponse> {
     return lastValueFrom(
