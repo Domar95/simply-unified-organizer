@@ -15,6 +15,10 @@ db = SQLAlchemy()
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config["JWT_SECRET_KEY"] = os.getenv("jwt_secret_key")
+    app.config["JWT_VERIFY_SUB"] = (
+        False  # TODO: temporary solution; update sub claim to str and remove that setting
+    )
+
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
 
     jwt = JWTManager(app)
