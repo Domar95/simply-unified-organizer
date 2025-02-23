@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,7 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
+import { UserPostRequest } from '../../services/users-api.model';
 
 @Component({
   selector: 'suo-register-form',
@@ -29,24 +31,41 @@ import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home
   styleUrl: './register-form.component.scss',
 })
 export class RegisterFormComponent {
+  @Output() formSubmitted: EventEmitter<UserPostRequest> =
+    new EventEmitter<UserPostRequest>();
+
   registerForm = new FormGroup({
-    username: new FormControl<string>('', Validators.required),
-    email: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', Validators.required),
+    username: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    email: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    password: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   hide = signal(true);
 
-  clickEvent(event: MouseEvent) {
+  clickEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
 
-  onSubmit() {
-    console.log(this.registerForm.value);
+  onSubmit(): void {
+    if (this.registerForm.invalid) {
+      console.warn('Form is invalid, cannot submit.');
+      return;
+    }
+
+    this.formSubmitted.emit(this.registerForm.getRawValue());
   }
 
-  get requiredErrorMessage() {
+  get requiredErrorMessage(): string {
     return 'This field is required';
   }
 }
