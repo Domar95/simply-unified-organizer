@@ -11,6 +11,9 @@ from src.models.users.user import (
 class UserLogin(MethodView):
     def post(self):
         data = request.get_json()
+        if not data or "username" not in data or "password" not in data:
+            return jsonify(error="Missing username or password"), 400
+
         username = data.get("username")
         password = data.get("password")
 
