@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Observable, Subscription } from 'rxjs';
 
 import { RecordsTableData } from '@feature/records/models/records-table.model';
@@ -23,6 +25,8 @@ import { RecordsTableData } from '@feature/records/models/records-table.model';
     MatButtonModule,
     MatSortModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './records-table.component.html',
   styleUrl: './records-table.component.scss',
@@ -91,6 +95,11 @@ export class RecordsTableComponent {
     this.router.navigate(['edit', id], {
       relativeTo: this.route,
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   get noDataMessage(): string {
