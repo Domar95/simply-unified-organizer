@@ -13,7 +13,10 @@ import {
 } from '../models';
 import { RecordsTableComponent } from './ui-elements';
 import { columns } from './records-columns';
-import { RecordsTableColumns } from '../models/records-table.model';
+import {
+  RecordsTableColumns,
+  RecordsTableData,
+} from '../models/records-table.model';
 
 @Component({
   selector: 'suo-records',
@@ -39,20 +42,7 @@ export class RecordsComponent {
   activeLink = this.tabs[0];
 
   strategy!: RecordStrategy;
-  data: (
-    | KnowledgeApiResponse
-    | NoteApiResponse
-    | ProgrammingProjectApiResponse
-  )[] = [];
-  records$: Subject<
-    | (KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse)[]
-    | 'loading'
-    | 'error'
-  > = new Subject<
-    | (KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse)[]
-    | 'loading'
-    | 'error'
-  >();
+  records$: Subject<RecordsTableData> = new Subject<RecordsTableData>();
 
   constructor(
     private route: ActivatedRoute,
