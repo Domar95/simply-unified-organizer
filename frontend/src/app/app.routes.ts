@@ -5,12 +5,7 @@ import { LoginPageComponent } from '@feature/auth/components/pages/login-page/lo
 import { PasswordResetComponent } from '@feature/auth/components/pages/password-reset/password-reset.component';
 import { RegisterPageComponent } from '@feature/auth/components/pages/register-page/register-page.component';
 import { HomePageComponent } from '@feature/home/pages/home-page/home-page.component';
-import {
-  KnowledgeComponent,
-  NoteComponent,
-  ProgrammingProjectComponent,
-  RecordsComponent,
-} from '@feature/records/components';
+import { RecordsComponent } from '@feature/records/components';
 import {
   AddRecordComponent,
   EditRecordPageComponent,
@@ -44,28 +39,11 @@ export const routes: Routes = [
     component: FeatureLayoutComponent,
     canActivate: [authGuard],
     children: [
-      {
-        path: '',
-        component: RecordsComponent,
-        // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
-        children: [
-          { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
-          {
-            path: 'programming-project',
-            component: ProgrammingProjectComponent,
-          },
-          {
-            path: 'knowledge',
-            component: KnowledgeComponent,
-          },
-          {
-            path: 'note',
-            component: NoteComponent,
-          },
-          { path: ':category/new', component: AddRecordComponent },
-          { path: ':category/edit/:id', component: EditRecordPageComponent },
-        ],
-      },
+      // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
+      { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
+      { path: ':category', component: RecordsComponent },
+      { path: ':category/new', component: AddRecordComponent },
+      { path: ':category/edit/:id', component: EditRecordPageComponent },
     ],
   },
   { path: '**', component: PageNotFoundComponent },

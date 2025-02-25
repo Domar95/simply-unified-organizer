@@ -23,6 +23,10 @@ export class KnowledgeStrategy implements RecordStrategy {
     return this.recordsApiService.getKnowledgeRecord(id);
   }
 
+  getAllRecords(): Promise<KnowledgeApiResponse[]> {
+    return this.recordsApiService.getKnowledgeRecords();
+  }
+
   addRecord(data: KnowledgePostRequest): Promise<KnowledgeApiResponse> {
     return this.recordsApiService.addKnowledgeRecord(data);
   }
@@ -32,6 +36,10 @@ export class KnowledgeStrategy implements RecordStrategy {
     data: KnowledgePatchRequest
   ): Promise<KnowledgeApiResponse> {
     return this.recordsApiService.updateKnowledgeRecord(id, data);
+  }
+
+  deleteRecord(id: string): Promise<void> {
+    return this.recordsApiService.deleteKnowledgeRecord(id);
   }
 
   getQuestions(
