@@ -1,10 +1,8 @@
 import { RecordsTableColumns } from '../models/records-table.model';
 
 const defaultColumns: RecordsTableColumns = [
-  { key: 'id', label: 'Id' },
   { key: 'name', label: 'Name' },
   { key: 'text', label: 'Text' },
-  { key: 'created_at', label: 'Created At' },
   { key: 'updated_at', label: 'Updated At' },
 ];
 
