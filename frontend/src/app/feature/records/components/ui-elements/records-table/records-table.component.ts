@@ -101,6 +101,12 @@ export class RecordsTableComponent {
     this.onRefresh.emit();
   }
 
+  viewRecord(id: string) {
+    this.router.navigate(['view', id], {
+      relativeTo: this.route,
+    });
+  }
+
   editRecord(id: string) {
     this.router.navigate(['edit', id], {
       relativeTo: this.route,

@@ -1,20 +1,46 @@
 <div [formGroup]="form">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
     @switch (question.controlType) { @case ('text') {
-    <input matInput [formControlName]="question.key" [id]="question.key" />
+    <input
+      matInput
+      [formControlName]="question.key"
+      [id]="question.key"
+      [readonly]="readonly"
+    />
     } @case ('textarea') {
-    <textarea matInput [formControlName]="question.key" [id]="question.key"></textarea>
+    <textarea
+      matInput
+      [formControlName]="question.key"
+      [id]="question.key"
+      [readonly]="readonly"
+    ></textarea>
     } @case ('number') {
-    <input matInput [formControlName]="question.key" [id]="question.key" type="number" min="0" max="10" />
-    }
-    @case ('date') {
+    <input
+      matInput
+      [formControlName]="question.key"
+      [id]="question.key"
+      type="number"
+      min="0"
+      max="10"
+      [readonly]="readonly"
+    />
+    } @case ('date') {
     <ng-container>
-      <input matInput [matDatepicker]="picker" [formControlName]="question.key">
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControlName]="question.key"
+        [readonly]="readonly"
+      />
+      @if (readonly === false) {
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle
+      >}
       <mat-datepicker #picker></mat-datepicker>
     </ng-container>
-    }
-    }
+    } }
   </mat-form-field>
 </div>

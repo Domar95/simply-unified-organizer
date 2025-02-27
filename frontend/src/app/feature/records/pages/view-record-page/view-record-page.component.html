@@ -1,7 +1,9 @@
 <div class="content">
+  @if (questions) {
   <suo-dynamic-form
     [questions]="questions"
+    [readonly]="true"
     [title]="title"
-    (formSubmitted)="onFormSubmitted($event)"
   ></suo-dynamic-form>
+  }
 </div>

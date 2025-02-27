@@ -3,25 +3,18 @@ import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 
 import { DynamicFormComponent } from '@feature/records/components/ui-elements/dynamic-form/dynamic-form.component';
-import {
-  KnowledgePatchRequest,
-  NotePatchRequest,
-  ProgrammingProjectPatchRequest,
-  QuestionBase,
-} from '@feature/records/models';
+import { QuestionBase } from '@feature/records/models';
 import { RecordStrategyFactoryService } from '@feature/records/services/record-strategy-factory.service';
 import { RecordTitleService } from '@feature/records/services/record-title.service';
 import { RecordStrategy } from '@feature/records/services/strategies';
-import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
-  selector: 'suo-edit-record-page',
+  selector: 'suo-view-record-page',
   imports: [DynamicFormComponent, MatCardModule],
-  providers: [RecordStrategyFactoryService],
-  templateUrl: './edit-record-page.component.html',
-  styleUrl: './edit-record-page.component.scss',
+  templateUrl: './view-record-page.component.html',
+  styleUrl: './view-record-page.component.scss',
 })
-export class EditRecordPageComponent {
+export class ViewRecordPageComponent {
   strategy!: RecordStrategy;
   questions!: QuestionBase<string | number | Date>[];
   title!: string;
@@ -30,14 +23,12 @@ export class EditRecordPageComponent {
   constructor(
     private route: ActivatedRoute,
     private recordStrategyFactoryService: RecordStrategyFactoryService,
-    private recordTitleService: RecordTitleService,
-    private notificationService: NotificationService
+    private recordTitleService: RecordTitleService
   ) {}
-
   async ngOnInit(): Promise<void> {
     const category = this.route.snapshot.paramMap.get('category') || '';
     const categoryTitle = this.recordTitleService.getTitle(category);
-    this.title = `Edit ${categoryTitle} record`;
+    this.title = `View ${categoryTitle} record`;
     this.strategy = this.recordStrategyFactoryService.getStrategy(category);
 
     this.id = this.route.snapshot.paramMap.get('id') || '';
@@ -45,17 +36,5 @@ export class EditRecordPageComponent {
     this.questions = this.strategy.getQuestions(
       record as unknown as Record<string, string | number>
     );
-  }
-
-  async onFormSubmitted(data: any): Promise<void> {
-    try {
-      await this.strategy.updateRecord(this.id, data);
-      this.notificationService.openSnackBar('Record updated successfully!');
-    } catch (error) {
-      this.notificationService.openSnackBar(
-        'Failed to update record. Try again later.'
-      );
-      throw error;
-    }
   }
 }
