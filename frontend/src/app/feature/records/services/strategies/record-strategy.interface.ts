@@ -18,11 +18,17 @@ export interface RecordStrategy {
   ): Promise<
     KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse
   >;
+
+  getAllRecords(): Promise<
+    (KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse)[]
+  >;
+
   addRecord(
     data: KnowledgePostRequest | NotePostRequest | ProgrammingProjectPostRequest
   ): Promise<
     KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse
   >;
+
   updateRecord(
     id: string,
     data:
@@ -32,6 +38,8 @@ export interface RecordStrategy {
   ): Promise<
     KnowledgeApiResponse | NoteApiResponse | ProgrammingProjectApiResponse
   >;
+
+  deleteRecord(id: string): Promise<void>;
 
   getQuestions(
     initialValues?: Record<string, string | number>

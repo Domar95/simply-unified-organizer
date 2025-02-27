@@ -23,12 +23,20 @@ export class NoteStrategy implements RecordStrategy {
     return this.recordsApiService.getNoteRecord(id);
   }
 
+  getAllRecords(): Promise<NoteApiResponse[]> {
+    return this.recordsApiService.getNoteRecords();
+  }
+
   addRecord(data: NotePostRequest): Promise<NoteApiResponse> {
     return this.recordsApiService.addNoteRecord(data);
   }
 
   updateRecord(id: string, data: NotePatchRequest): Promise<NoteApiResponse> {
     return this.recordsApiService.updateNoteRecord(id, data);
+  }
+
+  deleteRecord(id: string): Promise<void> {
+    return this.recordsApiService.deleteNoteRecord(id);
   }
 
   getQuestions(

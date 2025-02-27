@@ -23,6 +23,10 @@ export class ProgrammingProjectStrategy implements RecordStrategy {
     return this.recordsApiService.getProgrammingProject(id);
   }
 
+  getAllRecords(): Promise<ProgrammingProjectApiResponse[]> {
+    return this.recordsApiService.getProgrammingProjects();
+  }
+
   addRecord(
     data: ProgrammingProjectPostRequest
   ): Promise<ProgrammingProjectApiResponse> {
@@ -34,6 +38,10 @@ export class ProgrammingProjectStrategy implements RecordStrategy {
     data: ProgrammingProjectPatchRequest
   ): Promise<ProgrammingProjectApiResponse> {
     return this.recordsApiService.updateProgrammingProject(id, data);
+  }
+
+  deleteRecord(id: string): Promise<void> {
+    return this.recordsApiService.deleteProgrammingProject(id);
   }
 
   getQuestions(

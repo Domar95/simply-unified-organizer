@@ -1,0 +1,16 @@
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  @for (tab of tabs; track tab) {
+  <a
+    mat-tab-link
+    (click)="activeLink = tab"
+    [active]="activeLink == tab"
+    [routerLink]="['/records', tab.route]"
+  >
+    {{ tab.label }}
+  </a>
+  }
+</nav>
+
+<mat-tab-nav-panel #tabPanel>
+  <suo-records [category]="category"></suo-records>
+</mat-tab-nav-panel>

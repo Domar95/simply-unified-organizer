@@ -54,13 +54,23 @@ export class RecordsTableComponent {
     this.recordsSubscription = this.records$.subscribe(
       (records: RecordsTableData) => {
         if (records === 'loading' || records === 'error') {
+          // TODO: Fix bug when old emission overrides actual state
+          this.dataSource.data = [];
           this.state = records;
           return;
         }
-        this.dataSource.data = records;
+
+        this.updateTable(records);
         this.state = 'loaded';
       }
     );
+  }
+
+  private updateTable(records: unknown[]): void {
+    // TODO: Implement cleaner solution for updating table data
+    this.columnKeys = this.getColumnKeys();
+    this.dataSource = new MatTableDataSource<unknown>(records);
+    this.dataSource.sort = this.sort;
   }
 
   private getColumnKeys(): string[] {
