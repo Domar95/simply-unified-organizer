@@ -1,6 +1,6 @@
 import { RecordsTableColumns } from '../models/records-table.model';
 
-export const columns: { [key in string]: RecordsTableColumns } = {
+export const columns: { [key: string]: RecordsTableColumns } = {
   'programming-project': [
     { key: 'id', label: 'Id' },
     { key: 'name', label: 'Name' },
