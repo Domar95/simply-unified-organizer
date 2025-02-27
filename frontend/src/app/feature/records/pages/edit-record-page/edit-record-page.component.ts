@@ -36,7 +36,8 @@ export class EditRecordPageComponent {
 
   async ngOnInit(): Promise<void> {
     const category = this.route.snapshot.paramMap.get('category') || '';
-    this.title = this.recordTitleService.getTitle(category);
+    const categoryTitle = this.recordTitleService.getTitle(category);
+    this.title = `Edit ${categoryTitle} record`;
     this.strategy = this.recordStrategyFactoryService.getStrategy(category);
 
     this.id = this.route.snapshot.paramMap.get('id') || '';

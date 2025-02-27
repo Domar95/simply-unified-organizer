@@ -1,4 +1,23 @@
-.action-buttons {
+mat-card-content {
+  width: 100%;
+}
+
+mat-card {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 0 auto;
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+  }
 }

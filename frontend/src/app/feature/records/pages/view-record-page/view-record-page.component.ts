@@ -27,7 +27,8 @@ export class ViewRecordPageComponent {
   ) {}
   async ngOnInit(): Promise<void> {
     const category = this.route.snapshot.paramMap.get('category') || '';
-    this.title = this.recordTitleService.getTitle(category);
+    const categoryTitle = this.recordTitleService.getTitle(category);
+    this.title = `View ${categoryTitle} record`;
     this.strategy = this.recordStrategyFactoryService.getStrategy(category);
 
     this.id = this.route.snapshot.paramMap.get('id') || '';

@@ -9,11 +9,11 @@ import { RecordsApiService } from '@feature/records/services';
 import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
-    selector: 'suo-add-record',
-    providers: [QuestionService, RecordsApiService],
-    imports: [DynamicFormComponent, MatCardModule],
-    templateUrl: './add-record.component.html',
-    styleUrl: './add-record.component.scss'
+  selector: 'suo-add-record',
+  providers: [QuestionService, RecordsApiService],
+  imports: [DynamicFormComponent, MatCardModule],
+  templateUrl: './add-record.component.html',
+  styleUrl: './add-record.component.scss',
 })
 export class AddRecordComponent {
   questions!: QuestionBase<any>[];
@@ -25,8 +25,7 @@ export class AddRecordComponent {
     private questionService: QuestionService,
     private recordsApiService: RecordsApiService,
     private notificationService: NotificationService
-
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.category = this.route.snapshot.paramMap.get('category') || '';

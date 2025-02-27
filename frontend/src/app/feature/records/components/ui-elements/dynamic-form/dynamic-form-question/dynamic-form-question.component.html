@@ -1,5 +1,5 @@
 <div [formGroup]="form">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
     @switch (question.controlType) { @case ('text') {
     <input

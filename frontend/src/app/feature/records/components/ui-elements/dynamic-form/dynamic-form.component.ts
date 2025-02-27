@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 
 import { QuestionBase } from '@feature/records/models';
@@ -10,13 +11,19 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-fo
 @Component({
   selector: 'suo-dynamic-form',
   providers: [QuestionControlService],
-  imports: [ReactiveFormsModule, DynamicFormQuestionComponent, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    DynamicFormQuestionComponent,
+    MatButtonModule,
+    MatCardModule,
+  ],
   templateUrl: './dynamic-form.component.html',
   styleUrl: './dynamic-form.component.scss',
 })
 export class DynamicFormComponent implements OnInit {
   @Input({ required: true }) questions: QuestionBase<string | number | Date>[] =
     [];
+  @Input({ required: false }) title!: string;
   @Input() readonly: boolean = false;
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
