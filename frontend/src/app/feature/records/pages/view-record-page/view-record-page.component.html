@@ -2,7 +2,10 @@
   <mat-card-title>View {{ title }} record</mat-card-title>
   <mat-card-content>
     @if (questions) {
-    <suo-dynamic-form [questions]="questions"></suo-dynamic-form>
+    <suo-dynamic-form
+      [questions]="questions"
+      [readonly]="true"
+    ></suo-dynamic-form>
     }
   </mat-card-content>
 </mat-card>

@@ -12,23 +12,25 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-fo
   providers: [QuestionControlService],
   imports: [ReactiveFormsModule, DynamicFormQuestionComponent, MatButtonModule],
   templateUrl: './dynamic-form.component.html',
-  styleUrl: './dynamic-form.component.scss'
+  styleUrl: './dynamic-form.component.scss',
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() questions: QuestionBase<string | number | Date>[] = [];
+  @Input({ required: true }) questions: QuestionBase<string | number | Date>[] =
+    [];
+  @Input() readonly: boolean = false;
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
 
   form!: FormGroup;
   payLoad = '';
 
-  constructor(private questionControlService: QuestionControlService, private router: Router,
-  ) { }
+  constructor(
+    private questionControlService: QuestionControlService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.form = this.questionControlService.toFormGroup(
-      this.questions
-    );
+    this.form = this.questionControlService.toFormGroup(this.questions);
   }
 
   onSubmit() {
