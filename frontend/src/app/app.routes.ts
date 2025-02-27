@@ -5,11 +5,11 @@ import { LoginPageComponent } from '@feature/auth/components/pages/login-page/lo
 import { PasswordResetComponent } from '@feature/auth/components/pages/password-reset/password-reset.component';
 import { RegisterPageComponent } from '@feature/auth/components/pages/register-page/register-page.component';
 import { HomePageComponent } from '@feature/home/pages/home-page/home-page.component';
-import { RecordsComponent } from '@feature/records/components';
 import {
   AddRecordComponent,
   EditRecordPageComponent,
   RecordsPageComponent,
+  ViewRecordPageComponent,
 } from '@feature/records/pages';
 import {
   AuthLayoutComponent,
@@ -43,6 +43,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
       { path: ':category', component: RecordsPageComponent },
       { path: ':category/new', component: AddRecordComponent },
+      { path: ':category/view/:id', component: ViewRecordPageComponent },
       { path: ':category/edit/:id', component: EditRecordPageComponent },
     ],
   },
