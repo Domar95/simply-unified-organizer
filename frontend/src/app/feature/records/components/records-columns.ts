@@ -1,12 +1,16 @@
 import { RecordsTableColumns } from '../models/records-table.model';
 
+const defaultColumns: RecordsTableColumns = [
+  { key: 'id', label: 'Id' },
+  { key: 'name', label: 'Name' },
+  { key: 'text', label: 'Text' },
+  { key: 'created_at', label: 'Created At' },
+  { key: 'updated_at', label: 'Updated At' },
+];
+
 export const columns: { [key: string]: RecordsTableColumns } = {
   'programming-project': [
-    { key: 'id', label: 'Id' },
-    { key: 'name', label: 'Name' },
-    { key: 'text', label: 'Text' },
-    { key: 'created_at', label: 'Created At' },
-    { key: 'updated_at', label: 'Updated At' },
+    ...defaultColumns,
     { key: 'importance', label: 'Importance' },
     { key: 'deadline', label: 'Deadline' },
     { key: 'used_technologies', label: 'Used Technologies' },
@@ -14,22 +18,14 @@ export const columns: { [key: string]: RecordsTableColumns } = {
     { key: 'extra', label: 'Extra' },
   ],
   knowledge: [
-    { key: 'id', label: 'Id' },
-    { key: 'name', label: 'Name' },
-    { key: 'text', label: 'Text' },
-    { key: 'created_at', label: 'Created At' },
-    { key: 'updated_at', label: 'Updated At' },
+    ...defaultColumns,
     { key: 'importance', label: 'Importance' },
     { key: 'domain', label: 'Domain' },
     { key: 'link', label: 'Link' },
     { key: 'image', label: 'Image' },
   ],
   note: [
-    { key: 'id', label: 'Id' },
-    { key: 'name', label: 'Name' },
-    { key: 'text', label: 'Text' },
-    { key: 'created_at', label: 'Created At' },
-    { key: 'updated_at', label: 'Updated At' },
+    ...defaultColumns,
     { key: 'description', label: 'Description' },
     { key: 'importance', label: 'Importance' },
     { key: 'type', label: 'Type' },
