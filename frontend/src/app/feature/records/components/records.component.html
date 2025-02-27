@@ -1,21 +1,6 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  @for (tab of tabs; track tab) {
-  <a
-    mat-tab-link
-    (click)="activeLink = tab"
-    [active]="activeLink == tab"
-    [routerLink]="tab.route"
-  >
-    {{ tab.label }}
-  </a>
-  }
-</nav>
-
-<mat-tab-nav-panel #tabPanel>
-  <suo-records-table
-    [records$]="records$"
-    [columns]="columns"
-    (onRefresh)="handleRefresh()"
-    (onDelete)="handleDelete($event)"
-  ></suo-records-table>
-</mat-tab-nav-panel>
+<suo-records-table
+  [records$]="records$"
+  [columns]="columns"
+  (onRefresh)="handleRefresh()"
+  (onDelete)="handleDelete($event)"
+></suo-records-table>

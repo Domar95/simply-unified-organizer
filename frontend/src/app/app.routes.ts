@@ -9,6 +9,7 @@ import { RecordsComponent } from '@feature/records/components';
 import {
   AddRecordComponent,
   EditRecordPageComponent,
+  RecordsPageComponent,
 } from '@feature/records/pages';
 import {
   AuthLayoutComponent,
@@ -39,9 +40,8 @@ export const routes: Routes = [
     component: FeatureLayoutComponent,
     canActivate: [authGuard],
     children: [
-      // TODO: fix issue when opening knowledge/ that it opens as programming-project/ tab
       { path: '', redirectTo: 'programming-project', pathMatch: 'full' },
-      { path: ':category', component: RecordsComponent },
+      { path: ':category', component: RecordsPageComponent },
       { path: ':category/new', component: AddRecordComponent },
       { path: ':category/edit/:id', component: EditRecordPageComponent },
     ],

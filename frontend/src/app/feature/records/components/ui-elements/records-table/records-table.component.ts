@@ -57,10 +57,17 @@ export class RecordsTableComponent {
           this.state = records;
           return;
         }
-        this.dataSource.data = records;
+
+        this.updateTable(records);
         this.state = 'loaded';
       }
     );
+  }
+
+  private updateTable(records: unknown[]): void {
+    this.columnKeys = this.getColumnKeys();
+    this.dataSource = new MatTableDataSource<unknown>(records);
+    this.dataSource.sort = this.sort;
   }
 
   private getColumnKeys(): string[] {

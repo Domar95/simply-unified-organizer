@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { RecordStrategyFactoryService } from '../services/record-strategy-factory.service';
@@ -20,43 +18,32 @@ import {
 
 @Component({
   selector: 'suo-records',
-  imports: [MatTabsModule, RouterModule, RecordsTableComponent],
+  imports: [RecordsTableComponent],
   templateUrl: './records.component.html',
   styleUrls: ['./records.component.scss'],
 })
 export class RecordsComponent {
-  tabs = [
-    {
-      label: 'Programming Project',
-      route: 'programming-project',
-    },
-    {
-      label: 'Knowledge',
-      route: 'knowledge',
-    },
-    {
-      label: 'Note',
-      route: 'note',
-    },
-  ];
-  activeLink = this.tabs[0];
+  @Input({ required: true }) category!: string;
 
   strategy!: RecordStrategy;
   records$: Subject<RecordsTableData> = new Subject<RecordsTableData>();
 
   constructor(
-    private route: ActivatedRoute,
     private recordStrategyFactoryService: RecordStrategyFactoryService,
     private notificationService: NotificationService
   ) {}
 
   columns!: RecordsTableColumns;
 
-  async ngOnInit(): Promise<void> {
-    const category = this.route.snapshot.paramMap.get('category') || '';
-    this.columns = columns[category];
-    this.strategy = this.recordStrategyFactoryService.getStrategy(category);
+  ngOnChanges() {
+    this.initializeData();
+  }
 
+  private async initializeData(): Promise<void> {
+    this.columns = columns[this.category];
+    this.strategy = this.recordStrategyFactoryService.getStrategy(
+      this.category
+    );
     await this.loadRecords();
   }
 
