@@ -1,22 +1,18 @@
 import logging
-import os
 
-from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
-load_dotenv()
-
 db = SQLAlchemy()
 
 
-def create_app() -> Flask:
-    app = Flask(__name__)
-    app.config["JWT_SECRET_KEY"] = os.getenv("jwt_secret_key")
+def create_app(env=None) -> Flask:
+    from src.config.config import config_by_name
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("local_db_uri")
+    app = Flask(__name__)
+    app.config.from_object(config_by_name[env or "test"])
 
     jwt = JWTManager(app)
 
