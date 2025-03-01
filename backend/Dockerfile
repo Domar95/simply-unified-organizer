@@ -48,4 +48,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD flask run
+CMD ["gunicorn", "wsgi:app", "-b", "0.0.0.0:8000", "-w", "4"]
