@@ -63,17 +63,17 @@ export class AddRecordComponent {
       case 'knowledge':
         response = await this.recordsApiService.addKnowledgeRecord(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Knowledge record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       case 'programming-project':
         response = await this.recordsApiService.addProgrammingProject(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Programming project record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       case 'note':
         response = await this.recordsApiService.addNoteRecord(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Programming project record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       default:
         return;

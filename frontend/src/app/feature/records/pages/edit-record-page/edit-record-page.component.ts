@@ -50,6 +50,7 @@ export class EditRecordPageComponent {
     try {
       await this.strategy.updateRecord(this.id, data);
       this.notificationService.openSnackBar('Record updated successfully!');
+      this.router.navigate(['/records', this.category]);
     } catch (error) {
       this.notificationService.openSnackBar(
         'Failed to update record. Try again later.'
