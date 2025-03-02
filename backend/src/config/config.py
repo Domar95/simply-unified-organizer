@@ -39,8 +39,8 @@ class ProductionConfig(BaseConfig):
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    JWT_SECRET_KEY = os.getenv("jwt_secret_key")
-    SQLALCHEMY_DATABASE_URI = os.getenv("local_db_uri")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
 
 
 EXPORT_CONFIGS: List[Type[BaseConfig]] = [

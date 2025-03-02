@@ -16,30 +16,33 @@ import {
   NotePostRequest,
   NotePatchRequest,
 } from '@feature/records/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecordsApiService {
   // need to update different envs in config later on
-  readonly APIURL = 'http://127.0.0.1:5000';
+  readonly API_URL = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /* Programming Project API*/
   getProgrammingProject(id: string): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
       this.http.get<ProgrammingProjectApiResponse>(
-        `${this.APIURL}/records/programming-project/${id}`
+        `${this.API_URL}/records/programming-project/${id}`
       )
     );
   }
 
   getProgrammingProjects(): Promise<ProgrammingProjectApiResponse[]> {
     return lastValueFrom(
-      this.http.get<ProgrammingProjectListApiResponse>(
-        `${this.APIURL}/records/programming-project`
-      ).pipe(map((response) => response.records))
+      this.http
+        .get<ProgrammingProjectListApiResponse>(
+          `${this.API_URL}/records/programming-project`
+        )
+        .pipe(map((response) => response.records))
     );
   }
 
@@ -48,7 +51,7 @@ export class RecordsApiService {
   ): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
       this.http.post<ProgrammingProjectApiResponse>(
-        `${this.APIURL}/records/programming-project`,
+        `${this.API_URL}/records/programming-project`,
         programmingProject
       )
     );
@@ -60,7 +63,7 @@ export class RecordsApiService {
   ): Promise<ProgrammingProjectApiResponse> {
     return lastValueFrom(
       this.http.patch<ProgrammingProjectApiResponse>(
-        `${this.APIURL}/records/programming-project/${id}`,
+        `${this.API_URL}/records/programming-project/${id}`,
         programmingProject
       )
     );
@@ -69,7 +72,7 @@ export class RecordsApiService {
   deleteProgrammingProject(id: string): Promise<void> {
     return lastValueFrom(
       this.http.delete<void>(
-        `${this.APIURL}/records/programming-project/${id}`
+        `${this.API_URL}/records/programming-project/${id}`
       )
     );
   }
@@ -78,7 +81,7 @@ export class RecordsApiService {
   getKnowledgeRecord(id: string): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.get<KnowledgeApiResponse>(
-        `${this.APIURL}/records/knowledge/${id}`
+        `${this.API_URL}/records/knowledge/${id}`
       )
     );
   }
@@ -86,9 +89,7 @@ export class RecordsApiService {
   getKnowledgeRecords(): Promise<KnowledgeApiResponse[]> {
     return lastValueFrom(
       this.http
-        .get<KnowledgeListApiResponse>(
-          `${this.APIURL}/records/knowledge`
-        )
+        .get<KnowledgeListApiResponse>(`${this.API_URL}/records/knowledge`)
         .pipe(map((response) => response.records))
     );
   }
@@ -98,7 +99,7 @@ export class RecordsApiService {
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.post<KnowledgeApiResponse>(
-        `${this.APIURL}/records/knowledge`,
+        `${this.API_URL}/records/knowledge`,
         programmingProject
       )
     );
@@ -110,7 +111,7 @@ export class RecordsApiService {
   ): Promise<KnowledgeApiResponse> {
     return lastValueFrom(
       this.http.patch<KnowledgeApiResponse>(
-        `${this.APIURL}/records/knowledge/${id}`,
+        `${this.API_URL}/records/knowledge/${id}`,
         programmingProject
       )
     );
@@ -118,40 +119,28 @@ export class RecordsApiService {
 
   deleteKnowledgeRecord(id: string): Promise<void> {
     return lastValueFrom(
-      this.http.delete<void>(
-        `${this.APIURL}/records/knowledge/${id}`
-      )
+      this.http.delete<void>(`${this.API_URL}/records/knowledge/${id}`)
     );
   }
-
 
   /* Note API*/
   getNoteRecord(id: string): Promise<NoteApiResponse> {
     return lastValueFrom(
-      this.http.get<NoteApiResponse>(
-        `${this.APIURL}/records/note/${id}`
-      )
+      this.http.get<NoteApiResponse>(`${this.API_URL}/records/note/${id}`)
     );
   }
 
   getNoteRecords(): Promise<NoteApiResponse[]> {
     return lastValueFrom(
       this.http
-        .get<NoteListApiResponse>(
-          `${this.APIURL}/records/note`
-        )
+        .get<NoteListApiResponse>(`${this.API_URL}/records/note`)
         .pipe(map((response) => response.records))
     );
   }
 
-  addNoteRecord(
-    note: NotePostRequest
-  ): Promise<NoteApiResponse> {
+  addNoteRecord(note: NotePostRequest): Promise<NoteApiResponse> {
     return lastValueFrom(
-      this.http.post<NoteApiResponse>(
-        `${this.APIURL}/records/note`,
-        note
-      )
+      this.http.post<NoteApiResponse>(`${this.API_URL}/records/note`, note)
     );
   }
 
@@ -161,7 +150,7 @@ export class RecordsApiService {
   ): Promise<NoteApiResponse> {
     return lastValueFrom(
       this.http.patch<NoteApiResponse>(
-        `${this.APIURL}/records/note/${id}`,
+        `${this.API_URL}/records/note/${id}`,
         note
       )
     );
@@ -169,9 +158,7 @@ export class RecordsApiService {
 
   deleteNoteRecord(id: string): Promise<void> {
     return lastValueFrom(
-      this.http.delete<void>(
-        `${this.APIURL}/records/note/${id}`
-      )
+      this.http.delete<void>(`${this.API_URL}/records/note/${id}`)
     );
   }
 }
