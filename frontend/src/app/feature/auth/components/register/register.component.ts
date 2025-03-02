@@ -21,8 +21,7 @@ export class RegisterComponent {
 
   async onFormSubmitted(data: UserPostRequest) {
     try {
-      const resp = await this.usersService.registerUser(data);
-      console.log(resp);
+      await this.usersService.registerUser(data);
       this.notificationService.openSnackBar(
         'You have been registered. You can now log in.'
       );

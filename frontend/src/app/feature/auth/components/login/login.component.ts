@@ -25,7 +25,6 @@ export class LoginComponent {
   async onFormSubmitted(data: UserLoginRequest) {
     try {
       const resp = await this.usersService.loginUser(data);
-      console.log(resp);
 
       const user: UserInterface = {
         email: resp.user.email,
