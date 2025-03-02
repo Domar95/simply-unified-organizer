@@ -1,4 +1,7 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
 
 import { RecordStrategyFactoryService } from '../services/record-strategy-factory.service';
@@ -18,7 +21,7 @@ import {
 
 @Component({
   selector: 'suo-records',
-  imports: [RecordsTableComponent],
+  imports: [RecordsTableComponent, MatButtonModule, MatIconModule],
   templateUrl: './records.component.html',
   styleUrls: ['./records.component.scss'],
 })
@@ -29,6 +32,8 @@ export class RecordsComponent {
   records$: Subject<RecordsTableData> = new Subject<RecordsTableData>();
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private recordStrategyFactoryService: RecordStrategyFactoryService,
     private notificationService: NotificationService
   ) {}
@@ -62,11 +67,17 @@ export class RecordsComponent {
     }
   }
 
-  async handleRefresh(): Promise<void> {
+  async refreshRecords(): Promise<void> {
     await this.loadRecords();
   }
 
-  async handleDelete(id: string) {
+  addRecord(): void {
+    this.router.navigate(['new'], {
+      relativeTo: this.route,
+    });
+  }
+
+  async handleDelete(id: string): Promise<void> {
     try {
       await this.strategy.deleteRecord(id);
       this.notificationService.openSnackBar('Record deleted successfully!');

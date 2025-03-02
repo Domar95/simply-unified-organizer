@@ -87,18 +87,8 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  async addRecord() {
-    this.router.navigate(['new'], {
-      relativeTo: this.route,
-    });
-  }
-
   async deleteRecord(id: string) {
     this.onDelete.emit(id);
-  }
-
-  async refreshRecords() {
-    this.onRefresh.emit();
   }
 
   viewRecord(id: string) {
