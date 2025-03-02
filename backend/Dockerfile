@@ -44,4 +44,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD ["gunicorn", "wsgi:app", "-b", "0.0.0.0:8000", "-w", "4"]
+CMD ["gunicorn", "wsgi:app", "-b", "0.0.0.0:8080", "-w", "4"]
