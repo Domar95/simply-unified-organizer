@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -22,6 +22,7 @@ export class AddRecordComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private questionService: QuestionService,
     private recordsApiService: RecordsApiService,
     private notificationService: NotificationService
@@ -77,5 +78,9 @@ export class AddRecordComponent {
       default:
         return;
     }
+  }
+
+  onFormCancelled(): void {
+    this.router.navigate(['/records', this.category]);
   }
 }

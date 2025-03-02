@@ -27,14 +27,12 @@ export class DynamicFormComponent implements OnInit {
   @Input() readonly: boolean = false;
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
+  @Output() formCancelled: EventEmitter<void> = new EventEmitter<void>();
 
   form!: FormGroup;
   payLoad = '';
 
-  constructor(
-    private questionControlService: QuestionControlService,
-    private router: Router
-  ) {}
+  constructor(private questionControlService: QuestionControlService) {}
 
   ngOnInit() {
     this.form = this.questionControlService.toFormGroup(this.questions);
@@ -47,8 +45,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onCancel() {
-    this.form.reset();
     // TODO: extract logic to parent component
-    this.router.navigate(['/records']);
+    this.formCancelled.emit();
   }
 }

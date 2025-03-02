@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DynamicFormComponent } from '@feature/records/components/ui-elements/dynamic-form/dynamic-form.component';
 import { QuestionBase } from '@feature/records/models';
@@ -17,24 +17,33 @@ import { RecordStrategy } from '@feature/records/services/strategies';
 export class ViewRecordPageComponent {
   strategy!: RecordStrategy;
   questions!: QuestionBase<string | number | Date>[];
+  category!: string;
   title!: string;
   id!: string;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private recordStrategyFactoryService: RecordStrategyFactoryService,
     private recordTitleService: RecordTitleService
   ) {}
+
   async ngOnInit(): Promise<void> {
-    const category = this.route.snapshot.paramMap.get('category') || '';
-    const categoryTitle = this.recordTitleService.getTitle(category);
+    this.category = this.route.snapshot.paramMap.get('category') || '';
+    const categoryTitle = this.recordTitleService.getTitle(this.category);
     this.title = `View ${categoryTitle} record`;
-    this.strategy = this.recordStrategyFactoryService.getStrategy(category);
+    this.strategy = this.recordStrategyFactoryService.getStrategy(
+      this.category
+    );
 
     this.id = this.route.snapshot.paramMap.get('id') || '';
     const record = await this.strategy.getRecord(this.id);
     this.questions = this.strategy.getQuestions(
       record as unknown as Record<string, string | number>
     );
+  }
+
+  onFormCancelled(): void {
+    this.router.navigate(['/records', this.category]);
   }
 }
