@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -22,6 +22,7 @@ export class AddRecordComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private questionService: QuestionService,
     private recordsApiService: RecordsApiService,
     private notificationService: NotificationService
@@ -62,20 +63,24 @@ export class AddRecordComponent {
       case 'knowledge':
         response = await this.recordsApiService.addKnowledgeRecord(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Knowledge record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       case 'programming-project':
         response = await this.recordsApiService.addProgrammingProject(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Programming project record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       case 'note':
         response = await this.recordsApiService.addNoteRecord(data);
         this.notificationService.openSnackBar('Record added successfully!');
-        console.log('Programming project record added:', response);
+        this.router.navigate(['/records', this.category]);
         return;
       default:
         return;
     }
+  }
+
+  onFormCancelled(): void {
+    this.router.navigate(['/records', this.category]);
   }
 }

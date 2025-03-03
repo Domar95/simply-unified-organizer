@@ -1,6 +1,14 @@
+<div class="action-buttons">
+  <button mat-raised-button (click)="refreshRecords()">
+    <mat-icon>refresh</mat-icon> Refresh
+  </button>
+  <button mat-raised-button (click)="addRecord()">
+    <mat-icon>add</mat-icon> Add
+  </button>
+</div>
+
 <suo-records-table
   [records$]="records$"
   [columns]="columns"
-  (onRefresh)="handleRefresh()"
   (onDelete)="handleDelete($event)"
 ></suo-records-table>
