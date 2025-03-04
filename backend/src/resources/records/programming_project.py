@@ -1,33 +1,31 @@
-import flask
-
-from typing import List
-from flask import request
-from flask.views import MethodView
 from datetime import datetime, timezone
+from flask import abort, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask.views import MethodView
 from pydantic import ValidationError
+from typing import List
 
+from src import db
 from src.models.records.record_types.programming_project import (
     ProgrammingProject,
     ProgrammingProjectSchema,
 )
-from src import db
 
 
 class ProgrammingProjectView(MethodView):
     @jwt_required()
-    def post(self) -> ProgrammingProject:
+    def post(self):
         data = request.get_json()
         data["created_at"] = data["updated_at"] = datetime.now(timezone.utc)
         data["user_id"] = get_jwt_identity()
 
         try:
-            validated_data = ProgrammingProjectSchema(**data)
+            validated_data = ProgrammingProjectSchema.model_validate(**data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         record = ProgrammingProject(
             id=validated_data.id,
@@ -50,7 +48,7 @@ class ProgrammingProjectView(MethodView):
         return validated_record.model_dump(), 201
 
     @jwt_required()
-    def get(self, id: str) -> ProgrammingProject:
+    def get(self, id: str):
         current_user_id = get_jwt_identity()
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
             id=id, user_id=current_user_id
@@ -60,7 +58,7 @@ class ProgrammingProjectView(MethodView):
         return validated_record.model_dump()
 
     @jwt_required()
-    def patch(self, id: str) -> ProgrammingProject:
+    def patch(self, id: str):
         current_user_id = get_jwt_identity()
         data = request.get_json()
 
@@ -90,26 +88,28 @@ class ProgrammingProjectView(MethodView):
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         db.session.commit()
 
         return validated_record.model_dump()
 
     @jwt_required()
-    def delete(self, id: str) -> str:
+    def delete(self, id: str):
         current_user_id = get_jwt_identity()
         record: ProgrammingProject = ProgrammingProject.query.filter_by(
             id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
+
         db.session.delete(record)
         db.session.commit()
+
         return "", 204
 
 
 class ProgrammingProjectListView(MethodView):
     @jwt_required()
-    def get(self) -> List[ProgrammingProject]:
+    def get(self):
         current_user_id = get_jwt_identity()
         records: List[ProgrammingProject] = ProgrammingProject.query.filter_by(
             user_id=current_user_id

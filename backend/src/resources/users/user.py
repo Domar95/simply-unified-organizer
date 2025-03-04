@@ -1,10 +1,7 @@
-import flask
-
-from typing import List
-from flask import request
-from flask.views import MethodView
 from datetime import datetime, timezone
+from flask import abort, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask.views import MethodView
 from pydantic import ValidationError
 
 from src.models.users.user import (
@@ -23,21 +20,21 @@ class UserView(MethodView):
         username = data.get("username")
         user: User = User.query.filter_by(username=username).first()
         if user:
-            flask.abort(400, f"User with username '{username}' already exists...")
+            abort(400, f"User with username '{username}' already exists...")
 
         # Check if user with email already exists
         email = data.get("email")
         user: User = User.query.filter_by(email=email).first()
         if user:
-            flask.abort(400, f"User with email '{email}' already exists...")
+            abort(400, f"User with email '{email}' already exists...")
 
         try:
-            validated_data = UserSchema(**data)
+            validated_data = UserSchema.model_validate(**data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         user = User(
             id=validated_data.id,
@@ -91,7 +88,7 @@ class UserView(MethodView):
                             username=username
                         ).first()
                         if existing_user and existing_user.id != user.id:
-                            flask.abort(
+                            abort(
                                 400,
                                 f"User with username '{username}' already exists...",
                             )
@@ -99,7 +96,7 @@ class UserView(MethodView):
                         email = data["email"]
                         existing_user: User = User.query.filter_by(email=email).first()
                         if existing_user and existing_user.id != user.id:
-                            flask.abort(
+                            abort(
                                 400,
                                 f"User with email '{email}' already exists...",
                             )
@@ -113,7 +110,7 @@ class UserView(MethodView):
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         db.session.commit()
 

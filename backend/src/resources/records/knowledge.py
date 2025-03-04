@@ -1,105 +1,112 @@
-import flask
-
-from bson import ObjectId, errors
 from datetime import datetime, timezone
-from flask import request
+from flask import abort, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask.views import MethodView
 from pydantic import ValidationError
-from pymongo import ReturnDocument
+from typing import List
 
-from src.db_connections.mongo_db.pymongo_get_database import get_database
-from src.models.records.record_types.knowledge import Knowledge
-
-db = get_database()
-collection = db["knowledge"]
+from src import db
+from src.models.records.record_types.knowledge import Knowledge, KnowledgeSchema
 
 
 class KnowledgeView(MethodView):
+    @jwt_required()
     def post(self):
-        raw_record = request.get_json()
-        raw_record["created_at"] = raw_record["updated_at"] = datetime.now(timezone.utc)
+        data = request.get_json()
+        data["created_at"] = data["updated_at"] = datetime.now(timezone.utc)
+        data["user_id"] = get_jwt_identity()
 
         try:
-            record = Knowledge(**raw_record)
+            validated_data = KnowledgeSchema.model_validate(**data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
-        result = collection.insert_one(record.to_bson())
-        record.id = ObjectId(str(result.inserted_id))
+        record = Knowledge(
+            id=validated_data.id,
+            user_id=validated_data.user_id,
+            name=validated_data.name,
+            text=validated_data.text,
+            created_at=validated_data.created_at,
+            updated_at=validated_data.updated_at,
+            importance=validated_data.importance,
+            domain=validated_data.domain,
+            link=validated_data.link,
+            image=validated_data.image,
+        )
 
-        return record.to_json(), 201
+        db.session.add(record)
+        db.session.commit()
 
+        validated_record = KnowledgeSchema.model_validate(record)
+        return validated_record.model_dump(), 201
+
+    @jwt_required()
     def get(self, id: str):
-        try:
-            object_id = ObjectId(id)
-        except (TypeError, errors.InvalidId):
-            flask.abort(
-                400,
-                f"Invalid 'id' format. Must be a valid ObjectId: 24-character hex string",
-            )
+        current_user_id = get_jwt_identity()
+        record: Knowledge = Knowledge.query.filter_by(
+            id=id, user_id=current_user_id
+        ).first_or_404(description="Could not find record with that ID...")
 
-        result = collection.find_one({"_id": object_id})
-        if not result:
-            flask.abort(404, f"Record not found: {object_id}")
+        validated_record = KnowledgeSchema.model_validate(record)
+        return validated_record.model_dump()
 
-        return Knowledge(**result).to_json()
+    @jwt_required()
+    def patch(self, id: str):
+        current_user_id = get_jwt_identity()
+        data = request.get_json()
 
-    def put(self, id: str):
-        try:
-            object_id = ObjectId(id)
-        except (TypeError, errors.InvalidId):
-            flask.abort(
-                400,
-                f"Invalid 'id' format. Must be a valid ObjectId: 24-character hex string",
-            )
+        record: Knowledge = Knowledge.query.filter_by(
+            id=id, user_id=current_user_id
+        ).first_or_404(description="Could not find record with that ID...")
 
-        try:
-            record = Knowledge(**request.get_json())
-        except ValidationError as e:
-            error_details = e.errors()[0]
-            field = error_details["loc"][0]
-            error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+        updatable_fields = ["name", "text", "importance", "domain", "link", "image"]
+
+        for field in updatable_fields:
+            if field in data:
+                setattr(record, field, data[field])
 
         record.updated_at = datetime.now(timezone.utc)
 
-        updated_doc = collection.find_one_and_update(
-            {"_id": object_id},
-            {"$set": record.to_bson()},
-            return_document=ReturnDocument.AFTER,
-        )
-
-        if updated_doc:
-            return Knowledge(**updated_doc).to_json()
-        else:
-            flask.abort(404, f"Record not found: {object_id}")
-
-    def delete(self, id: str):
         try:
-            object_id = ObjectId(id)
-        except (TypeError, errors.InvalidId):
-            flask.abort(
-                400,
-                f"Invalid 'id' format. Must be a valid ObjectId: 24-character hex string",
-            )
+            validated_record = KnowledgeSchema.model_validate(record)
+        except ValidationError as e:
+            error_details = e.errors()[0]
+            field = error_details["loc"][0]
+            error_message = error_details["msg"]
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
-        deleted_record = collection.find_one_and_delete(
-            {"_id": object_id},
-        )
+        db.session.commit()
 
-        if deleted_record:
-            return Knowledge(**deleted_record).to_json()
-        else:
-            flask.abort(404, f"Record not found: {object_id}")
+        return validated_record.model_dump()
+
+    @jwt_required()
+    def delete(self, id: str):
+        current_user_id = get_jwt_identity()
+        record: Knowledge = Knowledge.query.filter_by(
+            id=id, user_id=current_user_id
+        ).first_or_404(description="Could not find record with that ID...")
+
+        db.session.delete(record)
+        db.session.commit()
+
+        return "", 204
 
 
 class KnowledgeListView(MethodView):
+    @jwt_required()
     def get(self):
-        records = collection.find()
-        return {"records": [Knowledge(**record).to_json() for record in records]}
+        current_user_id = get_jwt_identity()
+        records: List[Knowledge] = Knowledge.query.filter_by(
+            user_id=current_user_id
+        ).all()
+
+        serialized_records = [
+            KnowledgeSchema.model_validate(record).model_dump() for record in records
+        ]
+        return {"records": serialized_records}
 
 
 knowledge_view = KnowledgeView.as_view("knowledge_view")

@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import request
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
 
@@ -18,12 +18,12 @@ class UserLogin(MethodView):
         password = data.get("password")
 
         user: User = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            validated_user = UserSchema.model_validate(user)
-            access_token = create_access_token(identity=user.id)
-            return {"access_token": access_token, "user": validated_user.model_dump()}
+        if not user or not user.check_password(password):
+            return {"error": "Invalid credentials"}, 401
 
-        return {"error": "Invalid credentials"}, 401
+        validated_user = UserSchema.model_validate(user)
+        access_token = create_access_token(identity=user.id)
+        return {"access_token": access_token, "user": validated_user.model_dump()}
 
 
 user_login_view = UserLogin.as_view("user_login_view")
