@@ -14,7 +14,7 @@ records_bp = Blueprint("records", __name__, url_prefix="/records")
 records_bp.add_url_rule(
     "/knowledge/<string:id>",
     view_func=knowledge_view,
-    methods=["GET", "PUT", "DELETE"],
+    methods=["GET", "PATCH", "DELETE"],
 )
 records_bp.add_url_rule(
     "/knowledge",
