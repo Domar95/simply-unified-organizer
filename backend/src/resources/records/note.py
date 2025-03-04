@@ -1,17 +1,15 @@
-import flask
-
-from typing import List
-from flask import request
-from flask.views import MethodView
 from datetime import datetime, timezone
+from flask import abort, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask.views import MethodView
 from pydantic import ValidationError
+from typing import List
 
+from src import db
 from src.models.records.record_types.note import (
     Note,
     NoteSchema,
 )
-from src import db
 
 
 class NoteView(MethodView):
@@ -22,12 +20,12 @@ class NoteView(MethodView):
         data["user_id"] = get_jwt_identity()
 
         try:
-            validated_data = NoteSchema(**data)
+            validated_data = NoteSchema.model_validate(**data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         record = Note(
             id=validated_data.id,
@@ -88,7 +86,7 @@ class NoteView(MethodView):
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         db.session.commit()
 
@@ -100,14 +98,16 @@ class NoteView(MethodView):
         record: Note = Note.query.filter_by(
             id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
+
         db.session.delete(record)
         db.session.commit()
+
         return "", 204
 
 
 class NoteListView(MethodView):
     @jwt_required()
-    def get(self) -> List[Note]:
+    def get(self):
         current_user_id = get_jwt_identity()
         records: List[Note] = Note.query.filter_by(user_id=current_user_id).all()
 

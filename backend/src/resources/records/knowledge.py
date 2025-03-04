@@ -1,14 +1,12 @@
-import flask
-
-from typing import List
-from flask import request
-from flask.views import MethodView
 from datetime import datetime, timezone
+from flask import abort, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask.views import MethodView
 from pydantic import ValidationError
+from typing import List
 
-from src.models.records.record_types.knowledge import Knowledge, KnowledgeSchema
 from src import db
+from src.models.records.record_types.knowledge import Knowledge, KnowledgeSchema
 
 
 class KnowledgeView(MethodView):
@@ -19,12 +17,12 @@ class KnowledgeView(MethodView):
         data["user_id"] = get_jwt_identity()
 
         try:
-            validated_data = KnowledgeSchema(**data)
+            validated_data = KnowledgeSchema.model_validate(**data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         record = Knowledge(
             id=validated_data.id,
@@ -78,7 +76,7 @@ class KnowledgeView(MethodView):
             error_details = e.errors()[0]
             field = error_details["loc"][0]
             error_message = error_details["msg"]
-            flask.abort(400, f"Validation error on field '{field}': {error_message}")
+            abort(400, f"Validation error on field '{field}': {error_message}")
 
         db.session.commit()
 
@@ -90,14 +88,16 @@ class KnowledgeView(MethodView):
         record: Knowledge = Knowledge.query.filter_by(
             id=id, user_id=current_user_id
         ).first_or_404(description="Could not find record with that ID...")
+
         db.session.delete(record)
         db.session.commit()
+
         return "", 204
 
 
 class KnowledgeListView(MethodView):
     @jwt_required()
-    def get(self) -> List[Knowledge]:
+    def get(self):
         current_user_id = get_jwt_identity()
         records: List[Knowledge] = Knowledge.query.filter_by(
             user_id=current_user_id
