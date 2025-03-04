@@ -1,15 +1,24 @@
-from bson import Binary, ObjectId
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 from typing import Optional
 from uuid import UUID, uuid4
 
+from src.models.records.base_record import BaseRecord
+from src import db
 
-class Knowledge(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    id: Optional[ObjectId] = Field(None, alias="_id")
-    uuid: UUID = Field(default_factory=uuid4)
+class Knowledge(BaseRecord):
+    __tablename__ = "knowledge"
+
+    importance = db.Column(db.Integer)
+    domain = db.Column(db.Text)
+    link = db.Column(db.Text)
+    image = db.Column(db.Text)
+
+
+class KnowledgeSchema(BaseModel):
+    id: UUID = Field(default_factory=uuid4)
+    user_id: UUID
     name: str
     text: Optional[str] = None
     created_at: Optional[datetime] = None
@@ -20,16 +29,5 @@ class Knowledge(BaseModel):
     link: Optional[str] = None
     image: Optional[str] = None
 
-    def to_json(self):
-        data = self.model_dump()
-        data["created_at"] = data["created_at"].isoformat()
-        data["updated_at"] = data["updated_at"].isoformat()
-        data["id"] = str(data["id"])
-        return data
-
-    def to_bson(self):
-        data = self.model_dump(by_alias=True, exclude_none=True)
-        if "uuid" in data and isinstance(data["uuid"], UUID):
-            # Convert the UUID to a BSON Binary with the STANDARD representation
-            data["uuid"] = Binary.from_uuid(data["uuid"])
-        return data
+    class Config:
+        from_attributes = True
