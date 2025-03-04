@@ -16,7 +16,7 @@ def create_app(env=None) -> Flask:
 
     jwt = JWTManager(app)
 
-    add_resources(app)
+    register_blueprints(app)
 
     # Initialize logging
     logging.basicConfig(level=logging.INFO)
@@ -36,80 +36,11 @@ def create_app(env=None) -> Flask:
     return app
 
 
-def add_resources(app: Flask) -> None:
-    from src.resources.records.programming_project import (
-        programming_project_view,
-        programming_project_list_view,
-    )
+def register_blueprints(app: Flask) -> None:
+    from src.resources.records.records_blueprint import records_bp
 
-    app.add_url_rule(
-        "/records/programming-project/<string:id>",
-        view_func=programming_project_view,
-        methods=["GET", "PATCH", "DELETE"],
-    )
-    app.add_url_rule(
-        "/records/programming-project",
-        view_func=programming_project_view,
-        methods=["POST"],
-    )
-    app.add_url_rule(
-        "/records/programming-project",
-        view_func=programming_project_list_view,
-        methods=["GET"],
-    )
+    app.register_blueprint(records_bp)
 
-    from src.resources.records.knowledge import knowledge_view, knowledge_list_view
+    from src.resources.users.users_blueprint import users_bp
 
-    app.add_url_rule(
-        "/records/knowledge/<string:id>",
-        view_func=knowledge_view,
-        methods=["GET", "PUT", "DELETE"],
-    )
-    app.add_url_rule(
-        "/records/knowledge",
-        view_func=knowledge_view,
-        methods=["POST"],
-    )
-    app.add_url_rule(
-        "/records/knowledge",
-        view_func=knowledge_list_view,
-        methods=["GET"],
-    )
-
-    from src.resources.records.note import note_view, note_list_view
-
-    app.add_url_rule(
-        "/records/note/<string:id>",
-        view_func=note_view,
-        methods=["GET", "PATCH", "DELETE"],
-    )
-    app.add_url_rule(
-        "/records/note",
-        view_func=note_view,
-        methods=["POST"],
-    )
-    app.add_url_rule(
-        "/records/note",
-        view_func=note_list_view,
-        methods=["GET"],
-    )
-
-    from src.resources.users.user import (
-        user_view,
-    )
-
-    app.add_url_rule(
-        "/users",
-        view_func=user_view,
-        methods=["POST", "GET", "PATCH", "DELETE"],
-    )
-
-    from src.resources.auth.login import (
-        user_login_view,
-    )
-
-    app.add_url_rule(
-        "/users/login",
-        view_func=user_login_view,
-        methods=["POST"],
-    )
+    app.register_blueprint(users_bp)

@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import request
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
 
