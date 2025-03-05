@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable, Subscription } from 'rxjs';
 
 import { RecordsTableData } from '@feature/records/models/records-table.model';
@@ -27,6 +28,7 @@ import { RecordsTableData } from '@feature/records/models/records-table.model';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
   ],
   templateUrl: './records-table.component.html',
   styleUrl: './records-table.component.scss',
@@ -122,5 +124,9 @@ export class RecordsTableComponent {
 
   isDateColumn(key: string): boolean {
     return !!this.dateColumnKeys?.includes(key);
+  }
+
+  isTruncated(element: HTMLElement): boolean {
+    return element.offsetWidth < element.scrollWidth;
   }
 }
