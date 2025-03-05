@@ -1,6 +1,13 @@
-.no-data-message {
-  text-align: center;
-  font-weight: bold;
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th,
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mat-mdc-form-field {
@@ -8,5 +15,10 @@
 }
 
 .mat-mdc-header-cell {
+  font-weight: bold;
+}
+
+.no-data-message {
+  text-align: center;
   font-weight: bold;
 }
