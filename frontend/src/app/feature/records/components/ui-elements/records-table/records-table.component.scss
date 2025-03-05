@@ -10,6 +10,19 @@ td {
   white-space: nowrap;
 }
 
+.mat-column-name {
+  width: 15%;
+}
+
+.mat-column-text {
+  width: 20%;
+}
+
+.mat-column-actions {
+  width: 10%;
+  text-align: center;
+}
+
 .mat-mdc-form-field {
   width: 100%;
 }
