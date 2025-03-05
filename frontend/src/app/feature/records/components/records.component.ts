@@ -39,6 +39,7 @@ export class RecordsComponent {
   ) {}
 
   columns!: RecordsTableColumns;
+  dateColumnKeys: string[] = ['created_at', 'updated_at', 'deadline'];
 
   ngOnChanges() {
     this.initializeData();

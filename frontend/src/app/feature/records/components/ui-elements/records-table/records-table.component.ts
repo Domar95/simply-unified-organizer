@@ -34,6 +34,7 @@ import { RecordsTableData } from '@feature/records/models/records-table.model';
 export class RecordsTableComponent {
   @Input({ required: true }) records$!: Observable<RecordsTableData>;
   @Input() columns!: { key: string; label: string }[];
+  @Input() dateColumnKeys: string[] | undefined;
 
   @Output() onRefresh: EventEmitter<void> = new EventEmitter<void>();
   @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
@@ -87,23 +88,23 @@ export class RecordsTableComponent {
     this.recordsSubscription.unsubscribe();
   }
 
-  async deleteRecord(id: string) {
+  deleteRecord(id: string): void {
     this.onDelete.emit(id);
   }
 
-  viewRecord(id: string) {
+  viewRecord(id: string): void {
     this.router.navigate(['view', id], {
       relativeTo: this.route,
     });
   }
 
-  editRecord(id: string) {
+  editRecord(id: string): void {
     this.router.navigate(['edit', id], {
       relativeTo: this.route,
     });
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -117,5 +118,9 @@ export class RecordsTableComponent {
       default:
         return 'No records found';
     }
+  }
+
+  isDateColumn(key: string): boolean {
+    return !!this.dateColumnKeys?.includes(key);
   }
 }
