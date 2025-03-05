@@ -20,7 +20,7 @@ class ProgrammingProjectView(MethodView):
         data["user_id"] = get_jwt_identity()
 
         try:
-            validated_data = ProgrammingProjectSchema.model_validate(**data)
+            validated_data = ProgrammingProjectSchema.model_validate(data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]
