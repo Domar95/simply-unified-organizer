@@ -29,7 +29,7 @@ class UserView(MethodView):
             abort(400, f"User with email '{email}' already exists...")
 
         try:
-            validated_data = UserSchema.model_validate(**data)
+            validated_data = UserSchema.model_validate(data)
         except ValidationError as e:
             error_details = e.errors()[0]
             field = error_details["loc"][0]

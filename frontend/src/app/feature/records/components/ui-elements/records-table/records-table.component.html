@@ -20,7 +20,22 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
       {{ column.label }}
     </th>
-    <td mat-cell *matCellDef="let record">{{ record[column.key] }}</td>
+    <td
+      mat-cell
+      *matCellDef="let record"
+      [matTooltip]="record[column.key]"
+      [matTooltipDisabled]="!isTruncated(text)"
+      matTooltipPosition="above"
+      matTooltipShowDelay="300"
+      matTooltipHideDelay="100"
+      #text
+    >
+      @if(!isDateColumn(column.key)) {
+      {{ record[column.key] }}
+      } @else {
+      {{ record[column.key] | date }}
+      }
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
