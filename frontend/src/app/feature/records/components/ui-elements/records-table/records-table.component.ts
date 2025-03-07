@@ -114,7 +114,7 @@ export class RecordsTableComponent {
   get noDataMessage(): string {
     switch (this.state) {
       case 'loading':
-        return 'Loading...';
+        return '';
       case 'error':
         return 'Failed to load records';
       default:
