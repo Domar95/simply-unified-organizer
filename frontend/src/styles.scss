@@ -14,7 +14,34 @@ html {
     )
   );
 }
+
 body {
   margin: 0;
   font-family: Inter;
+}
+
+/* Icon button clases */
+
+.primary-icon-button {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--mat-sys-primary),
+    )
+  );
+}
+
+.accent-icon-button {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--mat-sys-tertiary),
+    )
+  );
+}
+
+.warn-icon-button {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--mat-sys-error),
+    )
+  );
 }
