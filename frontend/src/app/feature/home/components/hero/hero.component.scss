@@ -15,15 +15,18 @@
   text-align: center;
 
   .primary {
-    font-size: 96px;
+    font-size: 120px;
+    color: var(--mat-sys-on-primary-fixed);
   }
 
   .secondary {
-    font-size: 40px;
+    font-size: 50px;
+    color: var(--mat-sys-on-primary-fixed);
   }
 
   .tertiary {
-    font-size: 24px;
-    padding-top: 20px;
+    font-size: 32px;
+    padding-top: 1.5rem;
+    color: var(--mat-sys-on-primary-container);
   }
 }
