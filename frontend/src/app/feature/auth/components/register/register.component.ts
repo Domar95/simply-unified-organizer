@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UsersService } from '../services/users.service';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { NotificationService } from '@shared/services/notification.service';
-import { UserPostRequest } from '../models/users-api.model';
+import { UserPostRequest } from '@feature/auth/models/users-api.model';
+import { UsersService } from '@feature/auth/services/users.service';
 
 @Component({
   selector: 'suo-register',
