@@ -1,0 +1,26 @@
+@use "@angular/material" as mat;
+
+.home-button {
+  height: 3.5rem;
+  width: 3.5rem;
+
+  .mat-icon {
+    overflow: visible;
+    transform: translate(
+      -30%,
+      25%
+    ); // center the icon, consider updating the svg instead
+  }
+
+  @include mat.icon-button-overrides(
+    (
+      icon-size: 2.5rem,
+    )
+  );
+
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-secondary),
+    )
+  );
+}
