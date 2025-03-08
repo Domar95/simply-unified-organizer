@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <suo-home-button></suo-home-button>
+  <suo-home-button class="home-button-spacer"></suo-home-button>
   <span [routerLink]="['']">Organizer</span>
   <div class="button-group">
     <button
@@ -17,16 +17,16 @@
     <button
       mat-stroked-button
       [routerLink]="['/auth/login']"
-      aria-label="Button that redirects to login page"
+      aria-label="Button that redirects to log in page"
     >
-      Login
+      Log in
     </button>
     <button
       mat-flat-button
-      [routerLink]="['/auth/register']"
-      aria-label="Button that redirects to register page"
+      [routerLink]="['/auth/signup']"
+      aria-label="Button that redirects to sign up page"
     >
-      Register</button
+      Sign up</button
     >} @if (authService.currentUserSignal()) {
     <button
       mat-stroked-button

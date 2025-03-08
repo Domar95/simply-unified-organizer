@@ -1,4 +1,4 @@
-.register-form-container {
+.sign-up-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +9,7 @@
 
   .title {
     font-size: 2rem;
+    margin-top: 0.5rem;
   }
 
   .field {

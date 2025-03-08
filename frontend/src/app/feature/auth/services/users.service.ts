@@ -22,7 +22,7 @@ export class UsersService {
     return this.http.get<UserApiResponse>(`${this.API_URL}/users`);
   }
 
-  registerUser(user: UserPostRequest): Promise<UserApiResponse> {
+  signUpUser(user: UserPostRequest): Promise<UserApiResponse> {
     return lastValueFrom(
       this.http.post<UserApiResponse>(`${this.API_URL}/users`, user)
     );

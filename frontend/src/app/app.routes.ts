@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
 import { LoginPageComponent } from '@feature/auth/components/pages/login-page/login-page.component';
 import { PasswordResetComponent } from '@feature/auth/components/pages/password-reset/password-reset.component';
-import { RegisterPageComponent } from '@feature/auth/components/pages/register-page/register-page.component';
+import { SignUpPageComponent } from '@feature/auth/components/pages/sign-up-page/sign-up-page.component';
 import { HomePageComponent } from '@feature/home/pages/home-page/home-page.component';
 import {
   AddRecordComponent,
@@ -30,7 +30,7 @@ export const routes: Routes = [
     component: AuthLayoutComponent,
     children: [
       { path: 'login', component: LoginPageComponent },
-      { path: 'register', component: RegisterPageComponent },
+      { path: 'signup', component: SignUpPageComponent },
       { path: 'password-reset', component: PasswordResetComponent },
     ],
   },
