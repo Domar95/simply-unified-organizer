@@ -1,32 +1,40 @@
 <mat-toolbar>
   <suo-home-button></suo-home-button>
   <span [routerLink]="['']">Organizer</span>
-  <button
-    mat-button
-    [routerLink]="['/records']"
-    aria-label="Button that redirects to records page"
-  >
-    Records
-  </button>
+  <div class="button-group">
+    <button
+      mat-button
+      [routerLink]="['/records']"
+      aria-label="Button that redirects to records page"
+    >
+      Records
+    </button>
+  </div>
   <span class="spacer"></span>
 
-  @if (authService.currentUserSignal() === null) {
-  <button
-    mat-button
-    [routerLink]="['/auth/login']"
-    aria-label="Button that redirects to login page"
-  >
-    Login
-  </button>
-  <button
-    mat-flat-button
-    [routerLink]="['/auth/register']"
-    aria-label="Button that redirects to register page"
-  >
-    Register</button
-  >} @if (authService.currentUserSignal()) {
-  <button mat-flat-button (click)="logout()" aria-label="Button that logs out">
-    Logout
-  </button>
-  }
+  <div class="button-group">
+    @if (authService.currentUserSignal() === null) {
+    <button
+      mat-stroked-button
+      [routerLink]="['/auth/login']"
+      aria-label="Button that redirects to login page"
+    >
+      Login
+    </button>
+    <button
+      mat-flat-button
+      [routerLink]="['/auth/register']"
+      aria-label="Button that redirects to register page"
+    >
+      Register</button
+    >} @if (authService.currentUserSignal()) {
+    <button
+      mat-flat-button
+      (click)="logout()"
+      aria-label="Button that logs out"
+    >
+      Logout
+    </button>
+    }
+  </div>
 </mat-toolbar>
