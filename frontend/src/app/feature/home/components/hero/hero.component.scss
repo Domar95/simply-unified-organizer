@@ -12,11 +12,13 @@
 .hero-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-align: center;
 
   .primary {
     font-size: 120px;
     color: var(--mat-sys-on-primary-fixed);
+    margin-bottom: 1.5rem;
   }
 
   .secondary {
@@ -26,7 +28,12 @@
 
   .tertiary {
     font-size: 32px;
-    padding-top: 1.5rem;
     color: var(--mat-sys-on-primary-container);
+    margin-bottom: 2rem;
+  }
+
+  .button {
+    font: var(--mat-sys-title-medium);
+    width: 15rem;
   }
 }
