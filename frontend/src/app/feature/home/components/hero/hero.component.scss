@@ -18,7 +18,9 @@
   .primary {
     font-size: 120px;
     color: var(--mat-sys-on-primary-fixed);
-    margin-bottom: 1.5rem;
+    line-height: 1;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
   }
 
   .secondary {
