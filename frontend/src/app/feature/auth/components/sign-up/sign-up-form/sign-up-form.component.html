@@ -1,14 +1,14 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
-  <mat-card appearance="outlined" class="register-form-container">
+<form (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
+  <mat-card appearance="outlined" class="sign-up-form-container">
     <mat-card-header>
       <mat-card-title><suo-home-button></suo-home-button></mat-card-title>
-      <mat-card-title class="title">Register</mat-card-title>
+      <mat-card-title class="title">Sign up</mat-card-title>
     </mat-card-header>
     <mat-card-content class="wrapper">
       <mat-form-field appearance="outline" class="field">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username" />
-        @if (registerForm.get('username')?.hasError('required')) {
+        @if (signUpForm.get('username')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error
         >}
       </mat-form-field>
@@ -16,7 +16,7 @@
       <mat-form-field appearance="outline" class="field">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" />
-        @if (registerForm.get('email')?.hasError('required')) {
+        @if (signUpForm.get('email')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error
         >}
       </mat-form-field>
@@ -37,13 +37,13 @@
         >
           <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        @if (registerForm.get('password')?.hasError('required')) {
+        @if (signUpForm.get('password')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error
         >}
       </mat-form-field>
 
       <div class="actions">
-        <button mat-flat-button type="submit" class="field">Register</button>
+        <button mat-flat-button type="submit" class="field">Sign up</button>
         <span class="link"
           ><a [routerLink]="['/auth/login']">Already have an account?</a>
         </span>

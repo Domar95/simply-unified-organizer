@@ -16,7 +16,7 @@ import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home
 import { UserPostRequest } from '@feature/auth/models/users-api.model';
 
 @Component({
-  selector: 'suo-register-form',
+  selector: 'suo-sign-up-form',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -27,14 +27,14 @@ import { UserPostRequest } from '@feature/auth/models/users-api.model';
     RouterModule,
     HomeButtonComponent,
   ],
-  templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.scss',
+  templateUrl: './sign-up-form.component.html',
+  styleUrl: './sign-up-form.component.scss',
 })
-export class RegisterFormComponent {
+export class SignUpFormComponent {
   @Output() formSubmitted: EventEmitter<UserPostRequest> =
     new EventEmitter<UserPostRequest>();
 
-  registerForm = new FormGroup({
+  signUpForm = new FormGroup({
     username: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
@@ -57,12 +57,12 @@ export class RegisterFormComponent {
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) {
+    if (this.signUpForm.invalid) {
       console.warn('Form is invalid, cannot submit.');
       return;
     }
 
-    this.formSubmitted.emit(this.registerForm.getRawValue());
+    this.formSubmitted.emit(this.signUpForm.getRawValue());
   }
 
   get requiredErrorMessage(): string {

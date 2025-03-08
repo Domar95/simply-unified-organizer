@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { RegisterFormComponent } from './register-form/register-form.component';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { NotificationService } from '@shared/services/notification.service';
 import { UserPostRequest } from '@feature/auth/models/users-api.model';
 import { UsersService } from '@feature/auth/services/users.service';
 
 @Component({
-  selector: 'suo-register',
-  imports: [RegisterFormComponent],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  selector: 'suo-sign-up',
+  imports: [SignUpFormComponent],
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.scss',
 })
-export class RegisterComponent {
+export class SignUpComponent {
   constructor(
     private usersService: UsersService,
     private notificationService: NotificationService,
@@ -21,13 +21,13 @@ export class RegisterComponent {
 
   async onFormSubmitted(data: UserPostRequest) {
     try {
-      await this.usersService.registerUser(data);
+      await this.usersService.signUpUser(data);
       this.notificationService.openSnackBar(
-        'You have been registered. You can now log in.'
+        'You have been signed up. You can now log in.'
       );
       this.router.navigate(['auth', 'login']);
     } catch (error) {
-      this.notificationService.openSnackBar('Failed to register');
+      this.notificationService.openSnackBar('Failed to sign up.');
       throw error;
     }
   }
