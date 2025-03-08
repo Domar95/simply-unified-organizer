@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { UserInterface } from '@feature/auth/components/models/user.interface';
-import { AuthService } from '@feature/auth/components/services/auth.service';
-import { UsersService } from '@feature/auth/components/services/users.service';
+import { UserInterface } from '@feature/auth/models/user.interface';
+import { AuthService } from '@feature/auth/services/auth.service';
+import { UsersService } from '@feature/auth/services/users.service';
 
 @Component({
   selector: 'suo-root',

@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 
 import { HomeButtonComponent } from '@shared/components/ui-elements/buttons/home-button/home-button.component';
-import { UserLoginRequest } from '../../models/users-api.model';
+import { UserLoginRequest } from '@feature/auth/models/users-api.model';
 
 @Component({
   selector: 'suo-login-form',

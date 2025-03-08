@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoginFormComponent } from './login-form/login-form.component';
-import { UserLoginRequest } from '../models/users-api.model';
-import { UsersService } from '../services/users.service';
 import { NotificationService } from '@shared/services/notification.service';
-import { AuthService } from '../services/auth.service';
-import { UserInterface } from '../models/user.interface';
+import { UserLoginRequest } from '@feature/auth/models/users-api.model';
+import { UserInterface } from '@feature/auth/models/user.interface';
+import { UsersService } from '@feature/auth/services/users.service';
+import { AuthService } from '@feature/auth/services/auth.service';
 
 @Component({
   selector: 'suo-login',
