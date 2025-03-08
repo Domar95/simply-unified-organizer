@@ -15,7 +15,7 @@
   <div class="button-group">
     @if (authService.currentUserSignal() === null) {
     <button
-      mat-button
+      mat-stroked-button
       [routerLink]="['/auth/login']"
       aria-label="Button that redirects to login page"
     >
